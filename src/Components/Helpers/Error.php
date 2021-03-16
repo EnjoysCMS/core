@@ -8,7 +8,7 @@ class Error
 {
     public static function code(int $code, string $message = null)
     {
-        $error = new \App\Controller\Error();
+        $error = new \EnjoysCMS\Core\Error\Error();
         $error->http($code, $message);
     }
 
