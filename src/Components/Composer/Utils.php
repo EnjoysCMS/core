@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\Composer;
+namespace EnjoysCMS\Core\Components\Composer;
 
 use Composer\Autoload\ClassLoader;
 

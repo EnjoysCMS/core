@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components\Detector;
+namespace EnjoysCMS\Core\Components\Detector;
 
 
-use App\Entities\Locations as Entity;
+use EnjoysCMS\Core\Entities\Locations as Entity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -42,7 +42,7 @@ class Locations
     }
 
 
-    public static function getCurrentLocation()
+    public static function getCurrentLocation(): Entity
     {
         return self::$currentLocation;
     }

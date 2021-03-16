@@ -1,14 +1,11 @@
 <?php
 
 
-namespace App\Repositories;
+namespace EnjoysCMS\Core\Repositories;
 
 
-use App\Components\Helpers\Config;
-use Doctrine\DBAL\Statement;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Internal\Hydration\ArrayHydrator;
-use Doctrine\ORM\Mapping\Cache;
+use EnjoysCMS\Core\Components\Helpers\Config;
 
 class Setting extends EntityRepository
 {

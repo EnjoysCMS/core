@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\Helpers;
+namespace EnjoysCMS\Core\Components\Helpers;
 
 
 class Modules extends HelpersBase

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories;
+namespace EnjoysCMS\Core\Repositories;
 
 
 use Doctrine\ORM\EntityRepository;
@@ -12,7 +12,7 @@ class Locations extends EntityRepository
     {
         $locations = $this->findBy([], ['name' => 'desc']);
         $ret = [];
-        /** @var \App\Entities\Locations $location */
+        /** @var \EnjoysCMS\Core\Entities\Locations $location */
         foreach ($locations as $location) {
             $ret[' ' . $location->getId()] = $location->getName() ?? $location->getLocation();
         }

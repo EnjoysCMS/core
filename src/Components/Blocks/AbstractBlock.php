@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components\Blocks;
+namespace EnjoysCMS\Core\Components\Blocks;
 
 
-use App\Entities\Blocks as Entity;
+use EnjoysCMS\Core\Entities\Blocks as Entity;
 use Enjoys\Traits\Options;
 use Twig\Environment;
 

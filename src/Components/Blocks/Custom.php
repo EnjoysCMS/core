@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Blocks;
+namespace EnjoysCMS\Core\Components\Blocks;
 
 
-use App\Components\Blocks\AbstractBlock;
+use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 
 class Custom extends AbstractBlock
 {

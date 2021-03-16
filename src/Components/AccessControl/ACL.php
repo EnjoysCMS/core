@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components\AccessControl;
+namespace EnjoysCMS\Core\Components\AccessControl;
 
 
-use App\Entities\Users;
+use EnjoysCMS\Core\Entities\Users;
 use Doctrine\ORM\EntityManager;
 
 class ACL
@@ -30,7 +30,7 @@ class ACL
     {
         $this->entityManager = $entityManager;
         $this->user = $identity->getUser();
-        $this->acl = $this->entityManager->getRepository(\App\Entities\ACL::class);
+        $this->acl = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
         $this->aclLists = $this->acl->findAll();
     }
 
@@ -65,7 +65,7 @@ class ACL
 
     public function addAcl(string $action, string $comment = '')
     {
-        $acl = new \App\Entities\ACL();
+        $acl = new \EnjoysCMS\Core\Entities\ACL();
         $acl->setAction($action);
         $acl->setComment($comment);
         $this->entityManager->persist($acl);

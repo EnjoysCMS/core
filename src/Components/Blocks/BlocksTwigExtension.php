@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\Blocks;
+namespace EnjoysCMS\Core\Components\Blocks;
 
 
 use Doctrine\ORM\EntityManager;

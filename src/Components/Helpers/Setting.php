@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Components\Helpers;
+namespace EnjoysCMS\Core\Components\Helpers;
 
 
 class Setting extends HelpersBase
 {
-    static public function get(string $key, $default = null)
+    public static function get(string $key, $default = null)
     {
         $settings = self::$container->get('Setting');
 

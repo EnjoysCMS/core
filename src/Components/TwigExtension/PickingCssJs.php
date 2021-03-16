@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\TwigExtension;
+namespace EnjoysCMS\Core\Components\TwigExtension;
 
 
 use Twig\Extension\AbstractExtension;

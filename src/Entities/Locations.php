@@ -1,14 +1,13 @@
 <?php
 
 
-namespace App\Entities;
+namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Locations
- * @package App\Modules\System\Entities
- * @ORM\Entity(repositoryClass="App\Repositories\Locations")
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Locations")
  * @ORM\Table(name="locations")
  */
 class Locations

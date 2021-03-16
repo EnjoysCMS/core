@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Entities;
+namespace EnjoysCMS\Core\Entities;
 
-use App\Blocks\Custom;
+use EnjoysCMS\Core\Components\Blocks\Custom;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 

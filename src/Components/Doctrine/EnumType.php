@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\Doctrine;
+namespace EnjoysCMS\Core\Components\Doctrine;
 
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;

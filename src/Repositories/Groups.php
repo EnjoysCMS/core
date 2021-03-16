@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories;
+namespace EnjoysCMS\Core\Repositories;
 
 
 use Doctrine\ORM\EntityRepository;
@@ -13,7 +13,7 @@ class Groups extends EntityRepository
     {
         $groups = $this->findAll();
         $ret = [];
-        /** @var \App\Entities\Groups $group */
+        /** @var \EnjoysCMS\Core\Entities\Groups $group */
         foreach ($groups as $group) {
             $ret[' ' . $group->getId()] = $group->getName();
         }

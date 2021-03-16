@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components\AccessControl;
+namespace EnjoysCMS\Core\Components\AccessControl;
 
 
-use App\Entities\Users;
+use EnjoysCMS\Core\Entities\Users;
 use Doctrine\ORM\EntityManager;
 use Enjoys\Session\Session;
 

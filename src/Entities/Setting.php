@@ -1,17 +1,15 @@
 <?php
 
 
-namespace App\Entities;
+namespace EnjoysCMS\Core\Entities;
 
 
-use App\Module\Admin\Components\DBAL\EnumSettingAllowedType;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 //Type::addType('allowedSettingType', EnumSettingAllowedType::class);
 
 /**
- * @ORM\Entity(repositoryClass="App\Repositories\Setting")
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Setting")
  * @ORM\Table(name="setting")
  */
 class Setting

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components\Modules;
+namespace EnjoysCMS\Core\Components\Modules;
 
 
-use App\Components\Composer\Utils;
+use EnjoysCMS\Core\Components\Composer\Utils;
 
 class Module
 {

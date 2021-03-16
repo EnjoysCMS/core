@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Repositories;
+namespace EnjoysCMS\Core\Repositories;
 
 
-use App\Components\Helpers\Blocks;
-use App\Components\Helpers\Routes;
+use EnjoysCMS\Core\Components\Helpers\Blocks;
+use EnjoysCMS\Core\Components\Helpers\Routes;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
 
@@ -26,7 +26,7 @@ class ACL extends EntityRepository
         $allActiveBlocksController = Blocks::getActiveBlocksController();
 
         $allAcl = $this->findAll();
-        /** @var \App\Entities\ACL $acl */
+        /** @var \EnjoysCMS\Core\Entities\ACL $acl */
         foreach ($allAcl as $key => $acl){
 
             if(!in_array($acl->getAction(),array_merge($allActiveControllers, $allActiveBlocksController) )){

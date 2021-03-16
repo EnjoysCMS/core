@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\Doctrine\Hydrators;
+namespace EnjoysCMS\Core\Components\Doctrine\Hydrators;
 
 use Doctrine\DBAL\Exception\NoKeyValue;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;

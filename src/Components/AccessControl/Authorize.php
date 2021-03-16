@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\AccessControl;
+namespace EnjoysCMS\Core\Components\AccessControl;
 
 
 use Enjoys\Session\Session;

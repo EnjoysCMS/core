@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class UsersGroup
  * @package App\Components\Entities
- * @ORM\Entity(repositoryClass="App\Repositories\Groups")
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Groups")
  * @ORM\Table(name="`groups`")
  */
 class Groups

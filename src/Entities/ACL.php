@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Entities;
+namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class ACL
  * @package App\Modules\System\Entities
- * @ORM\Entity(repositoryClass="App\Repositories\ACL")
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\ACL")
  * @ORM\Table(name="acl")
  */
 class ACL

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\TwigExtension;
+namespace EnjoysCMS\Core\Components\TwigExtension;
 
 
 use Twig\Extension\AbstractExtension;
@@ -18,6 +18,6 @@ class Setting extends AbstractExtension
 
     public function getSetting(string $key)
     {
-        return \App\Components\Helpers\Setting::get($key);
+        return \EnjoysCMS\Core\Components\Helpers\Setting::get($key);
     }
 }

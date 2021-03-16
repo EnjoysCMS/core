@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components\WYSIWYG;
+namespace EnjoysCMS\Core\Components\WYSIWYG;
 
 
 use Exception;

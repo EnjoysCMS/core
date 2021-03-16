@@ -1,13 +1,12 @@
 <?php
 
 
-namespace App\Components\Blocks;
+namespace EnjoysCMS\Core\Components\Blocks;
 
 
-use App\Blocks\Custom;
-use App\Components\Detector\Locations;
-use App\Components\Helpers\ACL;
 use Doctrine\ORM\EntityManager;
+use EnjoysCMS\Core\Components\Detector\Locations;
+use EnjoysCMS\Core\Components\Helpers\ACL;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Twig\Environment;
@@ -15,7 +14,7 @@ use Twig\Environment;
 class Blocks
 {
     /**
-     * @var \App\Entities\Blocks
+     * @var \EnjoysCMS\Core\Entities\Blocks
      */
     private $bocksRepository;
     /**
@@ -33,7 +32,7 @@ class Blocks
      */
     public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
     {
-        $this->bocksRepository = $entityManager->getRepository(\App\Entities\Blocks::class);
+        $this->bocksRepository = $entityManager->getRepository(\EnjoysCMS\Core\Entities\Blocks::class);
         $this->twig = $twig;
         $this->logger = $logger ?? new NullLogger();
     }
@@ -42,7 +41,7 @@ class Blocks
 
     public function getBlock(int $blockId): ?string
     {
-        /** @var \App\Entities\Blocks $block */
+        /** @var \EnjoysCMS\Core\Entities\Blocks $block */
         $block = $this->bocksRepository->find($blockId);
 
         if ($block === null) {
