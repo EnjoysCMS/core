@@ -4,11 +4,34 @@
   "type": "enjoyscms-module",
   "require": {
     "oomphinc/composer-installers-extender": "^2.0",
-    "almasaeed2010/adminlte": "^3.0"
+    "monolog/monolog": "~2.2.0",
+    "symfony/dotenv": "~v5.2.1",
+    "enjoys/session": "~2.0.0",
+    "enjoys/functions": "^2.0",
+    "enjoys/config": "^1.0",
+    "enjoys/forms": "^3.3",
+    "enjoys/simple-cache": "^1.0",
+    "php-di/php-di": "^6.3",
+    "symfony/routing": "~v5.2.1",
+    "enjoys/http": "^1.0.0",
+    "twig/twig": "~v3.2.1",
+    "doctrine/annotations": "^1.11",
+    "symfony/twig-bridge": "^5.2",
+    "symfony/http-foundation": "^5.2",
+    "enjoys/cookie": "^0.9.5",
+    "enjoys/assets-collector": "^1.0",
+    "symfony/config": "^5.2",
+    "doctrine/migrations": "^3.0",
+    "doctrine/orm": "^2.8",
+    "httpsoft/http-emitter": "^1.0",
+    "httpsoft/http-message": "^1.0",
+    "httpsoft/http-server-request": "^1.0",
+    "rybakit/twig-deferred-extension": "^3.0"
   },
   "autoload": {
     "psr-4": {
-      "EnjoysCMS\\Core\\": "src/"
+      "EnjoysCMS\\Core\\": "src/",
+      "EnjoysCMS\\Core\\Migrations\\": "migrations/"
     }
   },
   "extra": {
