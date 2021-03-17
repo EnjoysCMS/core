@@ -4,9 +4,10 @@
 namespace EnjoysCMS\Core\Components\Detector;
 
 
-use EnjoysCMS\Core\Entities\Locations as Entity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
+use EnjoysCMS\Core\Entities\Locations as Entity;
+use Symfony\Component\Routing\Route;
 
 class Locations
 {
@@ -21,20 +22,22 @@ class Locations
     private $locationsRepository;
 
 
-    public function __construct(string $controller, EntityManager $entityManager)
+    public function __construct(Route $route, EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->locationsRepository = $entityManager->getRepository(Entity::class);
-        $this->setCurrentLocation($controller);
+        $this->setCurrentLocation($route);
     }
 
 
-    private function setCurrentLocation(string $controller): void
+    private function setCurrentLocation(Route $route): void
     {
+        $controller = implode('::', $route->getDefault('_controller'));
+
         if (null === $entity = $this->locationsRepository->findOneBy(['location' => $controller])) {
             $entity = new Entity();
             $entity->setLocation($controller);
-
+            $entity->setName($route->getOption('routeName') ?? $controller);
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
         }
