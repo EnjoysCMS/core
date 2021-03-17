@@ -15,7 +15,7 @@ class Setting extends EntityRepository
         return $this->createQueryBuilder('s')
             ->select('s.var, s.value')
             ->getQuery()
-            ->enableResultCache(Config::get('orm', 'setting-cachetime', 0))
+            //->enableResultCache(Config::get('orm', 'setting-cachetime', 0))
             ->getResult('KeyPair')
             ;
     }
