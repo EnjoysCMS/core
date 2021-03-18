@@ -15,6 +15,7 @@ class Module
     public array $paths;
     public bool $useMigrations = false;
     public string $moduleName;
+    public array $adminLinks = [];
 
     public function __construct(object $data)
     {
@@ -30,6 +31,9 @@ class Module
 
         if(isset($this->extra->{'module-name'})){
             $this->moduleName =  $this->extra->{'module-name'};
+        }
+        if(isset($this->extra->{'admin-links'})){
+            $this->adminLinks =  (array)$this->extra->{'admin-links'};
         }
 
     }
