@@ -18,18 +18,20 @@ class Custom extends AbstractBlock
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 
-    public static function stockOptions(): ?array
+    public static function getMeta(): ?array
     {
         return [
-            'allowed_html' => [
-                'value' => 'true',
-                'name' => 'Разрешить использование HTML?',
-                'description' => null,
-                'form' => [
-                    'type' => 'radio',
-                    'data' => [
-                        'true' => 'Да',
-                        'false' => 'Нет'
+            'options' => [
+                'allowed_html' => [
+                    'value' => 'true',
+                    'name' => 'Разрешить использование HTML?',
+                    'description' => null,
+                    'form' => [
+                        'type' => 'radio',
+                        'data' => [
+                            'true' => 'Да',
+                            'false' => 'Нет'
+                        ]
                     ]
                 ]
             ]

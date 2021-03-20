@@ -33,7 +33,7 @@ abstract class AbstractBlock
 
     abstract public function view();
 
-    public static function stockOptions(): ?array
+    public static function getMeta(): ?array
     {
         return null;
     }
