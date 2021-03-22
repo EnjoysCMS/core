@@ -15,7 +15,7 @@ class ACL
     /**
      * @var \App\Repositories\ACL
      */
-    private $acl;
+    private $aclRepository;
     /**
      * @var EntityManager
      */
@@ -30,8 +30,8 @@ class ACL
     {
         $this->entityManager = $entityManager;
         $this->user = $identity->getUser();
-        $this->acl = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
-        $this->aclLists = $this->acl->findAll();
+        $this->aclRepository = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
+        $this->aclLists = $this->aclRepository->findAll();
     }
 
     public function access(string $action, string $comment = ''): bool
@@ -60,7 +60,7 @@ class ACL
     public function getAcl(string $action)
     {
 //        return $this->aclRepository->findOneBy(['action' => $action]);
-        return $this->acl->findAcl($action);
+        return $this->aclRepository->findAcl($action);
     }
 
     public function addAcl(string $action, string $comment = '')
@@ -70,6 +70,10 @@ class ACL
         $acl->setComment($comment);
         $this->entityManager->persist($acl);
         $this->entityManager->flush();
+
+        //after added acl, reload aclList for disable multiple insert
+        $this->aclLists = $this->aclRepository->findAll();
+
         return $acl;
 //        return $this->getAcl($action);
     }
