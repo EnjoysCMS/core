@@ -36,7 +36,7 @@ final class Error
     public function __construct()
     {
         $this->cnf = new Config();
-        $this->cnf->addConfig($_ENV['PROJECT_DIR']  . '/config/config.yml', ['flags' => Yaml::PARSE_CONSTANT], Config::YAML);
+        $this->cnf->addConfig($_ENV['PROJECT_DIR']  . '/config.yml', ['flags' => Yaml::PARSE_CONSTANT], Config::YAML);
         $this->twig = $this->getTwig();
         $this->emitter = new SapiEmitter();
     }
