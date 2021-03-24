@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class UsersGroup
- * @package App\Components\Entities
+ *
+ * @package                                                          App\Components\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Groups")
  * @ORM\Table(name="`groups`")
  */
@@ -17,13 +18,13 @@ class Groups
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @var int
+     * @var                        int
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string")
-     * @var string
+     * @var                       string
      */
     private string $name;
 
@@ -138,12 +139,12 @@ class Groups
 
     public function removeAcl(?ACL $acl = null)
     {
-        if($acl === null){
+        if($acl === null) {
             $this->acl->clear();
             return;
         }
 
-        if(!$this->acl->contains($acl)){
+        if(!$this->acl->contains($acl)) {
             return;
         }
 

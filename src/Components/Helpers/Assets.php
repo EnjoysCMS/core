@@ -26,17 +26,17 @@ class Assets extends HelpersBase
         AssetsCollector\Helpers::createSymlink($link, $target, $logger);
     }
 
-//    public static function getCss($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
-//    {
-//        $assets = self::$container->get(AssetsCollector\Assets::class);
-//        $assets->getCss($ns);
-//    }
-//
-//
-//    public static function getJs($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
-//    {
-//        $assets = self::$container->get(AssetsCollector\Assets::class);
-//        $assets->getJs($ns);
-//    }
+    //    public static function getCss($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
+    //    {
+    //        $assets = self::$container->get(AssetsCollector\Assets::class);
+    //        $assets->getCss($ns);
+    //    }
+    //
+    //
+    //    public static function getJs($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
+    //    {
+    //        $assets = self::$container->get(AssetsCollector\Assets::class);
+    //        $assets->getJs($ns);
+    //    }
 
 }

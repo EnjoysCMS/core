@@ -26,10 +26,14 @@ class ACL extends EntityRepository
         $allActiveBlocksController = Blocks::getActiveBlocksController();
 
         $allAcl = $this->findAll();
-        /** @var \EnjoysCMS\Core\Entities\ACL $acl */
+        /**
+* 
+         *
+ * @var \EnjoysCMS\Core\Entities\ACL $acl 
+*/
         foreach ($allAcl as $key => $acl){
 
-            if(!in_array($acl->getAction(),array_merge($allActiveControllers, $allActiveBlocksController) )){
+            if(!in_array($acl->getAction(), array_merge($allActiveControllers, $allActiveBlocksController))) {
                 unset($allAcl[$key]);
                 $this->getEntityManager()->remove($acl);
                 $this->getEntityManager()->flush();

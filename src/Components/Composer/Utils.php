@@ -8,7 +8,7 @@ use Composer\Autoload\ClassLoader;
 class Utils
 {
     /**
-     * @param string $classname
+     * @param  string $classname
      * @return false|mixed|string
      */
     public static function findFilePathByClassName(string $classname)

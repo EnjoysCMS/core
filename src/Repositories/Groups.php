@@ -13,7 +13,11 @@ class Groups extends EntityRepository
     {
         $groups = $this->findAll();
         $ret = [];
-        /** @var \EnjoysCMS\Core\Entities\Groups $group */
+        /**
+* 
+         *
+ * @var \EnjoysCMS\Core\Entities\Groups $group 
+*/
         foreach ($groups as $group) {
             $ret[' ' . $group->getId()] = $group->getName();
         }

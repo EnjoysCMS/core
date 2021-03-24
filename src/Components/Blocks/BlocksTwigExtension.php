@@ -31,6 +31,6 @@ class BlocksTwigExtension extends AbstractExtension
 
     public function viewBlock(int $id):? string
     {
-       return $this->blocks->getBlock($id);
+        return $this->blocks->getBlock($id);
     }
 }

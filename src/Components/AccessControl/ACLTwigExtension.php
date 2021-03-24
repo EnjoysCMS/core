@@ -49,7 +49,7 @@ class ACLTwigExtension extends AbstractExtension
 
     public function checkAccess(string $action, ?string $comment = null)
     {
-        if($this->isDisableCheck()){
+        if($this->isDisableCheck()) {
             return true;
         }
         return $this->acl->access($action, (string)$comment);
@@ -57,7 +57,7 @@ class ACLTwigExtension extends AbstractExtension
 
     public function checkAccessToRoutes(array $routes)
     {
-        if($this->isDisableCheck()){
+        if($this->isDisableCheck()) {
             return true;
         }
 
@@ -71,7 +71,7 @@ class ACLTwigExtension extends AbstractExtension
 
     public function checkAccessToRoute(string $route)
     {
-        if($this->isDisableCheck()){
+        if($this->isDisableCheck()) {
             return true;
         }
 

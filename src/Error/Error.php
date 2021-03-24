@@ -13,6 +13,7 @@ use Twig\Loader\FilesystemLoader;
 
 /**
  * Class Error
+ *
  * @package App\Modules\System\Controller
  */
 final class Error
@@ -45,7 +46,7 @@ final class Error
     {
         $template = 'error.twig';
 
-        if($this->twig->getLoader()->exists(sprintf('%s.twig', $code))){
+        if($this->twig->getLoader()->exists(sprintf('%s.twig', $code))) {
             $template = sprintf('%s.twig', $code);
         }
 

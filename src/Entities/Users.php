@@ -147,17 +147,17 @@ class Users
 
         return $ids;
     }
-//
-//    public function getGroupNames(): array
-//    {
-//        $names = [];
-//        /** @var Groups $group */
-//        foreach ($this->getGroups() as $group) {
-//            $names[] = $group->getName();
-//        }
-//
-//        return $names;
-//    }
+    //
+    //    public function getGroupNames(): array
+    //    {
+    //        $names = [];
+    //        /** @var Groups $group */
+    //        foreach ($this->getGroups() as $group) {
+    //            $names[] = $group->getName();
+    //        }
+    //
+    //        return $names;
+    //    }
 
     public function getAclAccessIds(): array
     {
@@ -189,7 +189,7 @@ class Users
 
     public function isGuest(): bool
     {
-        if($this->getId() != self::GUEST_ID){
+        if($this->getId() != self::GUEST_ID) {
             return false;
         }
         return true;

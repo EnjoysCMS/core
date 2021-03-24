@@ -22,8 +22,8 @@ class Password
 
 
     /**
-     * @param int $length
-     * @param array $chars
+     * @param  int   $length
+     * @param  array $chars
      * @return string
      * @todo
      */

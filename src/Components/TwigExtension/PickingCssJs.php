@@ -10,9 +10,9 @@ use Twig\TwigFunction;
 
 /**
  * Class PickingCssJs
- * @package App\Components\TwigExtension
- * @TODO все названия тут нахрен поменять, sanitize вынести в отдельный класс, или даже пакет
  *
+ * @package App\Components\TwigExtension
+ * @TODO    все названия тут нахрен поменять, sanitize вынести в отдельный класс, или даже пакет
  */
 class PickingCssJs extends AbstractExtension
 {
@@ -66,31 +66,31 @@ class PickingCssJs extends AbstractExtension
         return $body;
     }
 
-//    public function sanitize(string $body): string
-//    {
-//        $search = array(
-//            '/\>[^\S ]+/s', //strip whitespaces after tags, except space
-//            '/[^\S ]+\</s', //strip whitespaces before tags, except space
-//            '/(\s)+/s', // shorten multiple whitespace sequences
-//            '/<!--(.|\s)*?-->/' // Remove HTML comments
-//        );
-//        $replace = array(
-//            '>',
-//            '<',
-//            '\\1',
-//            ''
-//        );
-//
-//        $blocks = \preg_split('/(<\/?pre[^>]*>)/', $body, 0, \PREG_SPLIT_DELIM_CAPTURE);
-//        $result = '';
-//        foreach ($blocks as $i => $block) {
-//            if ($i % 4 == 2) {
-//                $result .= $block; //break out <pre>...</pre> with \n's
-//            } else {
-//                $result .= \preg_replace($search, $replace, $block);
-//            }
-//        }
-//
-//        return $result;
-//    }
+    //    public function sanitize(string $body): string
+    //    {
+    //        $search = array(
+    //            '/\>[^\S ]+/s', //strip whitespaces after tags, except space
+    //            '/[^\S ]+\</s', //strip whitespaces before tags, except space
+    //            '/(\s)+/s', // shorten multiple whitespace sequences
+    //            '/<!--(.|\s)*?-->/' // Remove HTML comments
+    //        );
+    //        $replace = array(
+    //            '>',
+    //            '<',
+    //            '\\1',
+    //            ''
+    //        );
+    //
+    //        $blocks = \preg_split('/(<\/?pre[^>]*>)/', $body, 0, \PREG_SPLIT_DELIM_CAPTURE);
+    //        $result = '';
+    //        foreach ($blocks as $i => $block) {
+    //            if ($i % 4 == 2) {
+    //                $result .= $block; //break out <pre>...</pre> with \n's
+    //            } else {
+    //                $result .= \preg_replace($search, $replace, $block);
+    //            }
+    //        }
+    //
+    //        return $result;
+    //    }
 }

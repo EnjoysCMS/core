@@ -7,13 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Locations
+ *
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Locations")
  * @ORM\Table(name="locations")
  */
 class Locations
 {
     /**
-     * @var int
+     * @var                        int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -21,13 +22,13 @@ class Locations
     private int $id;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $location;
 
     /**
-     * @var string|null
+     * @var                       string|null
      * @ORM\Column(type="string", nullable=true, options={"default": null})
      */
     private ?string $name = null;

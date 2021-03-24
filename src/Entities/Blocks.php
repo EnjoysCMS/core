@@ -9,14 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Blocks
- * @package App\Modules\System\Entities
+ *
+ * @package                  App\Modules\System\Entities
  * @ORM\Entity
  * @ORM\Table(name="blocks")
  */
 class Blocks
 {
     /**
-     * @var int ID
+     * @var                        int ID
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -24,50 +25,50 @@ class Blocks
     private int $id;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $name;
 
     /**
-     * @var string|null
+     * @var                       string|null
      * @ORM\Column(type="string", nullable=true, options={"default":null})
      */
     private ?string $class = null;
 
     /**
-     * @var string|null
+     * @var                     string|null
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $body = null;
 
     /**
-     * @var array|null
+     * @var                     array|null
      * @ORM\Column(type="json", nullable=true)
      */
     private ?array $options = null;
 
     /**
-     * @var int
+     * @var                        int
      * @ORM\Column(type="integer", options={"default":0})
      */
     private int $cacheTtl = 0;
 
     /**
-     * @var int
+     * @var                        int
      * @ORM\Column(type="integer", options={"default": 1})
      */
     private int $status = 1;
 
     /**
-     * @var bool
+     * @var                        bool
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private bool $removable = false;
 
 
     /**
-     * @var bool
+     * @var                        bool
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private bool $cloned = false;

@@ -38,7 +38,7 @@ class ACL
     {
         $acl = null;
         foreach ($this->aclLists as $item) {
-            if($item->getAction() === $action){
+            if($item->getAction() === $action) {
                 $acl = $item;
             }
         }
@@ -59,7 +59,7 @@ class ACL
 
     public function getAcl(string $action)
     {
-//        return $this->aclRepository->findOneBy(['action' => $action]);
+        //        return $this->aclRepository->findOneBy(['action' => $action]);
         return $this->aclRepository->findAcl($action);
     }
 
@@ -75,7 +75,7 @@ class ACL
         $this->aclLists = $this->aclRepository->findAll();
 
         return $acl;
-//        return $this->getAcl($action);
+        //        return $this->getAcl($action);
     }
 
 }

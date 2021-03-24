@@ -28,6 +28,7 @@ class Blocks
 
     /**
      * Blocks constructor.
+     *
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
@@ -41,7 +42,11 @@ class Blocks
 
     public function getBlock(int $blockId): ?string
     {
-        /** @var \EnjoysCMS\Core\Entities\Blocks $block */
+        /**
+* 
+         *
+ * @var \EnjoysCMS\Core\Entities\Blocks $block 
+*/
         $block = $this->bocksRepository->find($blockId);
 
         if ($block === null) {
@@ -67,7 +72,11 @@ class Blocks
             return null;
         }
 
-        /** @var AbstractBlock $obj */
+        /**
+* 
+         *
+ * @var AbstractBlock $obj 
+*/
         $class = $block->getClass();
         $obj = new $class($this->twig, $block);
         return $obj->view();

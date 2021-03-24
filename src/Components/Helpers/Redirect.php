@@ -15,7 +15,7 @@ class Redirect
         $response = new Response(
             $code, [
             'Location' => $uri ?? self::getCurrentUri()->__toString()
-        ]
+            ]
         );
 
         $emitter = new SapiEmitter();

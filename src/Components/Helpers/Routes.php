@@ -18,7 +18,11 @@ class Routes extends HelpersBase
     {
         $activeRouteControllers = [];
         $rc = self::getRouteCollection();
-        /** @var Route $route */
+        /**
+* 
+         *
+ * @var Route $route 
+*/
         foreach ($rc->getIterator() as $route) {
             $activeRouteControllers[] = implode('::', $route->getDefaults()['_controller']);
         }

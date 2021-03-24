@@ -17,36 +17,36 @@ class Setting
     /**
      * @ORM\Column(type="string", unique=true)
      * @ORM\Id
-     * @var string
+     * @var                       string
      */
     private string $var;
 
     /**
-     * @var string|null
+     * @var                     string|null
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $value = null;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $type;
 
     /**
-     * @var string|null
+     * @var                       string|null
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $params;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $name;
 
     /**
-     * @var string|null
+     * @var                       string|null
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $description = null;

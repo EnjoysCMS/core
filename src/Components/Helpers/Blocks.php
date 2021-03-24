@@ -13,7 +13,11 @@ class Blocks extends HelpersBase
     {
         $ret = [];
         $blocks = self::$container->get(EntityManager::class)->getRepository(\EnjoysCMS\Core\Entities\Blocks::class)->findAll();
-        /** @var \EnjoysCMS\Core\Entities\Blocks $block */
+        /**
+* 
+         *
+ * @var \EnjoysCMS\Core\Entities\Blocks $block 
+*/
         foreach ($blocks as $block) {
             $ret[] = $block->getBlockActionAcl();
         }

@@ -9,14 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class ACL
- * @package App\Modules\System\Entities
+ *
+ * @package                                                       App\Modules\System\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\ACL")
  * @ORM\Table(name="acl")
  */
 class ACL
 {
     /**
-     * @var int
+     * @var                        int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -24,13 +25,13 @@ class ACL
     private int $id;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $action;
 
     /**
-     * @var string
+     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $comment;
@@ -48,12 +49,12 @@ class ACL
 
     public function removeGroups(?Groups $groups = null)
     {
-        if($groups === null){
+        if($groups === null) {
             $this->groups->clear();
             return;
         }
 
-        if(!$this->groups->contains($groups)){
+        if(!$this->groups->contains($groups)) {
             return;
         }
 

@@ -31,9 +31,9 @@ class WYSIWYG
     }
 
     /**
-     * @param string $selector
-     * @param string $editor
-     * @param string $mode
+     * @param  string $selector
+     * @param  string $editor
+     * @param  string $mode
      * @return string
      * @throws LoaderError
      * @throws RuntimeError

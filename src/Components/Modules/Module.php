@@ -25,14 +25,14 @@ class Module
         $this->moduleName = $this->packageName;
         $this->routePath = $this->getRoutePath();
 
-        if(isset($this->extra->{'use-migrations'})){
+        if(isset($this->extra->{'use-migrations'})) {
             $this->useMigrations =  (bool)$this->extra->{'use-migrations'};
         }
 
-        if(isset($this->extra->{'module-name'})){
+        if(isset($this->extra->{'module-name'})) {
             $this->moduleName =  $this->extra->{'module-name'};
         }
-        if(isset($this->extra->{'admin-links'})){
+        if(isset($this->extra->{'admin-links'})) {
             $this->adminLinks =  (array)$this->extra->{'admin-links'};
         }
 

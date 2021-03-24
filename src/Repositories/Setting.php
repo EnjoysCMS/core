@@ -16,7 +16,6 @@ class Setting extends EntityRepository
             ->select('s.var, s.value')
             ->getQuery()
             //->enableResultCache(Config::get('orm', 'setting-cachetime', 0))
-            ->getResult('KeyPair')
-            ;
+            ->getResult('KeyPair');
     }
 }
