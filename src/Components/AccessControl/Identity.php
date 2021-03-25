@@ -4,9 +4,11 @@
 namespace EnjoysCMS\Core\Components\AccessControl;
 
 
+use Enjoys\Cookie\Cookie;
 use EnjoysCMS\Core\Entities\Users;
 use Doctrine\ORM\EntityManager;
 use Enjoys\Session\Session;
+use Psr\Container\ContainerInterface;
 
 class Identity
 {
@@ -19,16 +21,28 @@ class Identity
      * @var Session
      */
     private Session $session;
+    /**
+     * @var ContainerInterface
+     */
+    private ContainerInterface $container;
 
-    public function __construct(EntityManager $entityManager, Session $session)
+    public function __construct(ContainerInterface $container)
     {
-        $this->usersRepository = $entityManager->getRepository(Users::class);
-        $this->session = $session;
+        $this->container = $container;
+        $this->usersRepository = $this->container->get(EntityManager::class)->getRepository(Users::class);
+        $this->session = $this->container->get(Session::class);
+
     }
 
     public function getUserByLogin(string $login): ?Users
     {
         return $this->usersRepository->findOneBy(['login' => $login]);
+    }
+
+    public function getUserByToken(string $token): ?Users
+    {
+
+        return $this->usersRepository->findOneBy(['token' => $token]);
     }
 
     public function getUserById(int $id): ?Users
@@ -38,14 +52,17 @@ class Identity
 
     public function getUser()
     {
-        $id = Users::GUEST_ID;
+        $user = null;
 
-        $user = $this->session->get('user');
-        if (isset($user['id']) && $this->session->get('authenticate') !== null) {
-            $id = $user['id'];
+        if (isset($this->session->get('user')['id']) && $this->session->get('authenticate') !== null) {
+            $user = $this->getUserById($this->session->get('user')['id']);
         }
 
-        return $this->getUserById($id);
+        if($user === null && Cookie::has('autologin')){
+            $user = $this->container->get(Authorize::class)->byAutoLogin();
+        }
+
+        return $user ?? $this->getUserById(Users::GUEST_ID);
     }
 
 }

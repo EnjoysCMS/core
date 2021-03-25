@@ -30,6 +30,24 @@ class Authenticate
         return Password::verify($password, $this->user->getPasswordHash());
     }
 
+
+    public function checkToken(?string $token): bool
+    {
+
+        preg_match ('/^\d+/', $token, $match);
+        if($match[0] < time()){
+            return false;
+        }
+
+
+        $user = $this->identity->getUserByToken($token);
+        if ($user === null) {
+            return false;
+        }
+        $this->setUser($user);
+        return true;
+    }
+
     public function getUser(): ?Users
     {
         return $this->user;
@@ -42,6 +60,7 @@ class Authenticate
     {
         $this->user = $user;
     }
+
 
 
 }
