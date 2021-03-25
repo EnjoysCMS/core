@@ -58,7 +58,7 @@ class Identity
             $user = $this->getUserById($this->session->get('user')['id']);
         }
 
-        if($user === null && Cookie::has('autologin')){
+        if($user === null && Cookie::has(Autologin::getTokenName())){
             $user = $this->container->get(Authorize::class)->byAutoLogin();
         }
 

@@ -40,7 +40,7 @@ class Authorize
     {
         $this->session->delete('user');
         $this->session->delete('authenticate');
-        $this->cookie->delete('autologin');
+        $this->cookie->delete(Autologin::getTokenName());
     }
 
     public function byLogin(string $login, string $password, bool $autologin = false): void
@@ -68,7 +68,7 @@ class Authorize
 
     public function byAutoLogin()
     {
-        if (!$this->authenticate->checkToken(Cookie::get('autologin'))) {
+        if (!$this->authenticate->checkToken(Cookie::get(Autologin::getTokenName()))) {
             $this->logout();
             return;
         }
@@ -97,7 +97,7 @@ class Authorize
         $ttl->modify('+1 day');
         $hash = $ttl->getTimestamp() . '.' . password_hash($user->getId(), \PASSWORD_DEFAULT);
 
-        $this->cookie->set('autologin', $hash, $ttl);
+        $this->cookie->set(Autologin::getTokenName(), $hash, $ttl);
 
         $user->setToken($hash);
         $this->container->get(EntityManager::class)->flush();
