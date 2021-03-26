@@ -62,7 +62,8 @@ class Authorize
         );
 
         if ($autologin === true) {
-            $this->setAutologin();
+            $autologin = new Autologin($this->container);
+            $autologin->setHashCookie();
         }
     }
 
@@ -85,22 +86,6 @@ class Authorize
         );
 
         return $user;
-    }
-
-    public function setAutologin()
-    {
-        $user = $this->container->get(Identity::class)->getUser();
-        if ($user === null) {
-            return;
-        }
-        $ttl = new \DateTime();
-        $ttl->modify('+1 day');
-        $hash = $ttl->getTimestamp() . '.' . password_hash($user->getId(), \PASSWORD_DEFAULT);
-
-        $this->cookie->set(Autologin::getTokenName(), $hash, $ttl);
-
-        $user->setToken($hash);
-        $this->container->get(EntityManager::class)->flush();
     }
 
 }
