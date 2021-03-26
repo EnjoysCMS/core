@@ -43,7 +43,7 @@ class Authorize
         $this->cookie->delete(Autologin::getTokenName());
     }
 
-    public function byLogin(string $login, string $password, bool $autologin = false): void
+    public function byLogin(string $login, string $password, bool $autologin = true): void
     {
         if (!$this->authenticate->checkLogin($login, $password)) {
             $this->logout();
