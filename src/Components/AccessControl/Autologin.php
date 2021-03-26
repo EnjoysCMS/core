@@ -15,10 +15,12 @@ class Autologin
      * @var ContainerInterface
      */
     private ContainerInterface $container;
+    private array $config = [];
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->config = $container->get('Config')->getConfig('security');
     }
 
     public static function getTokenName()
@@ -33,8 +35,9 @@ class Autologin
             return;
         }
         $ttl = new \DateTime();
-        $ttl->modify('+1 day');
-        $hash = $ttl->getTimestamp() . '.' . password_hash($user->getId(), \PASSWORD_DEFAULT);
+        $ttl->modify($this->config['autologin_cookie_ttl']);
+
+        $hash = $ttl->getTimestamp() . '.' . password_hash($user->getId(), $this->config['algo_password_hash']);
 
         $this->container->get(Cookie::class)->set(Autologin::getTokenName(), $hash, $ttl);
 

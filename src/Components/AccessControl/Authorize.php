@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Components\AccessControl;
 use Doctrine\ORM\EntityManager;
 use Enjoys\Cookie\Cookie;
 use Enjoys\Session\Session;
+use EnjoysCMS\Core\Entities\Users;
 use Psr\Container\ContainerInterface;
 
 class Authorize
@@ -30,14 +31,18 @@ class Authorize
 
     public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
         $this->authenticate = new Authenticate($container->get(Identity::class));
         $this->session = $container->get(Session::class);
         $this->cookie = $container->get(Cookie::class);
-        $this->container = $container;
+
     }
 
-    public function logout(): void
+    public function logout(Users $user): void
     {
+        $user->setToken(null);
+        $this->container->get(EntityManager::class)->flush();
+
         $this->session->delete('user');
         $this->session->delete('authenticate');
         $this->cookie->delete(Autologin::getTokenName());

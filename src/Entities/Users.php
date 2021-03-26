@@ -41,7 +41,7 @@ class Users
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $token;
+    private ?string $token;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -230,17 +230,17 @@ class Users
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
     /**
-     * @param string $token
+     * @param ?string $token
      */
-    public function setToken(string $token): void
+    public function setToken(?string $token): void
     {
         $this->token = $token;
     }
