@@ -1,0 +1,8 @@
+EnjoysCMS\Core\Widgets\UsersRegistrations:
+  name: Кол=ичество зарегистрированных пользователей
+  options:
+    limit:
+      value: 5
+      name: Лимит записей
+      description:
+

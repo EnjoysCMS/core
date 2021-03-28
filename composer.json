@@ -35,7 +35,6 @@
     }
   },
   "extra": {
-    "module-name": "EnjoysCMS Core",
-    "use-migrations": true
+    "module-name": "EnjoysCMS Core"
   }
 }
