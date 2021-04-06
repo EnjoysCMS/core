@@ -9,7 +9,7 @@
     "enjoys/session": "~2.0.0",
     "enjoys/functions": "^2.0",
     "enjoys/config": "^1.0",
-    "enjoys/forms": "^3.3",
+    "enjoys/forms": "^3.4",
     "enjoys/simple-cache": "^1.0",
     "php-di/php-di": "^6.3",
     "symfony/routing": "~v5.2.1",
