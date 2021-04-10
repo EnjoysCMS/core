@@ -5,13 +5,12 @@ namespace EnjoysCMS\Core\Components\Helpers;
 
 
 use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 
 class Routes extends HelpersBase
 {
     public static function getRouteCollection()
     {
-        return self::$container->get(RouteCollection::class);
+        return self::$container->get('Router')->getRouteCollection();
     }
 
     public static function getAllActiveControllers(): array
