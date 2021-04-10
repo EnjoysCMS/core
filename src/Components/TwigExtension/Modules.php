@@ -4,13 +4,20 @@
 namespace EnjoysCMS\Core\Components\TwigExtension;
 
 
-use App\AppRouteCollection;
+use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 
 class Modules extends AbstractExtension
 {
+    private RouteCollection $routeCollection;
+
+    public function __construct(RouteCollection $routeCollection)
+    {
+        $this->routeCollection = $routeCollection;
+    }
+
     public function getFunctions(): array
     {
         return [
@@ -22,10 +29,8 @@ class Modules extends AbstractExtension
 
     public function getApplicationAdminLinks()
     {
-        $routes = new AppRouteCollection();
-
         return array_filter(
-            $routes->getCollection()->getIterator()->getArrayCopy(),
+            $this->routeCollection->getIterator()->getArrayCopy(),
             function ($r) {
                 if (!empty($r->getOption('admin'))) {
                     return true;
