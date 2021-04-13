@@ -38,10 +38,13 @@ class Authorize
 
     }
 
-    public function logout(Users $user): void
+    public function logout(?Users $user = null): void
     {
-        $user->setToken(null);
-        $this->container->get(EntityManager::class)->flush();
+        if($user !== null){
+            $user->setToken(null);
+            $this->container->get(EntityManager::class)->flush();
+        }
+
 
         $this->session->delete('user');
         $this->session->delete('authenticate');
@@ -72,6 +75,9 @@ class Authorize
         }
     }
 
+    /**
+     * @return Users|void|null
+     */
     public function byAutoLogin()
     {
         if (!$this->authenticate->checkToken(Cookie::get(Autologin::getTokenName()))) {
