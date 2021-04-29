@@ -1,7 +1,6 @@
 {
   "name": "enjoyscms/core",
   "description": "EnjoysCMS Core",
-  "type": "enjoyscms-module",
   "require": {
     "oomphinc/composer-installers-extender": "^2.0",
     "monolog/monolog": "~2.2.0",
@@ -30,11 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "EnjoysCMS\\Core\\": "src/",
-      "EnjoysCMS\\Core\\Migrations\\": "migrations/"
+      "EnjoysCMS\\Core\\": "src/"
     }
-  },
-  "extra": {
-    "module-name": "EnjoysCMS Core"
   }
 }
