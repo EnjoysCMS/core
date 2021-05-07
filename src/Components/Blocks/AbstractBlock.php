@@ -6,6 +6,7 @@ namespace EnjoysCMS\Core\Components\Blocks;
 
 use EnjoysCMS\Core\Entities\Blocks as Entity;
 use Enjoys\Traits\Options;
+use Psr\Container\ContainerInterface;
 use Twig\Environment;
 
 abstract class AbstractBlock
@@ -13,18 +14,16 @@ abstract class AbstractBlock
 
     use Options;
 
-    /**
-     * @var Environment
-     */
-    protected Environment $twig;
+
+    protected ContainerInterface $container;
     /**
      * @var Entity
      */
     protected Entity $block;
 
-    public function __construct(Environment $twig, Entity $block)
+    public function __construct(ContainerInterface $container, Entity $block)
     {
-        $this->twig = $twig;
+        $this->container = $container;
         $this->block = $block;
 
         $this->setOptions($this->block->getOptionsKeyValue());

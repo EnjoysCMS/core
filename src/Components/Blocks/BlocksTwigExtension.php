@@ -4,7 +4,9 @@
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
+use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -17,9 +19,9 @@ class BlocksTwigExtension extends AbstractExtension
      */
     private Blocks $blocks;
 
-    public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
+    public function __construct(FactoryInterface $container)
     {
-        $this->blocks = new Blocks($entityManager, $twig, $logger);
+        $this->blocks = $container->make(Blocks::class);
     }
 
     public function getFunctions(): array
