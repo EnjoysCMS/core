@@ -50,6 +50,9 @@ class PickingCssJs extends AbstractExtension
     {
         preg_match_all("/<script[^>]*?>.*?<\/script>/simu", $body, $scripts);
         foreach ($scripts[0] as $script) {
+            if(strpos($script, '//DO_NOT_CATCH//') !== false){
+                continue;
+            }
             $body = str_replace($script, "", $body);
             static::$scripts[] = $script;
         }
