@@ -16,7 +16,12 @@ final class ModuleCollection
         $this->collection = $container->get('Modules');
     }
 
-    public function find(string $property, string $value): ?Module
+    public function find(string $value)
+    {
+        return $this->findBy('packageName', $value);
+    }
+
+    public function findBy(string $property, string $value): ?Module
     {
         foreach ($this->collection as $module) {
             if (!property_exists($module, $property)) {

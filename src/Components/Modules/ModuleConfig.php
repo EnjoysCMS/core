@@ -21,7 +21,7 @@ final class ModuleConfig
 
     public function __construct(string $moduleName, ContainerInterface $container)
     {
-        $this->module = $container->get(ModuleCollection::class)->find('packageName', $moduleName);
+        $this->module = $container->get(ModuleCollection::class)->find($moduleName);
 
         if ($this->module === null) {
             throw new \InvalidArgumentException(
