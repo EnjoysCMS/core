@@ -4,7 +4,10 @@
 namespace EnjoysCMS\Core\Components\WYSIWYG;
 
 
+use DI\FactoryInterface;
 use Exception;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -30,10 +33,22 @@ class WYSIWYG
         $this->editor = $editor;
     }
 
+    static function getInstance($editorName, ContainerInterface $container): WYSIWYG
+    {
+        $twig = $container->get(Environment::class);
+        try {
+            $wysiwyg = new self($container->get($editorName), $twig);
+        } catch (\Error $error) {
+            $wysiwyg = new self(new NullEditor(), $twig);
+            $container->get(LoggerInterface::class)->withName('WYSIWYG')->error($error->getMessage());
+        }
+        return $wysiwyg;
+    }
+
     /**
-     * @param  string $selector
-     * @param  string $editor
-     * @param  string $mode
+     * @param string $selector
+     * @param string $editor
+     * @param string $mode
      * @return string
      * @throws LoaderError
      * @throws RuntimeError
