@@ -9,6 +9,7 @@ use EnjoysCMS\Core\Components\Composer\Utils;
 class Module
 {
     public string $installPath;
+    public string $path;
     public ?string $routePath;
     public string $packageName;
     public string $description;
@@ -22,6 +23,7 @@ class Module
         foreach ($data as $k => $v){
             $this->$k = $v;
         }
+        $this->path = $this->installPath;
         $this->moduleName = $this->packageName;
         $this->routePath = $this->getRoutePath();
 
