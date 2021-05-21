@@ -38,7 +38,7 @@ class WYSIWYG
         $twig = $container->get(Environment::class);
         try {
             $wysiwyg = new self($container->get($editorName), $twig);
-        } catch (\Error $error) {
+        } catch (\Error | \DI\NotFoundException $error) {
             $wysiwyg = new self(new NullEditor(), $twig);
             $container->get(LoggerInterface::class)->withName('WYSIWYG')->error($error->getMessage());
         }
