@@ -24,9 +24,9 @@ class WYSIWYG
      */
     private WysiwygInterface $editor;
 
-    public function __construct(WysiwygInterface $editor)
+    public function __construct(WysiwygInterface $editor, Environment $twig)
     {
-        $this->twig = new Environment(new FilesystemLoader());
+        $this->twig = $twig;
         $this->editor = $editor;
     }
 
