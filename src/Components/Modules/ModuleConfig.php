@@ -35,22 +35,20 @@ final class ModuleConfig
     }
 
 
-    private function initConfig(bool $break = false): void
+    private function initConfig(): void
     {
-        $this->config = $this->containerConfig->getConfig($this->module->packageName);
-
-        if ($break === true) {
-            return;
-        }
-        if ($this->config === null) {
+        if (file_exists($this->module->path . '/config.yml')) {
             $this->containerConfig->addConfig(
-                $this->module->path . '/config.yml',
+                [
+                    $this->module->packageName => file_get_contents($this->module->path . '/config.yml')
+                ],
                 ['flags' => Yaml::PARSE_CONSTANT],
-                Config::YAML
+                Config::YAML,
+                false
             );
-
-            $this->initConfig(true);
         }
+
+        $this->config = $this->containerConfig->getConfig($this->module->packageName);
     }
 
     public function get(string $key): string
