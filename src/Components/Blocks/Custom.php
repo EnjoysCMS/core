@@ -18,7 +18,7 @@ class Custom extends AbstractBlock
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 
-    public static function getMeta(): ?array
+    public static function getMeta(): array
     {
         return [
             'options' => [

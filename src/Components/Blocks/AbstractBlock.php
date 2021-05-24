@@ -4,16 +4,15 @@
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
-use EnjoysCMS\Core\Entities\Blocks as Entity;
 use Enjoys\Traits\Options;
+use EnjoysCMS\Core\Entities\Blocks as Entity;
 use Psr\Container\ContainerInterface;
-use Twig\Environment;
+use Symfony\Component\Yaml\Yaml;
 
-abstract class AbstractBlock
+abstract class AbstractBlock implements BlocksInterface
 {
 
     use Options;
-
 
     protected ContainerInterface $container;
     /**
@@ -29,11 +28,9 @@ abstract class AbstractBlock
         $this->setOptions($this->block->getOptionsKeyValue());
     }
 
-
-    abstract public function view();
-
-    public static function getMeta(): ?array
+    public static function getMeta(): array
     {
-        return null;
+        return Yaml::parseFile(static::getBlockDefinitionFile())[static::class];
     }
+
 }
