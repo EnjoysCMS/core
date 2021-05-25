@@ -18,6 +18,11 @@ class Custom extends AbstractBlock
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 
+    public static function getBlockDefinitionFile(): string
+    {
+        return '';
+    }
+
     public static function getMeta(): array
     {
         return [
