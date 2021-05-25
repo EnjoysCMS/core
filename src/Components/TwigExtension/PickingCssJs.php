@@ -54,7 +54,10 @@ class PickingCssJs extends AbstractExtension
                 continue;
             }
             $body = str_replace($script, "", $body);
-            static::$scripts[] = $script;
+
+            if(!in_array($script, static::$scripts)){
+                static::$scripts[] = $script;
+            }
         }
         return $body;
     }
@@ -64,7 +67,9 @@ class PickingCssJs extends AbstractExtension
         preg_match_all("/<style[^>]*?>.*?<\/style>/simu", $body, $styles);
         foreach ($styles[0] as $style) {
             $body = str_replace($style, "", $body);
-            static::$styles[] = $style;
+            if(!in_array($script, static::$styles)) {
+                static::$styles[] = $style;
+            }
         }
         return $body;
     }
