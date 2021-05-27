@@ -212,8 +212,11 @@ class Blocks
     }
 
 
-    public function getTwigTemplateString()
+    public function getTwigTemplateString(bool $alias = false)
     {
+        if($alias === true){
+            return "{{ ViewBlock('{$this->getAlias()}') }}";
+        }
         return "{{ ViewBlock({$this->getId()}) }}";
     }
 
