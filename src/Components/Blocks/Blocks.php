@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
@@ -15,10 +16,12 @@ use Twig\Environment;
 
 class Blocks
 {
+
     /**
-     * @var \EnjoysCMS\Core\Entities\Blocks
+     * @var \Doctrine\ORM\EntityRepository|\Doctrine\Persistence\ObjectRepository
      */
     private $bocksRepository;
+
     /**
      * @var Environment
      */
@@ -28,6 +31,7 @@ class Blocks
      */
     private LoggerInterface $logger;
     private FactoryInterface $container;
+    private EntityManager $entityManager;
 
 
     public function __construct(FactoryInterface $container)
@@ -40,14 +44,28 @@ class Blocks
     }
 
 
-    public function getBlock(int $blockId): ?string
+    /**
+     * @param int|string $id
+     * @return \EnjoysCMS\Core\Entities\Blocks|null
+     */
+    private function findBlockEntity($id): ?\EnjoysCMS\Core\Entities\Blocks
     {
-        /**
-         *
-         *
-         * @var \EnjoysCMS\Core\Entities\Blocks $block
-         */
-        $block = $this->bocksRepository->find($blockId);
+        if (is_numeric($id)) {
+            return $this->bocksRepository->find($id);
+        }
+        return $this->bocksRepository->findOneBy(['alias' => $id]);
+    }
+
+
+    /**
+     * @param int|string $blockId
+     * @return string|null
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function getBlock($blockId): ?string
+    {
+        $block = $this->findBlockEntity($blockId);
 
         if ($block === null) {
             $this->logger->notice(sprintf('Not found block by id: %s', $blockId), debug_backtrace());

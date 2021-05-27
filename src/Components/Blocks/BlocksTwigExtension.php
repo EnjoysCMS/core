@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
@@ -31,7 +32,13 @@ class BlocksTwigExtension extends AbstractExtension
         ];
     }
 
-    public function viewBlock(int $id):? string
+    /**
+     * @param int|string $id
+     * @return string|null
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function viewBlock($id): ?string
     {
         return $this->blocks->getBlock($id);
     }

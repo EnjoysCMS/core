@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Entities;
 
@@ -9,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Blocks
- *
- * @package                  App\Modules\System\Entities
+ * @package App\Modules\System\Entities
  * @ORM\Entity
  * @ORM\Table(name="blocks")
  */
@@ -23,6 +23,13 @@ class Blocks
      * @ORM\Column(type="integer")
      */
     private int $id;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=50, nullable=true, unique=true)
+     */
+    private ?string $alias = null;
+
 
     /**
      * @var                       string
@@ -100,6 +107,17 @@ class Blocks
     public function getId(): int
     {
         return $this->id;
+    }
+
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): void
+    {
+        $this->alias = $alias;
     }
 
     /**
@@ -181,7 +199,6 @@ class Blocks
     {
         $this->body = $body;
     }
-
 
 
     public function getBlockActionAcl()
