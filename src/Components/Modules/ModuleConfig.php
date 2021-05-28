@@ -51,7 +51,11 @@ final class ModuleConfig
         $this->config = $this->containerConfig->getConfig($this->module->packageName);
     }
 
-    public function get(string $key): string
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function get(string $key)
     {
         if (array_key_exists($key, (array)$this->config)) {
             return $this->config[$key];
