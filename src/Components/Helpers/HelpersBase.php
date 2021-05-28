@@ -14,4 +14,9 @@ class HelpersBase
     {
         self::$container = $container;
     }
+
+    public static function getContainer(): ?ContainerInterface
+    {
+        return self::$container;
+    }
 }
