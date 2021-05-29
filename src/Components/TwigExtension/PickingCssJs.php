@@ -48,12 +48,12 @@ class PickingCssJs extends AbstractExtension
         return implode("\n", static::$scripts);
     }
 
-    public function noCatch(string $body)
+    public function noCatch(?string $body)
     {
         return preg_replace("/(<script[^>]*?>)(.*?)(<\/script>)/simu", "$1\n//DO_NOT_CATCH//\n$2$3", $body);
     }
 
-    public function scriptsCatcher(string $body): string
+    public function scriptsCatcher(?string $body): string
     {
 
         preg_match_all("/<script[^>]*?>.*?<\/script>/simu", $body, $scripts);
@@ -71,7 +71,7 @@ class PickingCssJs extends AbstractExtension
         return $body;
     }
 
-    public function stylesCatcher(string $body): string
+    public function stylesCatcher(?string $body): string
     {
         preg_match_all("/<style[^>]*?>.*?<\/style>/simu", $body, $styles);
         foreach ($styles[0] as $style) {
