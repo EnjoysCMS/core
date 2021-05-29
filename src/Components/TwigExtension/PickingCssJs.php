@@ -25,7 +25,7 @@ class PickingCssJs extends AbstractExtension
         return [
             new TwigFilter('scriptsCatcher', [$this, 'scriptsCatcher'], ['is_safe' => ['all']]),
             new TwigFilter('stylesCatcher', [$this, 'stylesCatcher'], ['is_safe' => ['all']]),
-            new TwigFilter('nocatch', [$this, 'nocatch'], ['is_safe' => ['all']]),
+            new TwigFilter('nocatch', [$this, 'noCatch'], ['is_safe' => ['all']]),
         ];
     }
 
