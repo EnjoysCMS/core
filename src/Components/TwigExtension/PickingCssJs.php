@@ -18,12 +18,14 @@ class PickingCssJs extends AbstractExtension
 {
     private static array $scripts = [];
     private static array $styles = [];
+    private bool $nocatch = false;
 
     public function getFilters()
     {
         return [
             new TwigFilter('scriptsCatcher', [$this, 'scriptsCatcher'], ['is_safe' => ['all']]),
             new TwigFilter('stylesCatcher', [$this, 'stylesCatcher'], ['is_safe' => ['all']]),
+            new TwigFilter('nocatch', [$this, 'nocatch'], ['is_safe' => ['all']]),
         ];
     }
 
@@ -46,8 +48,14 @@ class PickingCssJs extends AbstractExtension
         return implode("\n", static::$scripts);
     }
 
+    public function noCatch(string $body)
+    {
+        return preg_replace("/(<script[^>]*?>)(.*?)(<\/script>)/simu", "$1\n//DO_NOT_CATCH//\n$2$3", $body);
+    }
+
     public function scriptsCatcher(string $body): string
     {
+
         preg_match_all("/<script[^>]*?>.*?<\/script>/simu", $body, $scripts);
         foreach ($scripts[0] as $script) {
             if(strpos($script, '//DO_NOT_CATCH//') !== false){
@@ -59,6 +67,7 @@ class PickingCssJs extends AbstractExtension
                 static::$scripts[] = $script;
             }
         }
+
         return $body;
     }
 
