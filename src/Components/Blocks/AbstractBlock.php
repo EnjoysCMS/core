@@ -33,4 +33,14 @@ abstract class AbstractBlock implements BlocksInterface
         return Yaml::parseFile(static::getBlockDefinitionFile())[static::class];
     }
 
+    public function remove()
+    {
+
+    }
+
+    public function clone()
+    {
+
+    }
+
 }
