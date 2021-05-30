@@ -38,7 +38,7 @@ abstract class AbstractBlock implements BlocksInterface
 
     }
 
-    public function clone()
+    public function clone(?Entity $cloned = null)
     {
 
     }
