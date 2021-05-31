@@ -117,7 +117,7 @@ class Blocks
 
     public function setAlias(?string $alias): void
     {
-        $this->alias = $alias;
+        $this->alias = trim($alias);
     }
 
     /**
