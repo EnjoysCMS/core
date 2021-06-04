@@ -37,14 +37,14 @@ final class PhpSession implements StrategyInterface
 
     public function login(Users $user, array $data = []): void
     {
-//        $this->session->set(
-//            [
-//                'user' => [
-//                    'id' => $user->getId()
-//                ],
-//                'authenticate' => $data['authenticate'] ?? 'login'
-//            ]
-//        );
+        $this->session->set(
+            [
+                'user' => [
+                    'id' => $user->getId()
+                ],
+                'authenticate' => $data['authenticate'] ?? 'login'
+            ]
+        );
 
         $this->writeToken($user, $data['token'] ?? null);
     }
