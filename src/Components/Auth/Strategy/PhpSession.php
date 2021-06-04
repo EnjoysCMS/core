@@ -52,8 +52,8 @@ final class PhpSession implements StrategyInterface
     {
         $this->session->delete('user');
         $this->session->delete('authenticate');
-        if ($this->cookie::has(Token::TOKEN_NAME)) {
-            $token = $this->cookie::get(Token::TOKEN_NAME);
+        if ($this->cookie::has(Token::getTokenName())) {
+            $token = $this->cookie::get(Token::getTokenName());
             $this->deleteToken($token);
         }
     }
@@ -74,10 +74,10 @@ final class PhpSession implements StrategyInterface
             return true;
         }
 
-        if ($this->cookie::has(Token::TOKEN_NAME) && $retry < 1) {
+        if ($this->cookie::has(Token::getTokenName()) && $retry < 1) {
             $retry++;
             $authenticate = new Authenticate($this->em);
-            $token = $this->cookie::get(Token::TOKEN_NAME);
+            $token = $this->cookie::get(Token::getTokenName());
             if ($authenticate->checkToken($token)) {
                 $this->login($authenticate->getUser(), ['authenticate' => 'autologin', 'token' => $token]);
                 return $this->isAuthorized($retry);
@@ -106,7 +106,7 @@ final class PhpSession implements StrategyInterface
         $tokenEntity->setLastUsed($now);
 
         $this->cookie->set(
-            Token::TOKEN_NAME,
+            Token::getTokenName(),
             $tokenEntity->getToken(),
             $ttl,
             [
@@ -121,7 +121,7 @@ final class PhpSession implements StrategyInterface
 
     public function deleteToken(string $token): void
     {
-        $this->cookie->delete(Token::TOKEN_NAME);
+        $this->cookie->delete(Token::getTokenName());
 
         $tokenRepository = $this->em->getRepository(Token::class);
         $tokenEntity = $tokenRepository->find($token);

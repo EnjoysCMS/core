@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Components\Helpers\Config;
 
 /**
  * Class Token
@@ -14,7 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Token
 {
-    const TOKEN_NAME = '_token_refresh';
+
+    public static function getTokenName()
+    {
+        return Config::get('security', 'token_name', '_token_refresh');
+    }
 
     /**
      * @ORM\Id
