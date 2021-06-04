@@ -23,7 +23,6 @@ class Token
     private string $token;
 
 
-
     public function getToken(): string
     {
         return $this->token;
@@ -35,18 +34,18 @@ class Token
     }
 
     /**
-     * @var int
-     * @ORM\Column(type="integer")
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable")
      */
-    private int $exp;
+    private \DateTimeImmutable $exp;
 
 
-    public function getExp(): int
+    public function getExp(): \DateTimeImmutable
     {
         return $this->exp;
     }
 
-    public function setExp(int $exp): void
+    public function setExp(\DateTimeImmutable $exp): void
     {
         $this->exp = $exp;
     }
@@ -81,5 +80,22 @@ class Token
     public function setUser(Users $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private \DateTimeImmutable $lastUsed;
+
+
+    public function getLastUsed(): \DateTimeImmutable
+    {
+        return $this->lastUsed;
+    }
+
+    public function setLastUsed(\DateTimeImmutable $lastUsed): void
+    {
+        $this->lastUsed = $lastUsed;
     }
 }

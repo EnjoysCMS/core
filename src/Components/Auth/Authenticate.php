@@ -44,7 +44,7 @@ final class Authenticate
             return false;
         }
 
-        if ($tokenEntity->getExp() < $now->getTimestamp()) {
+        if ($tokenEntity->getExp() < $now) {
             return false;
         }
 

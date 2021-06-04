@@ -90,8 +90,8 @@ final class PhpSession implements StrategyInterface
 
     public function writeToken(Users $user, string $token = null)
     {
-        $ttl = new \DateTime();
-        $ttl->modify($this->config['autologin_cookie_ttl']);
+        $now = new \DateTimeImmutable();
+        $ttl = $now->modify($this->config['autologin_cookie_ttl']);
 
         $tokenRepository = $this->em->getRepository(Token::class);
         $tokenEntity = $tokenRepository->findOneBy(['token' => $token]);
@@ -102,7 +102,8 @@ final class PhpSession implements StrategyInterface
             $tokenEntity->setFingerprint(Browser::getFingerprint());
         }
         $tokenEntity->setToken(Uuid::uuid4()->toString());
-        $tokenEntity->setExp($ttl->getTimestamp());
+        $tokenEntity->setExp($ttl);
+        $tokenEntity->setLastUsed($now);
 
         $this->cookie->set(
             Token::TOKEN_NAME,
