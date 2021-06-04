@@ -16,6 +16,7 @@ use EnjoysCMS\Core\Components\Detector\Browser;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Repositories\TokenRepository;
 use Ramsey\Uuid\Uuid;
 
 final class PhpSession implements StrategyInterface
@@ -36,14 +37,14 @@ final class PhpSession implements StrategyInterface
 
     public function login(Users $user, array $data = []): void
     {
-        $this->session->set(
-            [
-                'user' => [
-                    'id' => $user->getId()
-                ],
-                'authenticate' => $data['authenticate'] ?? 'login'
-            ]
-        );
+//        $this->session->set(
+//            [
+//                'user' => [
+//                    'id' => $user->getId()
+//                ],
+//                'authenticate' => $data['authenticate'] ?? 'login'
+//            ]
+//        );
 
         $this->writeToken($user, $data['token'] ?? null);
     }
@@ -93,6 +94,7 @@ final class PhpSession implements StrategyInterface
         $now = new \DateTimeImmutable();
         $ttl = $now->modify($this->config['autologin_cookie_ttl']);
 
+        /** @var TokenRepository $tokenRepository */
         $tokenRepository = $this->em->getRepository(Token::class);
         $tokenEntity = $tokenRepository->findOneBy(['token' => $token]);
 
@@ -104,6 +106,7 @@ final class PhpSession implements StrategyInterface
         $tokenEntity->setToken(Uuid::uuid4()->toString());
         $tokenEntity->setExp($ttl);
         $tokenEntity->setLastUsed($now);
+
 
         $this->cookie->set(
             Token::getTokenName(),
@@ -117,6 +120,8 @@ final class PhpSession implements StrategyInterface
 
         $this->em->persist($tokenEntity);
         $this->em->flush();
+
+        $tokenRepository->clearInactiveTokensByUser($tokenEntity->getUser());
     }
 
     public function deleteToken(string $token): void
