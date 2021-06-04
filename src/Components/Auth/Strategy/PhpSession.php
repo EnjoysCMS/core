@@ -121,7 +121,8 @@ final class PhpSession implements StrategyInterface
         $this->em->persist($tokenEntity);
         $this->em->flush();
 
-        $tokenRepository->clearInactiveTokensByUser($tokenEntity->getUser());
+        $tokenRepository->clearUsersOldTokens($tokenEntity);
+
     }
 
     public function deleteToken(string $token): void
