@@ -17,7 +17,7 @@ class Config extends HelpersBase
      * @param  null   $default
      * @return mixed|null
      */
-    static public function get(string $section, string $key, $default = null)
+    public static function get(string $section, string $key, $default = null)
     {
         if (null === $config = self::$container->get('Config')->getConfig($section)) {
             return  $default;
@@ -29,4 +29,10 @@ class Config extends HelpersBase
 
         return $default;
     }
+
+    public static function getAll(string $section)
+    {
+        return self::$container->get('Config')->getConfig($section);
+    }
+
 }

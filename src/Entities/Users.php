@@ -41,11 +41,6 @@ class Users
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $token;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
     private string $email;
 
     /**
@@ -229,19 +224,5 @@ class Users
         $this->editable = $editable;
     }
 
-    /**
-     * @return ?string
-     */
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
 
-    /**
-     * @param ?string $token
-     */
-    public function setToken(?string $token): void
-    {
-        $this->token = $token;
-    }
 }

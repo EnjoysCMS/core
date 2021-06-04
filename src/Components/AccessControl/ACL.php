@@ -26,7 +26,7 @@ class ACL
      */
     private array $aclLists = [];
 
-    public function __construct(EntityManager $entityManager, Identity $identity)
+    public function __construct(EntityManager $entityManager, \EnjoysCMS\Core\Components\Auth\Identity $identity)
     {
         $this->entityManager = $entityManager;
         $this->user = $identity->getUser();

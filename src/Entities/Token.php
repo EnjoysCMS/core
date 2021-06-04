@@ -1,0 +1,85 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EnjoysCMS\Core\Entities;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class Token
+ * @package EnjoysCMS\Core\Entities
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\TokenRepository")
+ * @ORM\Table(name="tokens")
+ */
+class Token
+{
+    const TOKEN_NAME = '_token_refresh';
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     */
+    private string $token;
+
+
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $exp;
+
+
+    public function getExp(): int
+    {
+        return $this->exp;
+    }
+
+    public function setExp(int $exp): void
+    {
+        $this->exp = $exp;
+    }
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $fingerprint = null;
+
+
+    public function getFingerprint(): ?string
+    {
+        return $this->fingerprint;
+    }
+
+    public function setFingerprint(?string $fingerprint): void
+    {
+        $this->fingerprint = $fingerprint;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Users")
+     */
+    private $user;
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(Users $user)
+    {
+        $this->user = $user;
+    }
+}

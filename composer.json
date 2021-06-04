@@ -25,7 +25,9 @@
     "httpsoft/http-emitter": "^1.0",
     "httpsoft/http-message": "^1.0",
     "httpsoft/http-server-request": "^1.0",
-    "rybakit/twig-deferred-extension": "^3.0"
+    "rybakit/twig-deferred-extension": "^3.0",
+    "ramsey/uuid-doctrine": "^1.6",
+    "ramsey/uuid": "^4.1"
   },
   "autoload": {
     "psr-4": {

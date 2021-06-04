@@ -1,0 +1,38 @@
+<?php
+
+declare(strict_types=1);
+
+
+namespace EnjoysCMS\Core\Components\Auth;
+
+
+use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
+use EnjoysCMS\Core\Entities\Users;
+use Psr\Container\ContainerInterface;
+
+final class Authorize
+{
+    private StrategyInterface $strategy;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $strategy = PhpSession::class;
+        $this->strategy = $container->get($strategy);
+
+    }
+
+    public function setAuthorized(Users $user)
+    {
+        $this->strategy->login($user);
+    }
+
+    public function logout()
+    {
+        $this->strategy->logout();
+    }
+
+    public function getAuthorizedData(): ?AuthorizedData
+    {
+        return $this->strategy->getAuthorizedData();
+    }
+}
