@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
+use DI\DependencyException;
 use DI\FactoryInterface;
+use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
-use Psr\Container\ContainerInterface;
+use EnjoysCMS\Core\Entities\Block;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Twig\Environment;
 
 class Blocks
 {
 
     /**
-     * @var \Doctrine\ORM\EntityRepository|\Doctrine\Persistence\ObjectRepository
+     * @var EntityRepository|ObjectRepository
      */
     private $bocksRepository;
 
@@ -37,7 +40,7 @@ class Blocks
     public function __construct(FactoryInterface $container)
     {
         $this->entityManager = $container->get(EntityManager::class);
-        $this->bocksRepository = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\Blocks::class);
+        $this->bocksRepository = $this->entityManager->getRepository(Block::class);
         //  $this->twig = $container->get(Environment::class);
         $this->container = $container;
         $this->logger = $container->get(LoggerInterface::class)->withName('Blocks');
@@ -46,9 +49,9 @@ class Blocks
 
     /**
      * @param int|string $id
-     * @return \EnjoysCMS\Core\Entities\Blocks|null
+     * @return Block|null
      */
-    private function findBlockEntity($id): ?\EnjoysCMS\Core\Entities\Blocks
+    private function findBlockEntity($id): ?Block
     {
         if (is_numeric($id)) {
             return $this->bocksRepository->find($id);
@@ -60,8 +63,8 @@ class Blocks
     /**
      * @param int|string $blockId
      * @return string|null
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function getBlock($blockId): ?string
     {

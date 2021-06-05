@@ -5,6 +5,7 @@ namespace EnjoysCMS\Core\Components\Helpers;
 
 
 use Doctrine\ORM\EntityManager;
+use EnjoysCMS\Core\Entities\Block;
 
 class Blocks extends HelpersBase
 {
@@ -12,11 +13,11 @@ class Blocks extends HelpersBase
     public static function getActiveBlocksController(): array
     {
         $ret = [];
-        $blocks = self::$container->get(EntityManager::class)->getRepository(\EnjoysCMS\Core\Entities\Blocks::class)->findAll();
+        $blocks = self::$container->get(EntityManager::class)->getRepository(Block::class)->findAll();
         /**
 * 
          *
- * @var \EnjoysCMS\Core\Entities\Blocks $block 
+ * @var Block $block
 */
         foreach ($blocks as $block) {
             $ret[] = $block->getBlockActionAcl();

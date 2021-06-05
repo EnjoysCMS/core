@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="blocks")
  */
-class Blocks
+class Block
 {
     /**
      * @var                        int ID
