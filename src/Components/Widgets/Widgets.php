@@ -14,7 +14,7 @@ use Twig\Environment;
 class Widgets
 {
     /**
-     * @var \EnjoysCMS\Core\Entities\Widgets
+     * @var \EnjoysCMS\Core\Entities\Widget
      */
     private $widgetsRepository;
     /**
@@ -33,7 +33,7 @@ class Widgets
      */
     public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
     {
-        $this->widgetsRepository = $entityManager->getRepository(\EnjoysCMS\Core\Entities\Widgets::class);
+        $this->widgetsRepository = $entityManager->getRepository(\EnjoysCMS\Core\Entities\Widget::class);
         $this->twig = $twig;
         $this->logger = $logger ?? new NullLogger();
     }
@@ -42,7 +42,7 @@ class Widgets
 
     public function getWidget(int $widgetId): ?string
     {
-        /** @var \EnjoysCMS\Core\Entities\Widgets $widget */
+        /** @var \EnjoysCMS\Core\Entities\Widget $widget */
         $widget = $this->widgetsRepository->find($widgetId);
 
         if ($widget === null) {

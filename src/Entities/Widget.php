@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Widgets")
  * @ORM\Table(name="widgets")
  */
-class Widgets
+class Widget
 {
     /**
      * @var                        int ID

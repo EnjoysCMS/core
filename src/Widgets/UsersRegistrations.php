@@ -5,7 +5,7 @@ namespace EnjoysCMS\Core\Widgets;
 
 
 use EnjoysCMS\Core\Components\Widgets\AbstractWidgets;
-use EnjoysCMS\Core\Entities\Widgets as Entity;
+use EnjoysCMS\Core\Entities\Widget as Entity;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
 

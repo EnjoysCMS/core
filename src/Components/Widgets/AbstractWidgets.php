@@ -4,7 +4,7 @@
 namespace EnjoysCMS\Core\Components\Widgets;
 
 
-use EnjoysCMS\Core\Entities\Widgets as Entity;
+use EnjoysCMS\Core\Entities\Widget as Entity;
 use Enjoys\Traits\Options;
 use Twig\Environment;
 
