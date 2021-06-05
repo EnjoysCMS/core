@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 
 use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
+use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Users;
 use Psr\Container\ContainerInterface;
 
@@ -16,7 +17,7 @@ final class Authorize
 
     public function __construct(ContainerInterface $container)
     {
-        $strategy = PhpSession::class;
+        $strategy = Config::get('security', 'auth_strategy', PhpSession::class);
         $this->strategy = $container->get($strategy);
 
     }

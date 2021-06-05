@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Repositories;
 
 
 use Doctrine\ORM\EntityRepository;
+use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\Users;
 
@@ -23,7 +24,7 @@ class TokenRepository extends EntityRepository
 
     public function clearTokenIfMaxCount(Token $currentToken)
     {
-        $maxCount = 5;
+        $maxCount = Config::get('security', 'max_tokens', 5);
         $allTokensCount = $this->count(['user' => $currentToken->getUser()]);
 
         if($allTokensCount <= $maxCount){
@@ -37,6 +38,7 @@ class TokenRepository extends EntityRepository
             ->andWhere('t.user = :user')
             ->setParameter('user', $currentToken->getUser())
             ->orderBy('t.lastUsed', 'desc')
+            ->setMaxResults($allTokensCount-$maxCount)
             ->getQuery()
             ->getResult()
         ;
