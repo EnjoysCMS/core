@@ -73,7 +73,7 @@ class Token
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
 
@@ -82,7 +82,7 @@ class Token
         return $this->user;
     }
 
-    public function setUser(Users $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }

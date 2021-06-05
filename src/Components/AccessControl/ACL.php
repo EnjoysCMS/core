@@ -4,12 +4,12 @@
 namespace EnjoysCMS\Core\Components\AccessControl;
 
 
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 use Doctrine\ORM\EntityManager;
 
 class ACL
 {
-    private Users $user;
+    private User $user;
 
 
     /**

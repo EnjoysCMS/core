@@ -8,11 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class UsersGroup
  *
- * @package                                                          App\Components\Entities
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Groups")
+ * @package App\Components\Entities
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Group")
  * @ORM\Table(name="`groups`")
  */
-class Groups
+class Group
 {
     /**
      * @ORM\Id
@@ -43,7 +43,7 @@ class Groups
     private bool $system = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Users", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
      */
     private $users;
 
@@ -139,18 +139,17 @@ class Groups
 
     public function removeAcl(?ACL $acl = null)
     {
-        if($acl === null) {
+        if ($acl === null) {
             $this->acl->clear();
             return;
         }
 
-        if(!$this->acl->contains($acl)) {
+        if (!$this->acl->contains($acl)) {
             return;
         }
 
         $this->acl->removeElement($acl);
         $acl->removeGroups($this);
-
     }
 
     /**
@@ -168,8 +167,6 @@ class Groups
     {
         $this->system = $system;
     }
-
-
 
 
 }

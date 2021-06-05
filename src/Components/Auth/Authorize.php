@@ -8,7 +8,7 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
 use EnjoysCMS\Core\Components\Helpers\Config;
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 use Psr\Container\ContainerInterface;
 
 final class Authorize
@@ -22,7 +22,7 @@ final class Authorize
 
     }
 
-    public function setAuthorized(Users $user)
+    public function setAuthorized(User $user)
     {
         $this->strategy->login($user);
     }

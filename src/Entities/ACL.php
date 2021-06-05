@@ -37,7 +37,7 @@ class ACL
     private string $comment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Groups", mappedBy="acl")
+     * @ORM\ManyToMany(targetEntity="Group", mappedBy="acl")
      */
     private $groups;
 
@@ -47,7 +47,7 @@ class ACL
         $this->groups = new ArrayCollection();
     }
 
-    public function removeGroups(?Groups $groups = null)
+    public function removeGroups(?Group $groups = null)
     {
         if($groups === null) {
             $this->groups->clear();
@@ -62,7 +62,7 @@ class ACL
         $groups->removeAcl($this);
     }
 
-    public function setGroups(Groups $groups): void
+    public function setGroups(Group $groups): void
     {
         if ($this->groups->contains($groups)) {
             return;

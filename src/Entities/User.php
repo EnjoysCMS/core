@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class Users
+class User
 {
     public const ADMIN_GROUP_ID = 1;
     public const GUEST_ID = 1;
@@ -50,7 +50,7 @@ class Users
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Groups", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
      * @ORM\JoinTable(name="users_groups")
      */
     private $groups;
@@ -172,9 +172,9 @@ class Users
     }
 
     /**
-     * @param Groups $groups
+     * @param Group $groups
      */
-    public function setGroups(Groups $groups): void
+    public function setGroups(Group $groups): void
     {
         if ($this->groups->contains($groups)) {
             return;

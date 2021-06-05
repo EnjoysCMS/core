@@ -15,7 +15,7 @@ use EnjoysCMS\Core\Components\Auth\StrategyInterface;
 use EnjoysCMS\Core\Components\Detector\Browser;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;
 use Ramsey\Uuid\Uuid;
 
@@ -35,7 +35,7 @@ final class PhpSession implements StrategyInterface
     }
 
 
-    public function login(Users $user, array $data = []): void
+    public function login(User $user, array $data = []): void
     {
         $this->session->set(
             [
@@ -89,7 +89,7 @@ final class PhpSession implements StrategyInterface
         return false;
     }
 
-    public function writeToken(Users $user, string $token = null)
+    public function writeToken(User $user, string $token = null)
     {
         $now = new \DateTimeImmutable();
         $ttl = $now->modify($this->config['autologin_cookie_ttl']);

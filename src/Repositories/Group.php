@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 
-class Groups extends EntityRepository
+class Group extends EntityRepository
 {
 
     public function getListGroupsForSelectForm()
@@ -16,7 +16,7 @@ class Groups extends EntityRepository
         /**
 * 
          *
- * @var \EnjoysCMS\Core\Entities\Groups $group 
+ * @var \EnjoysCMS\Core\Entities\Group $group
 */
         foreach ($groups as $group) {
             $ret[' ' . $group->getId()] = $group->getName();

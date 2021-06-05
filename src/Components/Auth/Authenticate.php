@@ -11,11 +11,11 @@ use EnjoysCMS\Core\Components\AccessControl\Autologin;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Detector\Browser;
 use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 
 final class Authenticate
 {
-    private ?Users $user;
+    private ?User $user;
     private EntityManager $em;
 
     public function __construct(EntityManager $em)
@@ -25,8 +25,8 @@ final class Authenticate
 
     public function checkLogin(string $login, string $password): bool
     {
-        /** @var Users $user */
-        $user = $this->em->getRepository(Users::class)->findOneBy(['login' => $login]);
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->findOneBy(['login' => $login]);
         if ($user === null) {
             return false;
         }
@@ -52,24 +52,24 @@ final class Authenticate
             return false;
         }
 
-        /** @var Users $user */
-        $user = $this->em->getRepository(Users::class)->find($tokenEntity->getUser());
+        /** @var User $user */
+        $user = $this->em->getRepository(User::class)->find($tokenEntity->getUser());
         $this->setUser($user);
         return true;
     }
 
     /**
-     * @return Users|null
+     * @return User|null
      */
-    public function getUser(): ?Users
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
     /**
-     * @param Users|null $user
+     * @param User|null $user
      */
-    public function setUser(?Users $user): void
+    public function setUser(?User $user): void
     {
         $this->user = $user;
     }

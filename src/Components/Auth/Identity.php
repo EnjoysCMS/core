@@ -7,7 +7,7 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 
 use Doctrine\ORM\EntityManager;
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 
 final class Identity
 {
@@ -20,23 +20,23 @@ final class Identity
     private $usersRepository;
     private Authorize $authorize;
 
-    private ?Users $user = null;
+    private ?User $user = null;
 
     public function __construct(EntityManager $em, Authorize $authorize)
     {
         $this->em = $em;
-        $this->usersRepository = $em->getRepository(Users::class);
+        $this->usersRepository = $em->getRepository(User::class);
         $this->authorize = $authorize;
     }
 
     /**
      * @throws \Exception
      */
-    public function getUser(): Users
+    public function getUser(): User
     {
         $this->fetchUserFromAuthorizedData();
 
-        $this->user ??= $this->getUserById(Users::GUEST_ID);
+        $this->user ??= $this->getUserById(User::GUEST_ID);
 
         if ($this->user === null) {
             throw new \Exception('Invalid user');
@@ -44,7 +44,7 @@ final class Identity
         return $this->user;
     }
 
-    public function getUserById(int $id): ?Users
+    public function getUserById(int $id): ?User
     {
         return $this->usersRepository->find($id);
     }

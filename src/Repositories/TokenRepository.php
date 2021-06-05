@@ -9,7 +9,7 @@ namespace EnjoysCMS\Core\Repositories;
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\Users;
+use EnjoysCMS\Core\Entities\User;
 
 class TokenRepository extends EntityRepository
 {
@@ -66,7 +66,7 @@ class TokenRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function clearInactiveTokensByUser(Users $user)
+    public function clearInactiveTokensByUser(User $user)
     {
         return $this->createQueryBuilder('t')
             ->delete(Token::class, 't')
