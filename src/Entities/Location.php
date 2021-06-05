@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Locations")
  * @ORM\Table(name="locations")
  */
-class Locations
+class Location
 {
     /**
      * @var                        int

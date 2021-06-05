@@ -82,7 +82,7 @@ class Block
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Locations")
+     * @ORM\ManyToMany(targetEntity="Location")
      * @ORM\JoinTable(
      *     name="blocks_locations",
      *     joinColumns={@ORM\JoinColumn(name="block_id", referencedColumnName="id")},
@@ -297,9 +297,9 @@ class Block
     }
 
     /**
-     * @param Locations $location
+     * @param Location $location
      */
-    public function setLocations(Locations $location): void
+    public function setLocations(Location $location): void
     {
         $this->locations[] = $location;
     }

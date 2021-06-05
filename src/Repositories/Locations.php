@@ -13,10 +13,8 @@ class Locations extends EntityRepository
         $locations = $this->findBy([], ['name' => 'desc']);
         $ret = [];
         /**
-* 
-         *
- * @var \EnjoysCMS\Core\Entities\Locations $location 
-*/
+         * @var \EnjoysCMS\Core\Entities\Location $location
+         */
         foreach ($locations as $location) {
             $ret[' ' . $location->getId()] = $location->getName() ?? $location->getLocation();
         }

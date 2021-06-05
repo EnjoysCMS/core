@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Components\Detector;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
-use EnjoysCMS\Core\Entities\Locations as Entity;
+use EnjoysCMS\Core\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;
 
 class Locations
