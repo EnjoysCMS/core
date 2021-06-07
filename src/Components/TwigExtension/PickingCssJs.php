@@ -55,15 +55,14 @@ class PickingCssJs extends AbstractExtension
 
     public function scriptsCatcher(?string $body): string
     {
-
         preg_match_all("/<script[^>]*?>.*?<\/script>/simu", $body, $scripts);
         foreach ($scripts[0] as $script) {
-            if(strpos($script, '//DO_NOT_CATCH//') !== false){
+            if (strpos($script, '//DO_NOT_CATCH//') !== false) {
                 continue;
             }
             $body = str_replace($script, "", $body);
 
-            if(!in_array($script, static::$scripts)){
+            if (!in_array($script, static::$scripts)) {
                 static::$scripts[] = $script;
             }
         }
@@ -76,7 +75,7 @@ class PickingCssJs extends AbstractExtension
         preg_match_all("/<style[^>]*?>.*?<\/style>/simu", $body, $styles);
         foreach ($styles[0] as $style) {
             $body = str_replace($style, "", $body);
-            if(!in_array($script, static::$styles)) {
+            if (!in_array($style, static::$styles)) {
                 static::$styles[] = $style;
             }
         }
