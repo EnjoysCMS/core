@@ -4,21 +4,18 @@
 namespace EnjoysCMS\Core\Components\Widgets;
 
 
-use Doctrine\ORM\EntityManager;
-use EnjoysCMS\Core\Components\Widgets\Widgets;
-use Psr\Log\LoggerInterface;
-use Twig\Environment;
+use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class WidgetsTwigExtension extends AbstractExtension
 {
 
-    private \EnjoysCMS\Core\Components\Widgets\Widgets $widgets;
+    private Widgets $widgets;
 
-    public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
+    public function __construct(ContainerInterface $container)
     {
-        $this->widgets = new Widgets($entityManager, $twig, $logger);
+        $this->widgets = $container->get(Widgets::class);
     }
 
     public function getFunctions(): array

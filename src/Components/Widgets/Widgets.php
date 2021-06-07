@@ -4,9 +4,12 @@
 namespace EnjoysCMS\Core\Components\Widgets;
 
 
+use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
+use EnjoysCMS\Core\Entities\Widget;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Twig\Environment;
@@ -14,7 +17,7 @@ use Twig\Environment;
 class Widgets
 {
     /**
-     * @var \EnjoysCMS\Core\Entities\Widget
+     * @var Widget
      */
     private $widgetsRepository;
     /**
@@ -25,24 +28,26 @@ class Widgets
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
+    private ContainerInterface $container;
 
     /**
      * Blocks constructor.
      *
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManager $entityManager, Environment $twig, LoggerInterface $logger = null)
+    public function __construct(ContainerInterface $container)
     {
-        $this->widgetsRepository = $entityManager->getRepository(\EnjoysCMS\Core\Entities\Widget::class);
-        $this->twig = $twig;
-        $this->logger = $logger ?? new NullLogger();
+        $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
+        $this->twig = $container->get(Environment::class);
+        $this->logger = $container->get(LoggerInterface::class);
+        $this->container = $container;
     }
 
 
 
     public function getWidget(int $widgetId): ?string
     {
-        /** @var \EnjoysCMS\Core\Entities\Widget $widget */
+        /** @var Widget $widget */
         $widget = $this->widgetsRepository->find($widgetId);
 
         if ($widget === null) {
@@ -74,7 +79,7 @@ class Widgets
 //         * @var AbstractWidgets $obj
 //         */
         $class = $widget->getClass();
-        $obj = new $class($this->twig, $widget);
+        $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
         return $obj->view();
     }
 }
