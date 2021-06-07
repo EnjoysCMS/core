@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Pagination;
 
+use EnjoysCMS\Core\Components\Helpers\Error;
+
 /**
  * Class Pagination Helper Class
  * @package EnjoysCMS\Core\Components\Pagination
@@ -25,8 +27,6 @@ final class Pagination
         $this->currentPage = $this->initCurrentPage((int)$currentPage);
         $this->limitItems = $this->initLimitItems($limitItems);
         $this->offset = $this->initOffset();
-
-
     }
 
     public function setTotalItems(int $count)
@@ -42,7 +42,7 @@ final class Pagination
     {
         $this->totalPages = (int)ceil($this->getTotalItems() / $this->getLimitItems());
 
-        if($this->totalPages === 0){
+        if ($this->totalPages === 0) {
             return;
         }
 
@@ -71,7 +71,7 @@ final class Pagination
     private function setNextPage(): void
     {
         $nextPage = $this->getCurrentPage() + 1;
-        if($nextPage > $this->getTotalPages()){
+        if ($nextPage > $this->getTotalPages()) {
             return;
         }
 
@@ -90,7 +90,7 @@ final class Pagination
     private function setPrevPage(): void
     {
         $prevPage = $this->getCurrentPage() - 1;
-        if($prevPage < 1){
+        if ($prevPage < 1) {
             return;
         }
         $this->prevPage = $prevPage;
@@ -162,16 +162,16 @@ final class Pagination
         return $this->offset;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function validate()
     {
-        if($this->getTotalPages() < $this->getCurrentPage()){
-            throw new \Exception(sprintf('Max page is %s, you are try get %s', $this->getTotalPages(), $this->getCurrentPage()));
+        if ($this->getTotalPages() < $this->getCurrentPage()) {
+            Error::code(
+                404,
+                sprintf('Max page is %s, you are try get %s', $this->getTotalPages(), $this->getCurrentPage())
+            );
         }
 
-        if($this->getTotalPages() === 1){
+        if ($this->getTotalPages() === 1) {
             return;
         }
         $this->setActive(true);
