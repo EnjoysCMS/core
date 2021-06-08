@@ -4,9 +4,6 @@
 namespace EnjoysCMS\Core\Components\Modules;
 
 
-use EnjoysCMS\Core\Components\Composer\Utils;
-use JetBrains\PhpStorm\Pure;
-
 class Module
 {
     public string $installPath;
@@ -15,7 +12,6 @@ class Module
     public string $packageName;
     public string $description;
     public array $paths;
-    public bool $useMigrations = false;
     public string $moduleName;
     public array $adminLinks = [];
 
@@ -27,10 +23,6 @@ class Module
         $this->path = $this->installPath;
         $this->moduleName = $this->packageName;
         $this->routePath = $this->getRoutePath();
-
-        if(isset($this->extra->{'use-migrations'})) {
-            $this->useMigrations =  (bool)$this->extra->{'use-migrations'};
-        }
 
         if(isset($this->extra->{'module-name'})) {
             $this->moduleName =  $this->extra->{'module-name'};
