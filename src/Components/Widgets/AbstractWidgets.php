@@ -14,23 +14,11 @@ abstract class AbstractWidgets
 
     use Options;
 
-    /**
-     * @var Environment
-     */
     protected Environment $twig;
-    /**
-     * @var Entity
-     */
-    protected Entity $widget;
-    private ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container, Entity $widget)
+    public function __construct(private ContainerInterface $container, protected Entity $widget)
     {
         $this->twig = $container->get(Environment::class);
-        $this->widget = $widget;
-
-       // $this->setOptions($this->widget->getOptionsKeyValue());
-        $this->container = $container;
     }
 
 
@@ -41,9 +29,6 @@ abstract class AbstractWidgets
         return null;
     }
 
-    /**
-     * @return ContainerInterface
-     */
     public function getContainer(): ContainerInterface
     {
         return $this->container;

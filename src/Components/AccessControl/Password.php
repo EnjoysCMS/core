@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Components\AccessControl;
 
 class Password
 {
-    final public static function getHash(string $password, $algo = \PASSWORD_DEFAULT): string
+    final public static function getHash(string $password, string|int|null $algo = \PASSWORD_DEFAULT): string
     {
         return password_hash($password, $algo);
     }

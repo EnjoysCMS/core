@@ -5,6 +5,9 @@ namespace EnjoysCMS\Core\Components\Detector;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;
@@ -16,10 +19,8 @@ class Locations
      * @var EntityManager
      */
     private EntityManager $entityManager;
-    /**
-     * @var ObjectRepository
-     */
-    private $locationsRepository;
+
+    private ObjectRepository|EntityRepository $locationsRepository;
 
 
     public function __construct(Route $route, EntityManager $entityManager)
@@ -30,10 +31,15 @@ class Locations
     }
 
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     private function setCurrentLocation(Route $route): void
     {
         $controller = implode('::', $route->getDefault('_controller'));
 
+        /** @var Entity $entity */
         if (null === $entity = $this->locationsRepository->findOneBy(['location' => $controller])) {
             $entity = new Entity();
             $entity->setLocation($controller);
@@ -41,6 +47,7 @@ class Locations
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
         }
+
         self::$currentLocation = $entity;
     }
 

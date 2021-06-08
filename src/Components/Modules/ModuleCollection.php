@@ -11,12 +11,14 @@ use Psr\Container\ContainerInterface;
 final class ModuleCollection
 {
 
+    private array $collection;
+
     public function __construct(ContainerInterface $container)
     {
         $this->collection = $container->get('Modules');
     }
 
-    public function find(string $value)
+    public function find(string $value): ?Module
     {
         return $this->findBy('packageName', $value);
     }

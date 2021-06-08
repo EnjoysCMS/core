@@ -13,22 +13,15 @@ use EnjoysCMS\Core\Entities\User;
 
 final class Identity
 {
-    private EntityManager $em;
 
 
-    /**
-     * @var EntityRepository|ObjectRepository
-     */
-    private $usersRepository;
-    private Authorize $authorize;
+    private ObjectRepository|EntityRepository $usersRepository;
 
     private ?User $user = null;
 
-    public function __construct(EntityManager $em, Authorize $authorize)
+    public function __construct(EntityManager $em, private Authorize $authorize)
     {
-        $this->em = $em;
         $this->usersRepository = $em->getRepository(User::class);
-        $this->authorize = $authorize;
     }
 
     /**

@@ -7,6 +7,8 @@ namespace EnjoysCMS\Core\Repositories;
 
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
@@ -14,6 +16,9 @@ use EnjoysCMS\Core\Entities\User;
 class TokenRepository extends EntityRepository
 {
 
+    /**
+     * @throws \Exception
+     */
     public function clearUsersOldTokens(Token $currentToken)
     {
         $this->gc();
@@ -22,6 +27,10 @@ class TokenRepository extends EntityRepository
         $this->clearTokenIfMaxCount($currentToken);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function clearTokenIfMaxCount(Token $currentToken)
     {
         $maxCount = Config::get('security', 'max_tokens', 5);
@@ -49,6 +58,10 @@ class TokenRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function clearDuplicateTokens(Token $currentToken)
     {
         $tokens = $this->createQueryBuilder('t')

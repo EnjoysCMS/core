@@ -24,16 +24,10 @@ use Ramsey\Uuid\Uuid;
 
 final class PhpSession implements StrategyInterface
 {
-    private Session $session;
-    private EntityManager $em;
-    private Cookie $cookie;
     private ?array $config;
 
-    public function __construct(EntityManager $em, Session $session, Cookie $cookie)
+    public function __construct(private EntityManager $em, private Session $session, private Cookie $cookie)
     {
-        $this->session = $session;
-        $this->em = $em;
-        $this->cookie = $cookie;
         $this->config = Config::getAll('security');
     }
 
@@ -150,7 +144,6 @@ final class PhpSession implements StrategyInterface
         $this->em->flush();
 
         $tokenRepository->clearUsersOldTokens($tokenEntity);
-
     }
 
     /**

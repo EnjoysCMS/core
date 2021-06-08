@@ -15,11 +15,9 @@ use EnjoysCMS\Core\Entities\User;
 final class Authenticate
 {
     private ?User $user;
-    private EntityManager $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(private EntityManager $em)
     {
-        $this->em = $em;
     }
 
     public function checkLogin(string $login, string $password): bool
@@ -57,17 +55,11 @@ final class Authenticate
         return true;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @param User|null $user
-     */
     public function setUser(?User $user): void
     {
         $this->user = $user;

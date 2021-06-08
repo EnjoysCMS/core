@@ -8,7 +8,8 @@ namespace EnjoysCMS\Core\Components\WYSIWYG;
 
 final class NullEditor implements WysiwygInterface
 {
-     public function getTwigTemplate(){
+     public function getTwigTemplate(): string
+     {
         return __DIR__.'/nulleditor.twig';
     }
 }

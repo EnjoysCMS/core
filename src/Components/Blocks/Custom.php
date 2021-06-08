@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
+use JetBrains\PhpStorm\ArrayShape;
+
 class Custom extends AbstractBlock
 {
 
@@ -23,6 +25,10 @@ class Custom extends AbstractBlock
         return '';
     }
 
+
+    #[ArrayShape(
+        ['options' => "array[]"]
+    )]
     public static function getMeta(): array
     {
         return [

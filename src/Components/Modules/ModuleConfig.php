@@ -35,6 +35,9 @@ final class ModuleConfig
     }
 
 
+    /**
+     * @throws \Exception
+     */
     private function initConfig(): void
     {
         if (file_exists($this->module->path . '/config.yml')) {
@@ -55,7 +58,7 @@ final class ModuleConfig
      * @param string $key
      * @return mixed
      */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         if (array_key_exists($key, (array)$this->config)) {
             return $this->config[$key];

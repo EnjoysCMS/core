@@ -4,6 +4,8 @@
 namespace EnjoysCMS\Core\Components\AccessControl;
 
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouteCollection;
@@ -47,9 +49,13 @@ class ACLTwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function checkAccess(string $action, ?string $comment = null): bool
     {
-        if($this->isDisableCheck()) {
+        if ($this->isDisableCheck()) {
             return true;
         }
         return $this->acl->access($action, (string)$comment);
@@ -57,7 +63,7 @@ class ACLTwigExtension extends AbstractExtension
 
     public function checkAccessToRoutes(array $routes): bool
     {
-        if($this->isDisableCheck()) {
+        if ($this->isDisableCheck()) {
             return true;
         }
 
@@ -71,7 +77,7 @@ class ACLTwigExtension extends AbstractExtension
 
     public function checkAccessToRoute(string $route): bool
     {
-        if($this->isDisableCheck()) {
+        if ($this->isDisableCheck()) {
             return true;
         }
 
@@ -83,7 +89,7 @@ class ACLTwigExtension extends AbstractExtension
             $action = implode('::', $routeInfo->getDefault('_controller'));
             $comment = $routeInfo->getOption('aclComment');
             return $this->checkAccess($action, $comment);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException | OptimisticLockException | ORMException $e) {
             if ($this->logger === null) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
             } else {

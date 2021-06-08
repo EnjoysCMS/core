@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
+use DI\DependencyException;
 use DI\FactoryInterface;
-use Doctrine\ORM\EntityManager;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
-use Twig\Environment;
+use DI\NotFoundException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,6 +18,10 @@ class BlocksTwigExtension extends AbstractExtension
      */
     private Blocks $blocks;
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function __construct(FactoryInterface $container)
     {
         $this->blocks = $container->make(Blocks::class);
@@ -33,12 +35,10 @@ class BlocksTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param int|string $id
-     * @return string|null
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
-    public function viewBlock($id): ?string
+    public function viewBlock(int|string $id): ?string
     {
         return $this->blocks->getBlock($id);
     }

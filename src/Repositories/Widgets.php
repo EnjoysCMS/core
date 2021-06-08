@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
 class Widgets extends EntityRepository
 {
 
-    public function getSortWidgets()
+    public function getSortWidgets(): array
     {
         return $this->findAll();
     }

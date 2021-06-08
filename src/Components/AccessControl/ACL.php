@@ -5,8 +5,10 @@ namespace EnjoysCMS\Core\Components\AccessControl;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
 
@@ -15,14 +17,7 @@ class ACL
     private User $user;
 
 
-    /**
-     * @var \EnjoysCMS\Core\Repositories\ACL
-     */
-    private $aclRepository;
-    /**
-     * @var EntityManager
-     */
-    private EntityManager $entityManager;
+    private ObjectRepository|\EnjoysCMS\Core\Repositories\ACL|EntityRepository $aclRepository;
 
     /**
      * @var array|object[]
@@ -32,9 +27,8 @@ class ACL
     /**
      * @throws \Exception
      */
-    public function __construct(EntityManager $entityManager, Identity $identity)
+    public function __construct(private EntityManager $entityManager, Identity $identity)
     {
-        $this->entityManager = $entityManager;
         $this->user = $identity->getUser();
         $this->aclRepository = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
         $this->aclLists = $this->aclRepository->findAll();
@@ -67,7 +61,7 @@ class ACL
         return false;
     }
 
-    public function getAcl(string $action)
+    public function getAcl(string $action): ?\EnjoysCMS\Core\Entities\ACL
     {
         return $this->aclRepository->findAcl($action);
     }

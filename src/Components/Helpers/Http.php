@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Components\Helpers;
 
 class Http
 {
-    public static function getQueryParams(string $currentUrl, array $removedParams = [])
+    public static function getQueryParams(string $currentUrl, array $removedParams = []): string
     {
         $query = [];
         $url = parse_url($currentUrl);

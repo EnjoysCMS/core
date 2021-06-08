@@ -22,7 +22,6 @@ final class Authorize
     {
         $strategy = Config::get('security', 'auth_strategy', PhpSession::class);
         $this->strategy = $container->get($strategy);
-
     }
 
     public function setAuthorized(User $user)

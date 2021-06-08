@@ -5,6 +5,7 @@ namespace EnjoysCMS\Core\Components\Modules;
 
 
 use EnjoysCMS\Core\Components\Composer\Utils;
+use JetBrains\PhpStorm\Pure;
 
 class Module
 {

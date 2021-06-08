@@ -20,29 +20,20 @@ use Twig\Environment;
 class Blocks
 {
 
-    /**
-     * @var EntityRepository|ObjectRepository
-     */
-    private $bocksRepository;
-
-    /**
-     * @var Environment
-     */
-    // private Environment $twig;
-    /**
-     * @var LoggerInterface
-     */
+    private ObjectRepository|EntityRepository $bocksRepository;
     private LoggerInterface $logger;
-    private FactoryInterface $container;
     private EntityManager $entityManager;
 
 
-    public function __construct(FactoryInterface $container)
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
+    public function __construct(private FactoryInterface $container)
     {
         $this->entityManager = $container->get(EntityManager::class);
         $this->bocksRepository = $this->entityManager->getRepository(Block::class);
         //  $this->twig = $container->get(Environment::class);
-        $this->container = $container;
         $this->logger = $container->get(LoggerInterface::class)->withName('Blocks');
     }
 
@@ -51,7 +42,7 @@ class Blocks
      * @param int|string $id
      * @return Block|null
      */
-    private function findBlockEntity($id): ?Block
+    private function findBlockEntity(int|string $id): ?Block
     {
         if (is_numeric($id)) {
             return $this->bocksRepository->find($id);
@@ -66,9 +57,10 @@ class Blocks
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function getBlock($blockId): ?string
+    public function getBlock(int|string $blockId): ?string
     {
         $block = $this->findBlockEntity($blockId);
+
 
         if ($block === null) {
             $this->logger->notice(sprintf('Not found block by id: %s', $blockId), debug_backtrace());

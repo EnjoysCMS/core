@@ -11,13 +11,8 @@ use Twig\Environment;
 
 class UsersRegistrations extends AbstractWidgets
 {
-    public function __construct(Environment $twig, Entity $widget)
-    {
-        parent::__construct($twig, $widget);
 
-    }
-
-    public function view()
+    public function view(): string
     {
         return <<<HTML
 <div class="small-box bg-warning">
