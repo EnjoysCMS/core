@@ -47,7 +47,7 @@ class ACLTwigExtension extends AbstractExtension
         ];
     }
 
-    public function checkAccess(string $action, ?string $comment = null)
+    public function checkAccess(string $action, ?string $comment = null): bool
     {
         if($this->isDisableCheck()) {
             return true;
@@ -55,7 +55,7 @@ class ACLTwigExtension extends AbstractExtension
         return $this->acl->access($action, (string)$comment);
     }
 
-    public function checkAccessToRoutes(array $routes)
+    public function checkAccessToRoutes(array $routes): bool
     {
         if($this->isDisableCheck()) {
             return true;
@@ -69,7 +69,7 @@ class ACLTwigExtension extends AbstractExtension
         return in_array(true, $result);
     }
 
-    public function checkAccessToRoute(string $route)
+    public function checkAccessToRoute(string $route): bool
     {
         if($this->isDisableCheck()) {
             return true;

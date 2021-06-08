@@ -9,7 +9,7 @@ class Utils
 {
     /**
      * @param  string $classname
-     * @return false|mixed|string
+     * @return false|string
      */
     public static function findFilePathByClassName(string $classname)
     {

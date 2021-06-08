@@ -7,6 +7,8 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\User;
 
 final class Identity
@@ -15,7 +17,7 @@ final class Identity
 
 
     /**
-     * @var \Doctrine\ORM\EntityRepository|\Doctrine\Persistence\ObjectRepository
+     * @var EntityRepository|ObjectRepository
      */
     private $usersRepository;
     private Authorize $authorize;

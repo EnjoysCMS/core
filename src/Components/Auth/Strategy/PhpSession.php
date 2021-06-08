@@ -7,7 +7,10 @@ namespace EnjoysCMS\Core\Components\Auth\Strategy;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Enjoys\Cookie\Cookie;
+use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
 use EnjoysCMS\Core\Components\Auth\Authenticate;
 use EnjoysCMS\Core\Components\Auth\AuthorizedData;
@@ -35,6 +38,11 @@ final class PhpSession implements StrategyInterface
     }
 
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function login(User $user, array $data = []): void
     {
         $this->session->set(
@@ -49,6 +57,11 @@ final class PhpSession implements StrategyInterface
         $this->writeToken($user, $data['token'] ?? null);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function logout(): void
     {
         $this->session->delete('user');
@@ -59,6 +72,11 @@ final class PhpSession implements StrategyInterface
         }
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function getAuthorizedData(): ?AuthorizedData
     {
         if ($this->isAuthorized()) {
@@ -69,6 +87,11 @@ final class PhpSession implements StrategyInterface
         return null;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function isAuthorized($retry = 0): bool
     {
         if (isset($this->session->get('user')['id']) && $this->session->get('authenticate') !== null) {
@@ -89,6 +112,11 @@ final class PhpSession implements StrategyInterface
         return false;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function writeToken(User $user, string $token = null)
     {
         $now = new \DateTimeImmutable();
@@ -125,6 +153,11 @@ final class PhpSession implements StrategyInterface
 
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function deleteToken(string $token): void
     {
         $this->cookie->delete(Token::getTokenName());

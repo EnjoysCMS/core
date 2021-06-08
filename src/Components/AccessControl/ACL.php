@@ -4,8 +4,11 @@
 namespace EnjoysCMS\Core\Components\AccessControl;
 
 
-use EnjoysCMS\Core\Entities\User;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\Entities\User;
 
 class ACL
 {
@@ -13,7 +16,7 @@ class ACL
 
 
     /**
-     * @var \App\Repositories\ACL
+     * @var \EnjoysCMS\Core\Repositories\ACL
      */
     private $aclRepository;
     /**
@@ -26,7 +29,10 @@ class ACL
      */
     private array $aclLists = [];
 
-    public function __construct(EntityManager $entityManager, \EnjoysCMS\Core\Components\Auth\Identity $identity)
+    /**
+     * @throws \Exception
+     */
+    public function __construct(EntityManager $entityManager, Identity $identity)
     {
         $this->entityManager = $entityManager;
         $this->user = $identity->getUser();
@@ -34,11 +40,15 @@ class ACL
         $this->aclLists = $this->aclRepository->findAll();
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function access(string $action, string $comment = ''): bool
     {
         $acl = null;
         foreach ($this->aclLists as $item) {
-            if($item->getAction() === $action) {
+            if ($item->getAction() === $action) {
                 $acl = $item;
             }
         }
@@ -59,11 +69,14 @@ class ACL
 
     public function getAcl(string $action)
     {
-        //        return $this->aclRepository->findOneBy(['action' => $action]);
         return $this->aclRepository->findAcl($action);
     }
 
-    public function addAcl(string $action, string $comment = '')
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function addAcl(string $action, string $comment = ''): \EnjoysCMS\Core\Entities\ACL
     {
         $acl = new \EnjoysCMS\Core\Entities\ACL();
         $acl->setAction($action);
@@ -75,7 +88,6 @@ class ACL
         $this->aclLists = $this->aclRepository->findAll();
 
         return $acl;
-        //        return $this->getAcl($action);
     }
 
 }

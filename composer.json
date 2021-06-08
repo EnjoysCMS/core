@@ -1,6 +1,7 @@
 {
   "name": "enjoyscms/core",
   "description": "EnjoysCMS Core",
+  "license": "MIT",
   "require": {
     "oomphinc/composer-installers-extender": "^2.0",
     "monolog/monolog": "~2.2.0",
@@ -27,7 +28,8 @@
     "httpsoft/http-server-request": "^1.0",
     "rybakit/twig-deferred-extension": "^3.0",
     "ramsey/uuid-doctrine": "^1.6",
-    "ramsey/uuid": "^4.1"
+    "ramsey/uuid": "^4.1",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

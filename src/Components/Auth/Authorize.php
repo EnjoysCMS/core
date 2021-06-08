@@ -6,6 +6,9 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Auth;
 
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Enjoys\Cookie\Exception;
 use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\User;
@@ -27,6 +30,11 @@ final class Authorize
         $this->strategy->login($user);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function logout()
     {
         $this->strategy->logout();
