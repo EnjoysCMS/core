@@ -3,6 +3,8 @@
   "description": "EnjoysCMS Core",
   "license": "MIT",
   "require": {
+    "php": "^8.0",
+    "ext-json": "*",
     "oomphinc/composer-installers-extender": "^2.0",
     "monolog/monolog": "~2.2.0",
     "symfony/dotenv": "~v5.2.1",
@@ -28,8 +30,7 @@
     "httpsoft/http-server-request": "^1.0",
     "rybakit/twig-deferred-extension": "^3.0",
     "ramsey/uuid-doctrine": "^1.6",
-    "ramsey/uuid": "^4.1",
-    "ext-json": "*"
+    "ramsey/uuid": "^4.1"
   },
   "autoload": {
     "psr-4": {
