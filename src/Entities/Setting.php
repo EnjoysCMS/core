@@ -53,6 +53,23 @@ class Setting
 
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private bool $removable = false;
+
+
+    public function isRemovable(): bool
+    {
+        return $this->removable;
+    }
+
+    public function setRemovable(bool $removable): void
+    {
+        $this->removable = $removable;
+    }
+
+    /**
      * @return string|null
      */
     public function getValue(): ?string
