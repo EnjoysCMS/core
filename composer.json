@@ -21,7 +21,7 @@
     "symfony/twig-bridge": "^5.2",
     "symfony/http-foundation": "^5.2",
     "enjoys/cookie": "^0.9.5",
-    "enjoys/assets-collector": "^1.0",
+    "enjoys/assets-collector": "^2.0",
     "symfony/config": "^5.2",
     "doctrine/migrations": "^3.0",
     "doctrine/orm": "^2.8",
