@@ -37,7 +37,10 @@ class Locations
      */
     private function setCurrentLocation(Route $route): void
     {
-        $controller = implode('::', $route->getDefault('_controller'));
+        $controller = $route->getDefault('_controller');
+        if (is_array($controller)) {
+            $controller = implode('::', $controller);
+        }
 
         /** @var Entity $entity */
         if (null === $entity = $this->locationsRepository->findOneBy(['location' => $controller])) {
