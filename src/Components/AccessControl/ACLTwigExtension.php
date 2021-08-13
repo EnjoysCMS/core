@@ -86,7 +86,10 @@ class ACLTwigExtension extends AbstractExtension
             if ($routeInfo === null) {
                 throw new InvalidArgumentException(sprintf('Не найден маршрут %s', $route));
             }
-            $action = implode('::', $routeInfo->getDefault('_controller'));
+            $action = $routeInfo->getDefault('_controller');
+            if(is_array($action)) {
+                $action = implode('::', $routeInfo->getDefault('_controller'));
+            }
             $comment = $routeInfo->getOption('aclComment');
             return $this->checkAccess($action, $comment);
         } catch (InvalidArgumentException | OptimisticLockException | ORMException $e) {
