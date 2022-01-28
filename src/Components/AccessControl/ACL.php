@@ -77,20 +77,23 @@ class ACL
      */
     public function addAcl(string $action, string $comment = '', bool $flush = true): \EnjoysCMS\Core\Entities\ACL
     {
-        $acl = new \EnjoysCMS\Core\Entities\ACL();
-        $acl->setAction($action);
+        $new = false;
+        $acl = $this->getAcl($action);
+        if ($acl === null){
+            $acl = new \EnjoysCMS\Core\Entities\ACL();
+            $acl->setAction($action);
+            $new = true;
+        }
         $acl->setComment($comment === '' ? $action : $comment);
         $this->entityManager->persist($acl);
-
-        //after added acl, reload aclList for disable multiple insert
-        $this->aclLists[] = $acl;
 
         if($flush){
             $this->entityManager->flush();
         }
 
-
-
+        if ($new === true){
+            $this->aclLists[] = $acl;
+        }
         return $acl;
     }
 
