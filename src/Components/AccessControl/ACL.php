@@ -34,6 +34,11 @@ class ACL
         $this->aclLists = $this->aclRepository->findAll();
     }
 
+    public function isEmptyAclList(): bool
+    {
+        return empty($this->aclLists);
+    }
+
     /**
      * @throws OptimisticLockException
      * @throws ORMException
@@ -70,16 +75,21 @@ class ACL
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function addAcl(string $action, string $comment = ''): \EnjoysCMS\Core\Entities\ACL
+    public function addAcl(string $action, string $comment = '', bool $flush = true): \EnjoysCMS\Core\Entities\ACL
     {
         $acl = new \EnjoysCMS\Core\Entities\ACL();
         $acl->setAction($action);
-        $acl->setComment($comment);
+        $acl->setComment($comment === '' ? $action : $comment);
         $this->entityManager->persist($acl);
-        $this->entityManager->flush();
 
         //after added acl, reload aclList for disable multiple insert
-        $this->aclLists = $this->aclRepository->findAll();
+        $this->aclLists[] = $acl;
+
+        if($flush){
+            $this->entityManager->flush();
+        }
+
+
 
         return $acl;
     }
