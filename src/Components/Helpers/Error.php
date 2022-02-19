@@ -4,11 +4,13 @@
 namespace EnjoysCMS\Core\Components\Helpers;
 
 
-class Error
+use EnjoysCMS\Core\Error\ErrorInterface;
+
+class Error extends HelpersBase
 {
     public static function code(int $code, string $message = null)
     {
-        $error = new \EnjoysCMS\Core\Error\Error();
+        $error = self::getContainer()->get(ErrorInterface::class);
         $error->http($code, $message);
     }
 

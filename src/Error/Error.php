@@ -16,7 +16,7 @@ use Twig\Loader\FilesystemLoader;
  *
  * @package App\Modules\System\Controller
  */
-final class Error
+final class Error implements ErrorInterface
 {
     /**
      * @var Environment
