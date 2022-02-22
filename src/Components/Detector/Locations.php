@@ -46,7 +46,7 @@ class Locations
         if (null === $entity = $this->locationsRepository->findOneBy(['location' => $controller])) {
             $entity = new Entity();
             $entity->setLocation($controller);
-            $entity->setName($route->getOption('routeName') ?? $controller);
+            $entity->setName($route->getOption('title') ?? $controller);
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
         }
