@@ -3,11 +3,9 @@
   "description": "EnjoysCMS Core",
   "license": "MIT",
   "require": {
-    "php": "^8.0",
+    "php": ">=8.0",
     "ext-json": "*",
-    "oomphinc/composer-installers-extender": "^2.0",
     "monolog/monolog": "~2.2.0",
-    "symfony/dotenv": "~v5.2.1",
     "enjoys/session": "~2.0.0",
     "enjoys/functions": "^2.0",
     "enjoys/config": "^1.0",
