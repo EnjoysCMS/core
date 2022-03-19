@@ -15,19 +15,12 @@ use Symfony\Component\Routing\Route;
 class Locations
 {
     private static Entity $currentLocation;
-    /**
-     * @var EntityManager
-     */
-    private EntityManager $entityManager;
 
     private ObjectRepository|EntityRepository $locationsRepository;
 
-
-    public function __construct(Route $route, EntityManager $entityManager)
+    public function __construct(private EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
         $this->locationsRepository = $entityManager->getRepository(Entity::class);
-        $this->setCurrentLocation($route);
     }
 
 
@@ -35,7 +28,7 @@ class Locations
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    private function setCurrentLocation(Route $route): void
+    public function setCurrentLocation(Route $route): void
     {
         $controller = $route->getDefault('_controller');
         if (is_array($controller)) {
