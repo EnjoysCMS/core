@@ -20,11 +20,7 @@ class Routes extends HelpersBase
 
         /** @var Route $route */
         foreach ($rc->getIterator() as $route) {
-            $controller = $route->getDefaults()['_controller'];
-            if(is_array($controller)){
-                $controller = implode('::', $route->getDefaults()['_controller']);
-            }
-            $activeRouteControllers[] = $controller;
+            $activeRouteControllers[] = implode('::', (array)$route->getDefault('_controller'));
         }
         return $activeRouteControllers;
     }
