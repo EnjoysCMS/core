@@ -11,21 +11,18 @@ use HttpSoft\ServerRequest\ServerRequestCreator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
 
 abstract class BaseController
 {
-    protected ServerRequestInterface $request;
-    protected ResponseInterface $response;
-
-    public function __construct(ResponseInterface $response = null, ServerRequestInterface $request = null)
+    public function __construct(ResponseInterface $response = null)
     {
         $this->response = $response ?? new Response();
-        $this->request = $request ?? ServerRequestCreator::createFromGlobals();
-
     }
 
-
+    private function writeBody(string $body)
+    {
+        $this->response->getBody()->write($body);
+    }
 
     protected function responseText(string $body = ''): ResponseInterface
     {
@@ -40,9 +37,4 @@ abstract class BaseController
         return $this->response;
     }
 
-
-    private function writeBody(string $body)
-    {
-        $this->response->getBody()->write($body);
-    }
 }
