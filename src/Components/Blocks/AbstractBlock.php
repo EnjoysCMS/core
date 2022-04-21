@@ -14,17 +14,8 @@ abstract class AbstractBlock implements BlocksInterface
 
     use Options;
 
-    protected ContainerInterface $container;
-    /**
-     * @var Entity
-     */
-    protected Entity $block;
-
-    public function __construct(ContainerInterface $container, Entity $block)
+    public function __construct(protected Entity $block)
     {
-        $this->container = $container;
-        $this->block = $block;
-
         $this->setOptions($this->block->getOptionsKeyValue());
     }
 

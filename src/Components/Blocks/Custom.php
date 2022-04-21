@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Blocks;
 
 
-use JetBrains\PhpStorm\ArrayShape;
-
 class Custom extends AbstractBlock
 {
 
-    public function view()
+    public function view(): string
     {
         $body = $this->block->getBody();
 
@@ -25,10 +23,7 @@ class Custom extends AbstractBlock
         return '';
     }
 
-
-    #[ArrayShape(
-        ['options' => "array[]"]
-    )]
+    
     public static function getMeta(): array
     {
         return [
