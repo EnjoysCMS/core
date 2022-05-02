@@ -23,7 +23,6 @@ class TokenRepository extends EntityRepository
     {
         $this->gc();
         $this->clearInactiveTokensByUser($currentToken->getUser());
-        $this->clearDuplicateTokens($currentToken);
         $this->clearTokenIfMaxCount($currentToken);
     }
 
@@ -33,7 +32,7 @@ class TokenRepository extends EntityRepository
      */
     public function clearTokenIfMaxCount(Token $currentToken)
     {
-        $maxCount = Config::get('security', 'max_tokens', 5);
+        $maxCount = Config::get('security', 'max_tokens', 10);
         $allTokensCount = $this->count(['user' => $currentToken->getUser()]);
 
         if($allTokensCount <= $maxCount){
@@ -52,27 +51,6 @@ class TokenRepository extends EntityRepository
             ->getResult()
         ;
 
-        foreach ($tokens as $token) {
-            $this->getEntityManager()->remove($token);
-        }
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
-    public function clearDuplicateTokens(Token $currentToken)
-    {
-        $tokens = $this->createQueryBuilder('t')
-            ->select('t')
-            ->where('t.fingerprint = :fingerprint')
-            ->setParameter('fingerprint', $currentToken->getFingerprint())
-            ->andWhere('t.token != :current_token')
-            ->setParameter('current_token', $currentToken->getToken())
-            ->getQuery()
-            ->getResult()
-        ;
         foreach ($tokens as $token) {
             $this->getEntityManager()->remove($token);
         }
