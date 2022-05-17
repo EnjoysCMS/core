@@ -24,9 +24,9 @@ final class Authorize
         $this->strategy = $container->get($strategy);
     }
 
-    public function setAuthorized(User $user)
+    public function setAuthorized(User $user, array $data = [])
     {
-        $this->strategy->login($user);
+        $this->strategy->login($user, $data);
     }
 
     /**
