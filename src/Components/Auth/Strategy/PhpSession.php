@@ -135,7 +135,7 @@ final class PhpSession implements StrategyInterface
             $tokenEntity->getToken(),
             $ttl,
             [
-                'samesite' => $this->config['cookie_samesite'] ?? 'Strict',
+                'samesite' => $this->config['cookie_samesite'] ?? 'Lax',
                 'httponly' => $this->config['cookie_httponly'] ?? true,
             ]
         );
