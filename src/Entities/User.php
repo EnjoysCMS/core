@@ -25,13 +25,12 @@ class User
     /**
      * @ORM\Column(type="string")
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @ORM\Column(type="string", unique=true)
      */
-    protected $login;
-
+    protected string $login;
 
     /**
      * @ORM\Column(name="password", type="string", options={"default": ""})
@@ -41,7 +40,7 @@ class User
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="boolean", options={"default": true})
@@ -76,58 +75,38 @@ class User
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return string
-     */
     public function getPasswordHash(): string
     {
         return $this->passwordHash;
     }
 
-    /**
-     * @param string $passwordHash
-     */
     public function setPasswordHash(string $passwordHash): void
     {
         $this->passwordHash = $passwordHash;
     }
 
-    /**
-     * @param string $password
-     */
     public function genAdnSetPasswordHash(string $password): void
     {
         $this->passwordHash = Password::getHash($password);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLogin()
+    public function getLogin(): string
     {
         return $this->login;
     }
 
-    /**
-     * @param mixed $login
-     */
-    public function setLogin($login): void
+
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }
@@ -208,21 +187,14 @@ class User
         return  !$this->isGuest();
     }
 
-    /**
-     * @return bool
-     */
     public function isEditable(): bool
     {
         return $this->editable;
     }
 
-    /**
-     * @param bool $editable
-     */
     public function setEditable(bool $editable): void
     {
         $this->editable = $editable;
     }
-
 
 }
