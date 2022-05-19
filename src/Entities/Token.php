@@ -74,6 +74,7 @@ class Token
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
