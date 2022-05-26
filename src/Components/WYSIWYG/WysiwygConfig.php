@@ -19,7 +19,7 @@ final class WysiwygConfig
         }
 
         if (is_array($config)){
-            $key = array_key_first($config);
+            $key = array_key_last($config);
             if (!is_string($key)){
                 throw new \InvalidArgumentException('Incorrect editor name set');
             }
