@@ -42,7 +42,9 @@ class WYSIWYG
     {
         $twigTemplate = $this->editor->getTwigTemplate();
         if (!$this->twig->getLoader()->exists($twigTemplate)) {
-            throw new Exception(sprintf("Нет шаблона в по указанному пути: %s", $twigTemplate));
+            throw new Exception(
+                sprintf("WYSIWYG (%s): Нет шаблона в по указанному пути: %s", get_class($this->editor), $twigTemplate)
+            );
         }
         return $this->twig->render(
             $twigTemplate,
@@ -51,6 +53,11 @@ class WYSIWYG
                 'selector' => $selector
             ]
         );
+    }
+
+    public function getEditor(): WysiwygInterface
+    {
+        return $this->editor;
     }
 
     public function setTwig(Environment $twig): void
