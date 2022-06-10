@@ -6,18 +6,20 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Repositories;
 
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
+use Exception;
+
+use function random_int;
 
 class TokenRepository extends EntityRepository
 {
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function clearUsersOldTokens(Token $currentToken)
     {
@@ -26,13 +28,14 @@ class TokenRepository extends EntityRepository
         $this->clearTokenIfMaxCount($currentToken);
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function clearTokenIfMaxCount(Token $currentToken)
     {
-        $maxCount = Config::get('security', 'max_tokens', 10);
+        $maxCount = Config::get('security', 'max_tokens', 0);
+
+        if ($maxCount <= 0){
+            return;
+        }
+
         $allTokensCount = $this->count(['user' => $currentToken->getUser()]);
 
         if($allTokensCount <= $maxCount){
@@ -64,7 +67,7 @@ class TokenRepository extends EntityRepository
             ->where('t.user = :user')
             ->setParameter('user', $user)
             ->andWhere('t.exp < :now')
-            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('now', new DateTimeImmutable())
             ->getQuery()
             ->getResult()
             ;
@@ -75,7 +78,7 @@ class TokenRepository extends EntityRepository
         return $this->createQueryBuilder('t')
             ->delete(Token::class, 't')
             ->andWhere('t.exp < :now')
-            ->setParameter('now', new \DateTimeImmutable())
+            ->setParameter('now', new DateTimeImmutable())
             ->getQuery()
             ->getResult()
             ;
@@ -89,11 +92,11 @@ class TokenRepository extends EntityRepository
     private int $gcProbability = 10;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function gc()
     {
-        if (\random_int(0, 1000000) < $this->gcProbability) {
+        if (random_int(0, 1000000) < $this->gcProbability) {
             $this->clearAllInactiveTokens();
         }
     }
