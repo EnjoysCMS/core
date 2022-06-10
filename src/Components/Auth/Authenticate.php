@@ -9,6 +9,7 @@ namespace EnjoysCMS\Core\Components\Auth;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Detector\Browser;
+use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 
@@ -45,8 +46,10 @@ final class Authenticate
             return false;
         }
 
-        if($tokenEntity->getFingerprint() !== Browser::getFingerprint()){
-            return false;
+        if (Config::get('security', 'check_browser_fingerprint', false)) {
+            if ($tokenEntity->getFingerprint() !== Browser::getFingerprint()) {
+                return false;
+            }
         }
 
         /** @var User $user */
