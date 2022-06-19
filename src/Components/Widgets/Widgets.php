@@ -37,8 +37,7 @@ class Widgets
             $this->logger->notice(sprintf('Not found widget by id: %s', $widgetId), debug_backtrace());
             return null;
         }
-//
-//
+
 //        if (ACL::access(
 //                $widget->getBlockActionAcl(),
 //                ":Блок: Доступ к просмотру блока '{$widget->getName()}'"
@@ -53,16 +52,14 @@ class Widgets
 //            );
 //            return null;
 //        }
-//
-//
-//
-//        /**
-//         *
-//         *
-//         * @var AbstractWidgets $obj
-//         */
-        $class = $widget->getClass();
-        $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
-        return $obj->view();
+
+        try {
+            $class = $widget->getClass();
+            $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
+            return $obj->view();
+        } catch (\Throwable $e) {
+            $this->logger->error(sprintf('Occurred Error: %s', $e->getMessage()), $e->getTrace());
+            return $e->getMessage();
+        }
     }
 }
