@@ -12,9 +12,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Class Error
- *
- * @package App\Modules\System\Controller
+ * @deprecated In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler
  */
 final class Error implements ErrorInterface
 {
@@ -36,6 +34,11 @@ final class Error implements ErrorInterface
 
     public function __construct()
     {
+        trigger_error(
+            'In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler',
+            E_USER_DEPRECATED
+        );
+
         $this->cnf = new Config();
         $this->cnf->addConfig($_ENV['PROJECT_DIR']  . '/config.yml', ['flags' => Yaml::PARSE_CONSTANT], Config::YAML);
         $this->twig = $this->getTwig();
