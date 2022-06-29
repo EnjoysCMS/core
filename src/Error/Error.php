@@ -34,7 +34,7 @@ final class Error implements ErrorInterface
 
     public function __construct()
     {
-        trigger_error(
+        @trigger_error(
             'In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler',
             E_USER_DEPRECATED
         );
