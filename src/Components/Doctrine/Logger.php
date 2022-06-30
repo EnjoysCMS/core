@@ -7,6 +7,9 @@ namespace EnjoysCMS\Core\Components\Doctrine;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated
+ */
 class Logger implements SQLLogger
 {
 
@@ -28,6 +31,11 @@ class Logger implements SQLLogger
 
     public function __construct(LoggerInterface $logger)
     {
+        trigger_deprecation(
+            'enjoyscms/core',
+            '4.3.5',
+            'In the future will be removed.'
+        );
         $this->logger = $logger;
     }
 
