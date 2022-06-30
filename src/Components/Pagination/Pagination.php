@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Pagination;
 
-use EnjoysCMS\Core\Components\Helpers\Error;
+use EnjoysCMS\Core\Exception\NotFoundException;
 
 /**
  * Class Pagination Helper Class
- * @package EnjoysCMS\Core\Components\Pagination
  */
 final class Pagination
 {
@@ -29,7 +27,10 @@ final class Pagination
         $this->offset = $this->initOffset();
     }
 
-    public function setTotalItems(int $count)
+    /**
+     * @throws NotFoundException
+     */
+    public function setTotalItems(int $count): void
     {
         $this->totalItems = $count;
 
@@ -38,6 +39,9 @@ final class Pagination
         $this->setPrevPage();
     }
 
+    /**
+     * @throws NotFoundException
+     */
     private function initTotalPages(): void
     {
         $this->totalPages = (int)ceil($this->getTotalItems() / $this->getLimitItems());
@@ -59,9 +63,6 @@ final class Pagination
         return (int)$limitItems;
     }
 
-    /**
-     * @return int|null
-     */
     public function getNextPage(): ?int
     {
         return $this->nextPage;
@@ -78,9 +79,6 @@ final class Pagination
         $this->nextPage = $nextPage;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPrevPage(): ?int
     {
         return $this->prevPage;
@@ -96,17 +94,11 @@ final class Pagination
         $this->prevPage = $prevPage;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     */
     private function setActive(bool $active): void
     {
         $this->active = $active;
@@ -122,53 +114,38 @@ final class Pagination
         return $this->getLimitItems() * ($this->getCurrentPage() - 1);
     }
 
-    /**
-     * @return int
-     */
     public function getLimitItems(): int
     {
         return $this->limitItems;
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentPage(): int
     {
         return $this->currentPage;
     }
 
-    /**
-     * @return int
-     */
     public function getTotalItems(): int
     {
         return $this->totalItems;
     }
 
-    /**
-     * @return int
-     */
     public function getTotalPages(): int
     {
         return $this->totalPages;
     }
 
-    /**
-     * @return int
-     */
     public function getOffset(): int
     {
         return $this->offset;
     }
 
-    private function validate()
+    /**
+     * @throws NotFoundException
+     */
+    private function validate(): void
     {
         if ($this->getTotalPages() < $this->getCurrentPage()) {
-            Error::code(
-                404,
-                sprintf('Max page is %s, you are try get %s', $this->getTotalPages(), $this->getCurrentPage())
-            );
+            throw new NotFoundException(sprintf('Max page is %s, you are try get %s', $this->getTotalPages(), $this->getCurrentPage()));
         }
 
         if ($this->getTotalPages() === 1) {
