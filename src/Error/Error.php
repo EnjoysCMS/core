@@ -34,9 +34,10 @@ final class Error implements ErrorInterface
 
     public function __construct()
     {
-        @trigger_error(
-            'In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler',
-            E_USER_DEPRECATED
+        trigger_deprecation(
+            'enjoyscms/core',
+            '4.3.1',
+            'In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler'
         );
 
         $this->cnf = new Config();
@@ -45,6 +46,9 @@ final class Error implements ErrorInterface
         $this->emitter = new SapiEmitter();
     }
 
+    /**
+     * @deprecated In version 4.5 will be removed. Throw EnjoysCMS\Core\Exception and use package enjoyscms/error-handler
+     */
     public function http(int $code, string $message = null)
     {
         $template = 'error.twig';
