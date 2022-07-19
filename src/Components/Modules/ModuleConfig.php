@@ -7,21 +7,29 @@ namespace EnjoysCMS\Core\Components\Modules;
 
 
 use Enjoys\Config\Config;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 final class ModuleConfig
 {
 
-    private ?array $config;
+    private bool $strict = true;
 
-    private Config $containerConfig;
+    private ?array $config;
 
     private ?Module $module;
 
-    public function __construct(string $moduleName, ContainerInterface $container)
-    {
-        $this->module = $container->get(ModuleCollection::class)->find($moduleName);
+    /**
+     * @param string $moduleName
+     * @param Config $config
+     * @param ModuleCollection $moduleCollection
+     * @throws \Exception
+     */
+    public function __construct(
+        string $moduleName,
+        Config $config,
+        ModuleCollection $moduleCollection
+    ) {
+        $this->module = $moduleCollection->find($moduleName);
 
         if ($this->module === null) {
             throw new \InvalidArgumentException(
@@ -29,19 +37,17 @@ final class ModuleConfig
             );
         }
 
-        $this->containerConfig = $container->get('Config');
-
-        $this->initConfig();
+        $this->init($config);
     }
 
 
     /**
      * @throws \Exception
      */
-    private function initConfig(): void
+    private function init(Config $config): void
     {
         if (file_exists($this->module->path . '/config.yml')) {
-            $this->containerConfig->addConfig(
+            $config->addConfig(
                 [
                     $this->module->packageName => file_get_contents($this->module->path . '/config.yml')
                 ],
@@ -51,26 +57,52 @@ final class ModuleConfig
             );
         }
 
-        $this->config = $this->containerConfig->getConfig($this->module->packageName);
+        $this->config = $config->getConfig($this->module->packageName);
+    }
+
+    public function strict(bool $strict): ModuleConfig
+    {
+        $this->strict = $strict;
+        return $this;
     }
 
     /**
      * @param string $key
+     * @param null $default
      * @return mixed
      */
-    public function get(string $key): mixed
+    public function get(string $key, $default = null): mixed
     {
         if (array_key_exists($key, (array)$this->config)) {
             return $this->config[$key];
         }
 
-        throw new \InvalidArgumentException(
-            sprintf('Config param [%s => %s] not found', $this->module->packageName, $key)
-        );
+        if ($this->strict) {
+            throw new \InvalidArgumentException(
+                sprintf('Config param [%s => %s] not found', $this->module->packageName, $key)
+            );
+        }
+
+        return $default;
     }
 
+    /**
+     * @deprecated since 4.3.7. use asArray()
+     */
     public function getAll(): array
+    {
+        return $this->asArray();
+    }
+
+    public function asArray(): array
     {
         return (array)$this->config;
     }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+
 }
