@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-
 namespace  EnjoysCMS\Core\StorageUpload;
 
-
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 
@@ -22,7 +19,7 @@ final class Local implements StorageUploadInterface
         $this->publicUrl = rtrim($publicUrl, '/') . '/';
     }
 
-    public function getFileSystem(): FilesystemOperator
+    public function getFileSystem(): Filesystem
     {
         return new Filesystem(
             new LocalFilesystemAdapter(

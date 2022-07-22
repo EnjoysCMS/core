@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\StorageUpload;
-
 
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\AwsS3V3\PortableVisibilityConverter;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
 
 final class S3 implements StorageUploadInterface
@@ -36,7 +33,7 @@ final class S3 implements StorageUploadInterface
         $this->filesystem = new Filesystem($this->adapter);
     }
 
-    public function getFileSystem(): FilesystemOperator
+    public function getFileSystem(): Filesystem
     {
         return $this->filesystem;
     }
