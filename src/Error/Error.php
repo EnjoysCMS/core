@@ -41,7 +41,7 @@ final class Error implements ErrorInterface
         );
 
         $this->cnf = new Config();
-        $this->cnf->addConfig($_ENV['PROJECT_DIR']  . '/config.yml', ['flags' => Yaml::PARSE_CONSTANT], Config::YAML);
+        $this->cnf->addConfig(getenv('ROOT_PATH')  . '/config.yml', ['flags' => Yaml::PARSE_CONSTANT], Config::YAML);
         $this->twig = $this->getTwig();
         $this->emitter = new SapiEmitter();
     }
@@ -76,7 +76,7 @@ final class Error implements ErrorInterface
     {
 
         $twig_config = $this->cnf->getConfig('twig');
-        $loader = new FilesystemLoader('/', $_ENV['PROJECT_DIR'] . $twig_config['template_dir'].'/errors');
+        $loader = new FilesystemLoader('/', getenv('ROOT_PATH') . $twig_config['template_dir'].'/errors');
 
         $twig = new Environment(
             $loader,
