@@ -8,10 +8,10 @@ namespace EnjoysCMS\Core\Components\WYSIWYG;
 
 final class WysiwygConfig
 {
-    private string $editorName;
+    private string|null $editorName = null;
     private string|array|null $params = null;
 
-    public function __construct(array|string $config)
+    public function __construct(array|string|null $config)
     {
 
         if (is_string($config)){
@@ -32,7 +32,7 @@ final class WysiwygConfig
 
     }
 
-    public function getEditorName(): string
+    public function getEditorName(): ?string
     {
         return $this->editorName;
     }

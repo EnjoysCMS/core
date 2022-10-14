@@ -4,8 +4,10 @@
 namespace EnjoysCMS\Core\Components\WYSIWYG;
 
 
+use DI\Container;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Exception;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -20,15 +22,24 @@ class WYSIWYG
     {
     }
 
-    public static function getInstance($editorName, ContainerInterface $container): WYSIWYG
+    /**
+     * @throws NotFoundException
+     * @throws DependencyException
+     */
+    public static function getInstance(string|null $editorName, Container $container): ?WYSIWYG
     {
+        if (is_null($editorName)) {
+            return null;
+        }
+
         $twig = $container->get(Environment::class);
         try {
-            $wysiwyg = new self($container->get($editorName), $twig);
+            $wysiwyg = new self($container->make($editorName), $twig);
         } catch (\Error $error) {
             $wysiwyg = new self(new NullEditor(), $twig);
             $container->get(LoggerInterface::class)->withName('WYSIWYG')->error($error->getMessage());
         }
+
         return $wysiwyg;
     }
 
