@@ -6,6 +6,7 @@ namespace EnjoysCMS\Core\Components\Doctrine\MappingDriver;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
+use Doctrine\ORM\Mapping\Driver\CompatibilityAnnotationDriver;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\Persistence\Mapping\ClassMetadata;
