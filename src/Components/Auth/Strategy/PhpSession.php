@@ -48,7 +48,9 @@ final class PhpSession implements StrategyInterface
             ]
         );
 
-        $this->writeToken($user, $data['token'] ?? null);
+        if ($data['remember'] ?? true){
+            $this->writeToken($user, $data['token'] ?? null);
+        }
     }
 
     /**
