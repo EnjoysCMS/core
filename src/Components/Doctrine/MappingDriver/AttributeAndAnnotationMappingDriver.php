@@ -49,8 +49,10 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 
     public function isTransient($className): bool
     {
-        return $this->attributeDriver->isTransient($className)
-            || $this->annotationDriver->isTransient($className);
+        if (in_array($className, $this->attributeDriver->getAllClassNames(), true)){
+            return $this->attributeDriver->isTransient($className);
+        }
+        return  $this->annotationDriver->isTransient($className);
     }
 
     /**
