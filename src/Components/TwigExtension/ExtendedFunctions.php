@@ -18,6 +18,22 @@ final class ExtendedFunctions extends AbstractExtension
         );
     }
 
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('callstatic', function ($class_method_string, ...$args) {
+                list($class, $method) = explode('::', $class_method_string);
+                if (!class_exists($class)) {
+                    throw new \Exception("Cannot call static method $method on Class $class: Invalid Class");
+                }
+                if (!method_exists($class, $method)) {
+                    throw new \Exception("Cannot call static method $method on Class $class: Invalid method");
+                }
+                return forward_static_call_array([$class, $method], $args);
+            })
+        ];
+    }
+
     public function getFilters(): array
     {
         return [
