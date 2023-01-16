@@ -44,6 +44,7 @@ class WYSIWYG
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
+     * @throws Exception
      */
     public function selector(string $selector): string
     {

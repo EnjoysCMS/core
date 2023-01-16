@@ -2,10 +2,14 @@
 
 namespace EnjoysCMS\Core\Components\TwigExtension;
 
+use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 
 class TwigLoader extends FilesystemLoader
 {
+    /**
+     * @throws LoaderError
+     */
     protected function findTemplate(string $name, bool $throw = true)
     {
         if (isset($this->cache[$name])) {

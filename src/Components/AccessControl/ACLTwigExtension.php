@@ -2,8 +2,8 @@
 
 namespace EnjoysCMS\Core\Components\AccessControl;
 
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouteCollection;
@@ -46,6 +46,7 @@ class ACLTwigExtension extends AbstractExtension
             new TwigFunction('accessInRoutes', [$this, 'checkAccessToRoutes'], ['is_safe' => ['html']]),
         ];
     }
+
 
     /**
      * @throws OptimisticLockException
@@ -100,9 +101,6 @@ class ACLTwigExtension extends AbstractExtension
         }
     }
 
-    /**
-     * @return bool
-     */
     public function isDisableCheck(): bool
     {
         return $this->disableCheck;

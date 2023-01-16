@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Auth\Strategy;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Enjoys\Cookie\Cookie;
 use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
@@ -18,12 +19,18 @@ use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Ramsey\Uuid\Uuid;
 
 final class PhpSession implements StrategyInterface
 {
     private ?array $config;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(private EntityManager $em, private Session $session, private Cookie $cookie)
     {
         $this->config = Config::getAll('security');
@@ -51,6 +58,7 @@ final class PhpSession implements StrategyInterface
         }
     }
 
+
     /**
      * @throws OptimisticLockException
      * @throws Exception
@@ -67,9 +75,11 @@ final class PhpSession implements StrategyInterface
     }
 
     /**
-     * @throws OptimisticLockException
+     * @throws ContainerExceptionInterface
      * @throws Exception
+     * @throws NotFoundExceptionInterface
      * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function getAuthorizedData(): ?AuthorizedData
     {
@@ -82,9 +92,11 @@ final class PhpSession implements StrategyInterface
     }
 
     /**
-     * @throws OptimisticLockException
+     * @throws ContainerExceptionInterface
      * @throws Exception
+     * @throws NotFoundExceptionInterface
      * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function isAuthorized($retry = 0): bool
     {
@@ -110,10 +122,11 @@ final class PhpSession implements StrategyInterface
      * @throws OptimisticLockException
      * @throws Exception
      * @throws ORMException
+     * @throws \Exception
      */
     public function writeToken(User $user, string $token = null)
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
         $ttl = $now->modify($this->config['autologin_cookie_ttl']);
 
         /** @var TokenRepository $tokenRepository */
@@ -145,6 +158,7 @@ final class PhpSession implements StrategyInterface
 
         $tokenRepository->clearUsersOldTokens($tokenEntity);
     }
+
 
     /**
      * @throws OptimisticLockException

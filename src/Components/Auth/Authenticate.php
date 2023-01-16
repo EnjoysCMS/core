@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Auth;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Detector\Browser;
 use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 final class Authenticate
 {
@@ -30,9 +33,13 @@ final class Authenticate
         return Password::verify($password, $this->user->getPasswordHash());
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function checkToken(string $token): bool
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
         $tokenRepository = $this->em->getRepository(Token::class);
         /** @var Token $tokenEntity */
         $tokenEntity = $tokenRepository->find($token);

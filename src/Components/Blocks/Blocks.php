@@ -13,8 +13,9 @@ use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Entities\Block;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-use Twig\Environment;
 
 class Blocks
 {
@@ -31,15 +32,10 @@ class Blocks
     {
         $this->entityManager = $container->get(EntityManager::class);
         $this->bocksRepository = $this->entityManager->getRepository(Block::class);
-        //  $this->twig = $container->get(Environment::class);
         $this->logger = $container->get(LoggerInterface::class)->withName('Blocks');
     }
 
 
-    /**
-     * @param int|string $id
-     * @return Block|null
-     */
     private function findBlockEntity(int|string $id): ?Block
     {
         if (is_numeric($id)) {
@@ -50,10 +46,10 @@ class Blocks
 
 
     /**
-     * @param int|string $blockId
-     * @return string|null
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getBlock(int|string $blockId): ?string
     {

@@ -2,10 +2,16 @@
 
 namespace EnjoysCMS\Core\Components\Helpers;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Setting extends HelpersBase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public static function get(string $key, $default = null)
     {
         $settings = self::$container->get('Setting');

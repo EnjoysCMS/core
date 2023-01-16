@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Helpers;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
 /**
  * Class Config
  *
@@ -11,11 +14,10 @@ namespace EnjoysCMS\Core\Components\Helpers;
  */
 class Config extends HelpersBase
 {
+
     /**
-     * @param  string $section
-     * @param  string $key
-     * @param  null   $default
-     * @return mixed|null
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public static function get(string $section, string $key, $default = null)
     {
@@ -30,6 +32,10 @@ class Config extends HelpersBase
         return $default;
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public static function getAll(string $section)
     {
         return self::$container->get('Config')->getConfig($section);

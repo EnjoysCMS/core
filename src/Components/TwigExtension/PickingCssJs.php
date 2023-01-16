@@ -7,9 +7,6 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
- * Class PickingCssJs
- *
- * @package App\Components\TwigExtension
  * @TODO    все названия тут нахрен поменять, sanitize вынести в отдельный класс, или даже пакет
  */
 class PickingCssJs extends AbstractExtension
@@ -18,7 +15,7 @@ class PickingCssJs extends AbstractExtension
     private static array $styles = [];
     private bool $nocatch = false;
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('scriptsCatcher', [$this, 'scriptsCatcher'], ['is_safe' => ['all']]),
@@ -46,7 +43,7 @@ class PickingCssJs extends AbstractExtension
         return implode("\n", static::$scripts);
     }
 
-    public function noCatch(?string $body)
+    public function noCatch(?string $body): string|null
     {
         return preg_replace("/(<script[^>]*?>)(.*?)(<\/script>)/simu", "$1\n//DO_NOT_CATCH//\n$2$3", $body);
     }

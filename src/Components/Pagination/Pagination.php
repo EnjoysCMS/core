@@ -6,9 +6,6 @@ namespace EnjoysCMS\Core\Components\Pagination;
 
 use EnjoysCMS\Core\Exception\NotFoundException;
 
-/**
- * Class Pagination Helper Class
- */
 final class Pagination
 {
     private int $currentPage;
