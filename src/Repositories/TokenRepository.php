@@ -15,6 +15,7 @@ use function random_int;
 
 class TokenRepository extends EntityRepository
 {
+
     /**
      * @throws Exception
      */
@@ -83,8 +84,8 @@ class TokenRepository extends EntityRepository
 
     /**
      * gcProbability int 10 the probability (parts per million) that garbage collection (GC) should be performed
-     *      when storing a piece of data in the cache. Defaults to 10, meaning 0.001% chance.
-     *      This number should be between 0 and 1000000. A value 0 means no GC will be performed at all.
+     * when storing a piece of data in the cache. Defaults to 10, meaning 0.001% chance.
+     * This number should be between 0 and 1000000. A value 0 means no GC will be performed at all.
      */
     private int $gcProbability = 10;
 

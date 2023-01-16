@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core;
 
 use HttpSoft\Message\Response;
-use HttpSoft\ServerRequest\ServerRequestCreator;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 abstract class BaseController
 {
