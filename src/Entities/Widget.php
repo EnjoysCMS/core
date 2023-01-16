@@ -97,12 +97,12 @@ class Widget
         $this->cacheTtl = $cacheTtl;
     }
 
-    public function getWidgetActionAcl()
+    public function getWidgetActionAcl(): string
     {
         return "{$this->getClass()}::view({$this->getId()})";
     }
 
-    public function getWidgetCommentAcl()
+    public function getWidgetCommentAcl(): string
     {
         return ":Widget: Доступ к просмотру блока '{$this->getName()}'";
     }

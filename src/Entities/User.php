@@ -2,6 +2,7 @@
 
 namespace EnjoysCMS\Core\Entities;
 
+use Doctrine\Common\Collections\Collection;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,6 +22,7 @@ class User
      * @ORM\GeneratedValue
      */
     protected $id;
+
     /**
      * @ORM\Column(type="string")
      */
@@ -51,7 +53,7 @@ class User
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
      * @ORM\JoinTable(name="users_groups")
      */
-    private $groups;
+    private Collection $groups;
 
 
     public function __construct()
@@ -64,12 +66,12 @@ class User
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -104,14 +106,13 @@ class User
         return $this->login;
     }
 
-
     public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
 
-    public function getGroups()
+    public function getGroups(): Collection
     {
         return $this->groups;
     }
@@ -125,17 +126,6 @@ class User
 
         return $ids;
     }
-    //
-    //    public function getGroupNames(): array
-    //    {
-    //        $names = [];
-    //        /** @var Groups $group */
-    //        foreach ($this->getGroups() as $group) {
-    //            $names[] = $group->getName();
-    //        }
-    //
-    //        return $names;
-    //    }
 
     public function getAclAccessIds(): array
     {
@@ -149,9 +139,6 @@ class User
         return array_unique($ids);
     }
 
-    /**
-     * @param Group $groups
-     */
     public function setGroups(Group $groups): void
     {
         if ($this->groups->contains($groups)) {
@@ -160,7 +147,7 @@ class User
         $this->groups[] = $groups;
     }
 
-    public function removeGroups()
+    public function removeGroups(): void
     {
         $this->groups = new ArrayCollection();
     }
