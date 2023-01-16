@@ -24,15 +24,26 @@
         "httpsoft/http-emitter": "^1.0",
         "httpsoft/http-message": "^1.0",
         "httpsoft/http-server-request": "^1.0",
-        "rybakit/twig-deferred-extension": "^3.0",
+        "rybakit/twig-deferred-extension": "dev-master#54402209bbf01a57d8a86212eac1ecfc84d5d1ed",
         "ramsey/uuid-doctrine": "^1.6",
         "ramsey/uuid": "^4.1",
         "league/flysystem": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
     "autoload": {
         "psr-4": {
             "EnjoysCMS\\Core\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\EnjoysCMS": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
