@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Widgets;
-
 
 use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
@@ -10,7 +8,6 @@ use Twig\TwigFunction;
 
 class WidgetsTwigExtension extends AbstractExtension
 {
-
     private Widgets $widgets;
 
     public function __construct(ContainerInterface $container)
@@ -25,7 +22,7 @@ class WidgetsTwigExtension extends AbstractExtension
         ];
     }
 
-    public function viewWidget(int $id):? string
+    public function viewWidget(int $id): ?string
     {
         return $this->widgets->getWidget($id);
     }

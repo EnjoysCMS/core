@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\WYSIWYG;
-
 
 use DI\Container;
 use DI\DependencyException;
@@ -16,8 +14,6 @@ use Twig\Error\SyntaxError;
 
 class WYSIWYG
 {
-
-
     public function __construct(private WysiwygInterface $editor, private Environment $twig)
     {
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
-
 use DI\DependencyException;
 use DI\FactoryInterface;
 use DI\NotFoundException;

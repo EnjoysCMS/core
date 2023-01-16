@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
-
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -164,5 +162,4 @@ class Setting
     {
         $this->var = $var;
     }
-
 }

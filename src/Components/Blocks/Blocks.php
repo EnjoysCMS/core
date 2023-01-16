@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
-
 use DI\DependencyException;
 use DI\FactoryInterface;
 use DI\NotFoundException;
@@ -19,7 +18,6 @@ use Twig\Environment;
 
 class Blocks
 {
-
     private ObjectRepository|EntityRepository $bocksRepository;
     private LoggerInterface $logger;
     private EntityManager $entityManager;
@@ -68,10 +66,12 @@ class Blocks
         }
 
 
-        if (ACL::access(
+        if (
+            ACL::access(
                 $block->getBlockActionAcl(),
                 ":Блок: Доступ к просмотру блока '{$block->getName()}'"
-            ) === false) {
+            ) === false
+        ) {
             $this->logger->debug(
                 sprintf("Access not allowed to block: '%s'", $block->getName()),
                 [

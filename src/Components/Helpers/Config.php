@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Helpers;
@@ -10,7 +11,6 @@ namespace EnjoysCMS\Core\Components\Helpers;
  */
 class Config extends HelpersBase
 {
-
     /**
      * @param  string $section
      * @param  string $key
@@ -23,7 +23,7 @@ class Config extends HelpersBase
             return  $default;
         }
 
-        if(array_key_exists($key, $config)) {
+        if (array_key_exists($key, $config)) {
             return $config[$key];
         }
 
@@ -34,5 +34,4 @@ class Config extends HelpersBase
     {
         return self::$container->get('Config')->getConfig($section);
     }
-
 }

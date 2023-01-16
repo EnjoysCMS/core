@@ -15,7 +15,6 @@ use EnjoysCMS\Core\Components\Helpers\Config;
  */
 class Token
 {
-
     public static function getTokenName()
     {
         return Config::get('security', 'token_name', '_token_refresh');

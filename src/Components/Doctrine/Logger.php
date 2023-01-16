@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Doctrine;
-
 
 use Doctrine\DBAL\Logging\SQLLogger;
 use Psr\Log\LoggerInterface;
@@ -12,7 +10,6 @@ use Psr\Log\LoggerInterface;
  */
 class Logger implements SQLLogger
 {
-
     /**
      * @var LoggerInterface
      */

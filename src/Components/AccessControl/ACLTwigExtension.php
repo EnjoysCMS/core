@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\AccessControl;
-
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -87,7 +85,7 @@ class ACLTwigExtension extends AbstractExtension
                 throw new InvalidArgumentException(sprintf('Не найден маршрут %s', $route));
             }
             $action = $routeInfo->getDefault('_controller');
-            if(is_array($action)) {
+            if (is_array($action)) {
                 $action = implode('::', $routeInfo->getDefault('_controller'));
             }
             $comment = $routeInfo->getOption('aclComment');
@@ -118,4 +116,3 @@ class ACLTwigExtension extends AbstractExtension
         $this->disableCheck = $disableCheck;
     }
 }
-

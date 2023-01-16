@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
@@ -17,7 +15,6 @@ use function random_int;
 
 class TokenRepository extends EntityRepository
 {
-
     /**
      * @throws Exception
      */
@@ -32,13 +29,13 @@ class TokenRepository extends EntityRepository
     {
         $maxCount = Config::get('security', 'max_tokens', 0);
 
-        if ($maxCount <= 0){
+        if ($maxCount <= 0) {
             return;
         }
 
         $allTokensCount = $this->count(['user' => $currentToken->getUser()]);
 
-        if($allTokensCount <= $maxCount){
+        if ($allTokensCount <= $maxCount) {
             return;
         }
 
@@ -49,7 +46,7 @@ class TokenRepository extends EntityRepository
             ->andWhere('t.user = :user')
             ->setParameter('user', $currentToken->getUser())
             ->orderBy('t.lastUsed', 'desc')
-            ->setMaxResults($allTokensCount-$maxCount)
+            ->setMaxResults($allTokensCount - $maxCount)
             ->getQuery()
             ->getResult()
         ;

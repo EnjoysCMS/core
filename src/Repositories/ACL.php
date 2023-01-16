@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use EnjoysCMS\Core\Components\Helpers\Blocks;
 use EnjoysCMS\Core\Components\Helpers\Routes;
@@ -11,7 +9,6 @@ use Doctrine\ORM\ORMException;
 
 class ACL extends EntityRepository
 {
-
     public function findAcl(string $action): ?\EnjoysCMS\Core\Entities\ACL
     {
         return $this->findOneBy(['action' => $action]);

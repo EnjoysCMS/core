@@ -1,15 +1,12 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\Helpers\Config;
 
 class Setting extends EntityRepository
 {
-
     public function findAllKeyVar()
     {
         return $this->createQueryBuilder('s')

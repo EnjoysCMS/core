@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -107,6 +106,4 @@ class Widget
     {
         return ":Widget: Доступ к просмотру блока '{$this->getName()}'";
     }
-
-
 }

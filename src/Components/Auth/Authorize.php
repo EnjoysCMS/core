@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
-
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;

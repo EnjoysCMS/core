@@ -42,5 +42,4 @@ final class S3 implements StorageUploadInterface
     {
         return $this->client->getObjectUrl($this->bucket, $this->prefix . $path);
     }
-
 }

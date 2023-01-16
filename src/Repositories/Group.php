@@ -1,14 +1,11 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use Doctrine\ORM\EntityRepository;
 
 class Group extends EntityRepository
 {
-
     public function getListGroupsForSelectForm(): array
     {
         $groups = $this->findAll();
@@ -31,5 +28,4 @@ class Group extends EntityRepository
         }
         return $groupsArray;
     }
-
 }

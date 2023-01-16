@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\AccessControl;
-
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -79,7 +77,7 @@ class ACL
     {
         $new = false;
         $acl = $this->getAcl($action);
-        if ($acl === null){
+        if ($acl === null) {
             $acl = new \EnjoysCMS\Core\Entities\ACL();
             $acl->setAction($action);
             $new = true;
@@ -87,14 +85,13 @@ class ACL
         $acl->setComment($comment === '' ? $action : $comment);
         $this->entityManager->persist($acl);
 
-        if($flush){
+        if ($flush) {
             $this->entityManager->flush();
         }
 
-        if ($new === true){
+        if ($new === true) {
             $this->aclLists[] = $acl;
         }
         return $acl;
     }
-
 }

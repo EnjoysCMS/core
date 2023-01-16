@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
-
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -13,8 +11,6 @@ use EnjoysCMS\Core\Entities\User;
 
 final class Identity
 {
-
-
     private ObjectRepository|EntityRepository $usersRepository;
 
     private ?User $user = null;
@@ -53,5 +49,4 @@ final class Identity
 
         $this->user = $this->getUserById($userData->userId);
     }
-
 }

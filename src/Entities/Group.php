@@ -167,6 +167,4 @@ class Group
     {
         $this->system = $system;
     }
-
-
 }

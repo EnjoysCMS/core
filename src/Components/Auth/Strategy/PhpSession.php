@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth\Strategy;
-
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -48,7 +46,7 @@ final class PhpSession implements StrategyInterface
             ]
         );
 
-        if ($data['remember'] ?? true){
+        if ($data['remember'] ?? true) {
             $this->writeToken($user, $data['token'] ?? null);
         }
     }

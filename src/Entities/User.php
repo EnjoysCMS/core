@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
 
 use EnjoysCMS\Core\Components\AccessControl\Password;
@@ -168,7 +167,7 @@ class User
 
     public function isGuest(): bool
     {
-        if($this->getId() != self::GUEST_ID) {
+        if ($this->getId() != self::GUEST_ID) {
             return false;
         }
         return true;
@@ -196,5 +195,4 @@ class User
     {
         $this->editable = $editable;
     }
-
 }

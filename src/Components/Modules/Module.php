@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Modules;
-
 
 class Module
 {
@@ -17,20 +15,19 @@ class Module
 
     public function __construct(object $data)
     {
-        foreach ($data as $k => $v){
+        foreach ($data as $k => $v) {
             $this->$k = $v;
         }
         $this->path = $this->installPath;
         $this->moduleName = $this->packageName;
         $this->routePath = $this->getRoutePath();
 
-        if(isset($this->extra->{'module-name'})) {
+        if (isset($this->extra->{'module-name'})) {
             $this->moduleName =  $this->extra->{'module-name'};
         }
-        if(isset($this->extra->{'admin-links'})) {
+        if (isset($this->extra->{'admin-links'})) {
             $this->adminLinks =  (array)$this->extra->{'admin-links'};
         }
-
     }
 
 
@@ -47,5 +44,4 @@ class Module
 
         return null;
     }
-
 }

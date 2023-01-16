@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
-
 
 use EnjoysCMS\Core\Entities\User;
 

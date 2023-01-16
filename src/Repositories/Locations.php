@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Entities\Location;

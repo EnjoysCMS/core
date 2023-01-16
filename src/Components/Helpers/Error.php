@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
-
 
 use EnjoysCMS\Core\Error\ErrorInterface;
 
@@ -11,7 +9,6 @@ use EnjoysCMS\Core\Error\ErrorInterface;
  */
 class Error extends HelpersBase
 {
-
     public static function code(int $code, string $message = null)
     {
         trigger_deprecation(
@@ -24,5 +21,4 @@ class Error extends HelpersBase
         $error = self::getContainer()->get(ErrorInterface::class);
         $error->http($code, $message);
     }
-
 }

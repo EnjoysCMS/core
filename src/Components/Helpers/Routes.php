@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
-
 
 use Symfony\Component\Routing\Route;
 
@@ -24,5 +22,4 @@ class Routes extends HelpersBase
         }
         return $activeRouteControllers;
     }
-
 }

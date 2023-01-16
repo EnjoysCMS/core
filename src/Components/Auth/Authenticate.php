@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
-
 
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\Components\AccessControl\Password;
@@ -67,6 +65,4 @@ final class Authenticate
     {
         $this->user = $user;
     }
-
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Widgets;
-
 
 use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;
@@ -13,7 +11,6 @@ use Twig\Environment;
 
 class Widgets
 {
-
     private \EnjoysCMS\Core\Repositories\Widgets $widgetsRepository;
     private Environment $twig;
     private LoggerInterface $logger;

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core;
-
 
 use HttpSoft\Message\Response;
 use HttpSoft\ServerRequest\ServerRequestCreator;
@@ -36,5 +34,4 @@ abstract class BaseController
         $this->writeBody(json_encode($data));
         return $this->response;
     }
-
 }

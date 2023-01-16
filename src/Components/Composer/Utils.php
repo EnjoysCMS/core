@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Composer;
 
 use Composer\Autoload\ClassLoader;
@@ -8,7 +7,6 @@ use JetBrains\PhpStorm\Pure;
 
 class Utils
 {
-
     public static function findFilePathByClassName(string $classname): bool|string
     {
         $loaders = ClassLoader::getRegisteredLoaders();

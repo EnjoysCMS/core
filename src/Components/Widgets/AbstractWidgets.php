@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Widgets;
-
 
 use EnjoysCMS\Core\Entities\Widget as Entity;
 use Enjoys\Traits\Options;
@@ -11,7 +9,6 @@ use Twig\Environment;
 
 abstract class AbstractWidgets
 {
-
     use Options;
 
     protected Environment $twig;

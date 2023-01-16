@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -72,5 +71,4 @@ class Location
     {
         $this->name = $name;
     }
-
 }

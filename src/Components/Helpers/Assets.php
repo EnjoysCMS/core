@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
 
 use Enjoys\AssetsCollector;
@@ -38,5 +37,4 @@ class Assets extends HelpersBase
     //        $assets = self::$container->get(AssetsCollector\Assets::class);
     //        $assets->getJs($ns);
     //    }
-
 }

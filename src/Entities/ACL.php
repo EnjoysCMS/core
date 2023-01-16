@@ -1,16 +1,11 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
- * Class ACL
- *
- * @package                                                       App\Modules\System\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\ACL")
  * @ORM\Table(name="acl")
  */
@@ -49,12 +44,12 @@ class ACL
 
     public function removeGroups(?Group $groups = null)
     {
-        if($groups === null) {
+        if ($groups === null) {
             $this->groups->clear();
             return;
         }
 
-        if(!$this->groups->contains($groups)) {
+        if (!$this->groups->contains($groups)) {
             return;
         }
 
@@ -75,7 +70,6 @@ class ACL
     public function setGroupsCollection(array $groups)
     {
         $this->groups = new ArrayCollection($groups);
-
     }
 
     /**
@@ -125,6 +119,4 @@ class ACL
     {
         $this->comment = $comment;
     }
-
-
 }

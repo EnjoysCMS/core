@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
-
 
 use HttpSoft\Emitter\SapiEmitter;
 use HttpSoft\Message\Response;
@@ -13,7 +11,8 @@ class Redirect
     public static function http($uri = null, $code = 302)
     {
         $response = new Response(
-            $code, [
+            $code,
+            [
             'Location' => $uri ?? self::getCurrentUri()->__toString()
             ]
         );
@@ -33,6 +32,4 @@ class Redirect
         $request = ServerRequestCreator::create();
         return $request->getUri();
     }
-
-
 }

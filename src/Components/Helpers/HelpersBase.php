@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
-
 
 use Psr\Container\ContainerInterface;
 

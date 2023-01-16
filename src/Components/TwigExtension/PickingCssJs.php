@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\TwigExtension;
-
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

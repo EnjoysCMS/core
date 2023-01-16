@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\WYSIWYG;
-
 
 final class WysiwygConfig
 {
@@ -14,22 +12,20 @@ final class WysiwygConfig
     public function __construct(array|string|null $config)
     {
 
-        if (is_string($config)){
+        if (is_string($config)) {
             $this->editorName = $config;
         }
 
-        if (is_array($config)){
+        if (is_array($config)) {
             $key = array_key_last($config);
-            if (!is_string($key)){
+            if (!is_string($key)) {
                 throw new \InvalidArgumentException('Incorrect editor name set');
             }
 
             $this->editorName = $key;
 
             $this->params = $config[$key] ?? null;
-
         }
-
     }
 
     public function getEditorName(): ?string
@@ -39,8 +35,8 @@ final class WysiwygConfig
 
     public function getTemplate(?string $key = null): ?string
     {
-        if ($key === null){
-            if (is_array($this->params)){
+        if ($key === null) {
+            if (is_array($this->params)) {
                 return null;
             }
             return $this->params;
