@@ -102,8 +102,8 @@ class User
     }
 
     /**
-     * @deprecated use genAndSetPasswordHash()
-     * remove in 4.5
+     * @deprecated use genAndSetPasswordHash(). remove in 5.0
+     *
      */
     public function genAdnSetPasswordHash(string $password): void
     {

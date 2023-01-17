@@ -84,7 +84,7 @@ final class ModuleConfig
     }
 
     /**
-     * @deprecated since 4.3.7. use asArray()
+     * @deprecated since 4.3.7. use asArray(). remove in 5.0
      */
     public function getAll(): array
     {
