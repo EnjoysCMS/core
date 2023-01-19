@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\User;
 use Exception;
 
-final class Identity
+final class Identity implements IdentityInterface
 {
     private ObjectRepository|EntityRepository $usersRepository;
 
@@ -36,7 +36,7 @@ final class Identity
         return $this->user;
     }
 
-    public function getUserById(int $id): ?User
+    public function getUserById(array|int|string $id): ?User
     {
         return $this->usersRepository->find($id);
     }
