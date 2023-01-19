@@ -1,0 +1,8 @@
+--TEST--
+notExist
+--TEMPLATE--
+{{ access2route('@notExist') }}
+--DATA--
+return []
+--EXCEPTION--
+Twig\Error\RuntimeError: An exception has been thrown during the rendering of a template ("Не найден маршрут @notExist") in "index.twig" at line 2.

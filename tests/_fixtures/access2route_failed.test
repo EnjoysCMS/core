@@ -1,0 +1,8 @@
+--TEST--
+notAccess
+--TEMPLATE--
+{{ access2route('@notAccess') }}
+--DATA--
+return []
+--EXPECT--
+
