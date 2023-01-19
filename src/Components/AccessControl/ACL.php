@@ -79,11 +79,13 @@ class ACL
     {
         $new = false;
         $acl = $this->getAcl($action);
+
         if ($acl === null) {
             $acl = new \EnjoysCMS\Core\Entities\ACL();
             $acl->setAction($action);
             $new = true;
         }
+
         $acl->setComment($comment === '' ? $action : $comment);
         $this->entityManager->persist($acl);
 
@@ -94,6 +96,7 @@ class ACL
         if ($new === true) {
             $this->aclLists[] = $acl;
         }
+
         return $acl;
     }
 }

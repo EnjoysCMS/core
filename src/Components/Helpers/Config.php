@@ -21,8 +21,8 @@ class Config extends HelpersBase
      */
     public static function get(string $section, string $key, $default = null)
     {
-        if (null === $config = self::$container->get('Config')->getConfig($section)) {
-            return  $default;
+        if (null === $config = self::$container?->get('Config')->getConfig($section)) {
+            return $default;
         }
 
         if (array_key_exists($key, $config)) {
