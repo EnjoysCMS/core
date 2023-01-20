@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Auth\Authenticate;
+use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Repositories\TokenRepository;
 use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
@@ -47,5 +49,59 @@ class AuthenticateTest extends TestCase
         $authenticate = new Authenticate($em);
         $this->assertFalse($authenticate->checkLogin($login, $password));
 
+    }
+
+    public function testCheckTokenTrue()
+    {
+        $token = 'token';
+        $tokenRepository = $this->getMock(TokenRepository::class);
+        $userRepository = $this->getMock(EntityRepository::class);
+        $em = $this->getMock(EntityManager::class);
+
+
+        $tokenEntity = new Token();
+        $tokenEntity->setExp(new \DateTimeImmutable('+1 day'));
+        $tokenEntity->setUser(new User());
+
+        $tokenRepository->method('find')->willReturn($tokenEntity);
+        $userRepository->method('find')->willReturn($tokenEntity->getUser());
+
+        $em->method('getRepository')->willReturnMap([
+            [User::class, $userRepository],
+            [Token::class, $tokenRepository],
+        ]);
+
+        $authenticate = new Authenticate($em);
+        $this->assertTrue($authenticate->checkToken($token));
+        $this->assertInstanceOf(User::class, $authenticate->getUser());
+    }
+
+    public function testCheckTokenFalseIfTokenNotExist()
+    {
+        $token = 'token';
+        $tokenRepository = $this->getMock(TokenRepository::class);
+        $em = $this->getMock(EntityManager::class);
+
+        $tokenRepository->method('find')->willReturn(null);
+        $em->method('getRepository')->willReturn($tokenRepository);
+
+        $authenticate = new Authenticate($em);
+        $this->assertFalse($authenticate->checkToken($token));
+    }
+
+    public function testCheckTokenFalseIfTokenExpiration()
+    {
+        $token = 'token';
+        $tokenRepository = $this->getMock(TokenRepository::class);
+        $em = $this->getMock(EntityManager::class);
+
+        $tokenEntity = new Token();
+        $tokenEntity->setExp(new \DateTimeImmutable('-1 day'));
+
+        $tokenRepository->method('find')->willReturn($tokenEntity);
+        $em->method('getRepository')->willReturn($tokenRepository);
+
+        $authenticate = new Authenticate($em);
+        $this->assertFalse($authenticate->checkToken($token));
     }
 }
