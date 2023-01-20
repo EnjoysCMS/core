@@ -38,6 +38,6 @@ class Config extends HelpersBase
      */
     public static function getAll(string $section)
     {
-        return self::$container->get('Config')->getConfig($section);
+        return self::$container?->get('Config')->getConfig($section) ?? [];
     }
 }
