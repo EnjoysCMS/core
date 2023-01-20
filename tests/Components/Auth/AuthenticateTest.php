@@ -8,10 +8,12 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Auth\Authenticate;
+use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
 class AuthenticateTest extends TestCase
@@ -53,6 +55,11 @@ class AuthenticateTest extends TestCase
 
     public function testCheckTokenTrue()
     {
+        $container = $this->getMock(ContainerInterface::class);
+        $config = $this->getMock(\Enjoys\Config\Config::class);
+        $container->method('get')->willReturn($config);
+        Config::setContainer($container);
+
         $token = 'token';
         $tokenRepository = $this->getMock(TokenRepository::class);
         $userRepository = $this->getMock(EntityRepository::class);
