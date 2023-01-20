@@ -36,7 +36,8 @@
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "*",
         "vimeo/psalm": "^5.4",
-        "dg/bypass-finals": "^1.4"
+        "dg/bypass-finals": "^1.4",
+        "fakerphp/faker": "^1.21"
     },
     "autoload": {
         "psr-4": {
