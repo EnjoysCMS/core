@@ -29,12 +29,14 @@
         "symfony/routing": "^5.4",
         "symfony/twig-bridge": "^5.2",
         "twig/twig": "^3.0"
+
     },
     "require-dev": {
         "infection/infection": "^0.26.16",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "*",
-        "vimeo/psalm": "^5.4"
+        "vimeo/psalm": "^5.4",
+        "dg/bypass-finals": "^1.4"
     },
     "autoload": {
         "psr-4": {

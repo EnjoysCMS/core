@@ -11,6 +11,10 @@
          failOnRisky="true"
          failOnWarning="true"
          verbose="true">
+    <extensions>
+        <extension class="Tests\EnjoysCMS\BypassFinalHook"/>
+    </extensions>
+
     <testsuites>
         <testsuite name="default">
             <directory>tests</directory>
