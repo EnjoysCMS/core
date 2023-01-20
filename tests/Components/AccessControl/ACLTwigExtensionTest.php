@@ -2,24 +2,33 @@
 
 namespace Tests\EnjoysCMS\Components\AccessControl;
 
+use Doctrine\ORM\EntityManager;
+use EnjoysCMS\Core\Components\AccessControl\ACL;
 use EnjoysCMS\Core\Components\AccessControl\ACLTwigExtension;
-use PHPUnit\Framework\TestCase;
+use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\Entities\User;
+use Exception;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use Tests\EnjoysCMS\MocksTrait;
+use Tests\EnjoysCMS\TestHelper;
+use Tests\EnjoysCMS\Traits\MockHelper;
 use Twig\Test\IntegrationTestCase;
 
 class ACLTwigExtensionTest extends IntegrationTestCase
 {
 
-    use MocksTrait;
+    use MockHelper;
 
-    protected function getFixturesDir()
+
+    protected function getFixturesDir(): string
     {
         return __DIR__ . '/../../_fixtures';
     }
 
-    protected function getExtensions()
+    /**
+     * @throws Exception
+     */
+    protected function getExtensions(): array
     {
         $routes = [
             '@access' => 'access',
@@ -27,19 +36,17 @@ class ACLTwigExtensionTest extends IntegrationTestCase
             'test' => 'access',
             'test2' => 'not access',
         ];
-        $userEntity = $this->getUserEntityMock();
 
-        $userEntity->method('getAclAccessIds')->willReturn([
-            1, 3
+        $acl = $this->getAclImpl($routes, [
+            1,
+            3
         ]);
-
-        $acl = $this->getACL($userEntity, $this->getAcls($routes));
 
         $routeCollection = $this->getMockBuilder(RouteCollection::class)->disableOriginalConstructor()->getMock();
 
 
         $routeCollection->method('get')->willReturnCallback(function ($route) use ($routes) {
-            return $this->getRoutes($routes)[$route] ?? null;
+            return TestHelper::getRoutes($this->getMock(Route::class), $routes)[$route] ?? null;
         });
 
         return [
@@ -47,32 +54,27 @@ class ACLTwigExtensionTest extends IntegrationTestCase
         ];
     }
 
-    private function getRoutes(array $inputValues): array
+    /**
+     * @throws Exception
+     */
+    private function getAclImpl(array $aclData = [], array $aclAccessIds = []): ACL
     {
-        $result = [];
-        foreach ($inputValues as $action => $comment) {
-            $route = $this->getMockBuilder(Route::class)->disableOriginalConstructor()->getMock();
-            $route->method('getDefault')->willReturn($action);
-            $route->method('getOption')->willReturn($comment);
-            $result[$action] = $route;
-        }
+        $aclRepository = $this->getMock(\EnjoysCMS\Core\Repositories\ACL::class);
+        $aclRepository->method('findAll')->willReturn(
+            TestHelper::getAclEntities($aclEntity = $this->getMock(\EnjoysCMS\Core\Entities\ACL::class), $aclData)
+        );
+        $aclRepository->method('findAcl')->willReturn($aclEntity);
 
-        return $result;
-    }
+        $em = $this->getMock(EntityManager::class);
+        $em->method('getRepository')->willReturn($aclRepository);
 
-    private function getAcls(array $inputValues): array
-    {
-        $result = [];
-        $i = 1;
-        foreach ($inputValues as $action => $comment) {
-            $aclEntity = $this->getAclEntityMock();
-            $aclEntity->method('getId')->willReturn($i);
-            $aclEntity->method('getAction')->willReturn($action);
-            $aclEntity->method('getComment')->willReturn($comment);
-            $result[$action] = $aclEntity;
-            $i++;
-        }
+        $userEntity = $this->getMock(User::class);
 
-        return $result;
+        $userEntity->method('getAclAccessIds')->willReturn($aclAccessIds);
+
+        $identity = $this->getMock(Identity::class);
+        $identity->method('getUser')->willReturn($userEntity);
+
+        return new ACL($em, $identity);
     }
 }

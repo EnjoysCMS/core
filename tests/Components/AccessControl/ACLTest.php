@@ -3,38 +3,52 @@
 namespace Tests\EnjoysCMS\Components\AccessControl;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\AccessControl\ACL;
-use EnjoysCMS\Core\Components\Auth\Authorize;
-use EnjoysCMS\Core\Components\Auth\AuthorizedData;
 use EnjoysCMS\Core\Components\Auth\Identity;
-use EnjoysCMS\Core\Components\Auth\StrategyInterface;
 use EnjoysCMS\Core\Entities\User;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
-use Tests\EnjoysCMS\MocksTrait;
+use Tests\EnjoysCMS\TestHelper;
+use Tests\EnjoysCMS\Traits\MockHelper;
 
 class ACLTest extends TestCase
 {
+    use MockHelper;
 
-    use MocksTrait;
+    /**
+     * @throws \Exception
+     */
+    private function getAclImpl(array $aclData = [], array $aclAccessIds = []): ACL
+    {
+        $aclRepository = $this->getMock(\EnjoysCMS\Core\Repositories\ACL::class);
+        $aclRepository->method('findAll')->willReturn(
+            TestHelper::getAclEntities($aclEntity = $this->getMock(\EnjoysCMS\Core\Entities\ACL::class), $aclData)
+        );
+        $aclRepository->method('findAcl')->willReturn($aclEntity);
 
+        $em = $this->getMock(EntityManager::class);
+        $em->method('getRepository')->willReturn($aclRepository);
 
+        $userEntity = $this->getMock(User::class);
+
+        $userEntity->method('getAclAccessIds')->willReturn($aclAccessIds);
+
+        $identity = $this->getMock(Identity::class);
+        $identity->method('getUser')->willReturn($userEntity);
+
+        return new ACL($em, $identity);
+    }
 
     public function testAccess()
     {
-        $userEntity = $this->getUserEntityMock();
-
-        $userEntity->method('getAclAccessIds')->willReturn([
-            1
-        ]);
-
-        $aclEntity = $this->getAclEntityMock();
-        $aclEntity->method('getId')->willReturn(1);
-        $aclEntity->method('getAction')->willReturn('test');
-
-
-        $acl = $this->getACL($userEntity, [$aclEntity]);
+        $acl = $this->getAclImpl(
+            [
+                'test' => 'comment',
+                'test2' => 'comment',
+            ],
+            [
+                1
+            ]
+        );
 
         $this->assertTrue($acl->access('test'));
         $this->assertFalse($acl->access('test2'));
