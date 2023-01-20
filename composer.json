@@ -39,6 +39,12 @@
         "dg/bypass-finals": "^1.4",
         "fakerphp/faker": "^1.21"
     },
+    "scripts": {
+        "infection": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php ./vendor/bin/infection -j2 --only-covered --logger-html='mutation-report.html'"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "EnjoysCMS\\Core\\": "src/"
