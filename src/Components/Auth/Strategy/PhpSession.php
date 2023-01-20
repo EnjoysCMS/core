@@ -98,7 +98,7 @@ final class PhpSession implements StrategyInterface
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function isAuthorized($retry = 0): bool
+    public function isAuthorized($retry = 0, ?Authenticate $authenticate = null): bool
     {
         if (isset($this->session->get('user')['id']) && $this->session->get('authenticate') !== null) {
             return true;
@@ -106,11 +106,11 @@ final class PhpSession implements StrategyInterface
 
         if ($this->cookie::has(Token::getTokenName()) && $retry < 1) {
             $retry++;
-            $authenticate = new Authenticate($this->em);
+            $authenticate = $authenticate ?? new Authenticate($this->em);
             $token = $this->cookie::get(Token::getTokenName());
             if ($authenticate->checkToken($token)) {
                 $this->login($authenticate->getUser(), ['authenticate' => 'autologin', 'token' => $token]);
-                return $this->isAuthorized($retry);
+                return $this->isAuthorized($retry, $authenticate);
             }
             $this->deleteToken($token);
         }
