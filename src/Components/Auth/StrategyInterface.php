@@ -11,4 +11,6 @@ interface StrategyInterface
     public function getAuthorizedData(): ?AuthorizedData;
 
     public function login(User $user, array $data = []): void;
+
+    public function logout(): void;
 }
