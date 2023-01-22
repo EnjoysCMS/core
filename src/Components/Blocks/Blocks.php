@@ -32,7 +32,10 @@ class Blocks
     {
         $this->entityManager = $container->get(EntityManager::class);
         $this->bocksRepository = $this->entityManager->getRepository(Block::class);
-        $this->logger = $container->get(LoggerInterface::class)->withName('Blocks');
+        $this->logger = $container->get(LoggerInterface::class);
+        if (method_exists($this->logger, 'withName')){
+            $this->logger = $this->logger->withName('Blocks');
+        }
     }
 
 
