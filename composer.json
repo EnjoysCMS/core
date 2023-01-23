@@ -40,9 +40,11 @@
         "fakerphp/faker": "^1.21"
     },
     "scripts": {
+        "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",
+        "tests": "XDEBUG_MODE=coverage ./vendor/bin/phpunit",
         "infection": [
             "Composer\\Config::disableProcessTimeout",
-            "@php ./vendor/bin/infection -j2 --only-covered --logger-html='mutation-report.html'"
+            "XDEBUG_MODE=coverage  ./vendor/bin/infection -j2"
         ]
     },
     "autoload": {

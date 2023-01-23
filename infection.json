@@ -5,6 +5,15 @@
             "src"
         ]
     },
+    "logs": {
+        "text": "./build/infection/infection.log",
+        "html": "./build/infection/infection.html",
+        "summary": "./build/infection/summary.log",
+        "stryker": {
+            "badge":  "master"
+        }
+    },
+    "tmpDir": "./build/infection/.tmp",
     "mutators": {
         "@default": true
     }
