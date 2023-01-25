@@ -7,6 +7,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated
+ */
 class Assets extends HelpersBase
 {
     /**

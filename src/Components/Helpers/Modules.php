@@ -5,6 +5,9 @@ namespace EnjoysCMS\Core\Components\Helpers;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * @deprecated
+ */
 class Modules extends HelpersBase
 {
     /**

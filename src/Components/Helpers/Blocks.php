@@ -7,6 +7,9 @@ use EnjoysCMS\Core\Entities\Block;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * @deprecated
+ */
 class Blocks extends HelpersBase
 {
     /**

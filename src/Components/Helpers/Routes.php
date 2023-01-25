@@ -6,6 +6,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Routing\Route;
 
+/**
+ * @deprecated
+ */
 class Routes extends HelpersBase
 {
     /**

@@ -2,6 +2,9 @@
 
 namespace EnjoysCMS\Core\Components\Helpers;
 
+/**
+ * @deprecated
+ */
 class Http
 {
     public static function getQueryParams(string $currentUrl, array $removedParams = []): string

@@ -8,9 +8,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * Class Config
- *
- * @package App\Components\Helpers
+ * @deprecated
  */
 class Config extends HelpersBase
 {

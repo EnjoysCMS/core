@@ -7,6 +7,9 @@ use HttpSoft\Message\Response;
 use HttpSoft\ServerRequest\ServerRequestCreator;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * @deprecated
+ */
 class Redirect
 {
     public static function http($uri = null, $code = 302): void
