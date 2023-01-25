@@ -33,10 +33,12 @@ class AuthenticateTest extends TestCase
 
         $userRepository->method('findOneBy')->willReturn($user);
         $em->method('getRepository')->willReturn($userRepository);
-        $authenticate = new Authenticate($em);
+        $authenticate = new Authenticate(
+            $em,
+            $this->getMock(\Enjoys\Config\Config::class)
+        );
 
         $this->assertTrue($authenticate->checkLogin($login, $password));
-
     }
 
     public function testCheckLoginFalse()
@@ -48,9 +50,11 @@ class AuthenticateTest extends TestCase
 
         $userRepository->method('findOneBy')->willReturn(null);
         $em->method('getRepository')->willReturn($userRepository);
-        $authenticate = new Authenticate($em);
+        $authenticate = new Authenticate(
+            $em,
+            $this->getMock(\Enjoys\Config\Config::class)
+        );
         $this->assertFalse($authenticate->checkLogin($login, $password));
-
     }
 
     public function testCheckTokenTrue()
@@ -78,7 +82,10 @@ class AuthenticateTest extends TestCase
             [Token::class, $tokenRepository],
         ]);
 
-        $authenticate = new Authenticate($em);
+        $authenticate = new Authenticate(
+            $em,
+            $this->getMock(\Enjoys\Config\Config::class)
+        );
         $this->assertTrue($authenticate->checkToken($token));
         $this->assertInstanceOf(User::class, $authenticate->getUser());
     }
@@ -92,7 +99,10 @@ class AuthenticateTest extends TestCase
         $tokenRepository->method('find')->willReturn(null);
         $em->method('getRepository')->willReturn($tokenRepository);
 
-        $authenticate = new Authenticate($em);
+        $authenticate = new Authenticate(
+            $em,
+            $this->getMock(\Enjoys\Config\Config::class)
+        );
         $this->assertFalse($authenticate->checkToken($token));
     }
 
@@ -107,8 +117,10 @@ class AuthenticateTest extends TestCase
 
         $tokenRepository->method('find')->willReturn($tokenEntity);
         $em->method('getRepository')->willReturn($tokenRepository);
-
-        $authenticate = new Authenticate($em);
+        $authenticate = new Authenticate(
+            $em,
+            $this->getMock(\Enjoys\Config\Config::class)
+        );
         $this->assertFalse($authenticate->checkToken($token));
     }
 }

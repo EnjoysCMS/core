@@ -6,9 +6,9 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
+use Enjoys\Config\Config;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Detector\Browser;
-use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use Psr\Container\ContainerExceptionInterface;
@@ -18,7 +18,7 @@ final class Authenticate
 {
     private ?User $user;
 
-    public function __construct(private EntityManager $em)
+    public function __construct(private EntityManager $em, private Config $config)
     {
     }
 
@@ -51,7 +51,7 @@ final class Authenticate
             return false;
         }
 
-        if (Config::get('security', 'check_browser_fingerprint', false)) {
+        if ($this->config->get('security->check_browser_fingerprint', false)) {
             if ($tokenEntity->getFingerprint() !== Browser::getFingerprint()) {
                 return false;
             }
