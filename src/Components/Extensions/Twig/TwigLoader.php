@@ -1,13 +1,10 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\TwigExtension;
+namespace EnjoysCMS\Core\Components\Extensions\Twig;
 
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 
-/**
- * @deprecated use \EnjoysCMS\Core\Components\Extensions\Twig\TwigLoader
- */
 class TwigLoader extends FilesystemLoader
 {
     /**

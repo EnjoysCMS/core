@@ -14,6 +14,9 @@ use Twig\TwigTest;
 use function base64_decode;
 use function base64_encode;
 
+/**
+ * @deprecated use \EnjoysCMS\Core\Components\Extensions\Twig\CoreTwigExtension
+ */
 final class ExtendedFunctions extends AbstractExtension
 {
     public function getTests(): array

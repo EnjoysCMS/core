@@ -1,38 +1,52 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\TwigExtension;
+namespace EnjoysCMS\Core\Components\Extensions\Twig;
 
+use EnjoysCMS\Core\Components\Helpers\Setting;
+use ReflectionClass;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\TwigTest;
 
-/**
- * @TODO    все названия тут нахрен поменять, sanitize вынести в отдельный класс, или даже пакет
- * @deprecated use \EnjoysCMS\Core\Components\Extensions\Twig\CoreTwigExtension
- */
-class PickingCssJs extends AbstractExtension
+class CoreTwigExtension extends AbstractExtension
 {
     private static array $scripts = [];
     private static array $styles = [];
-    private bool $nocatch = false;
+    private bool $noCatch = false;
 
     public function getFilters(): array
     {
         return [
             new TwigFilter('scriptsCatcher', [$this, 'scriptsCatcher'], ['is_safe' => ['all']]),
             new TwigFilter('stylesCatcher', [$this, 'stylesCatcher'], ['is_safe' => ['all']]),
-            new TwigFilter('nocatch', [$this, 'noCatch'], ['is_safe' => ['all']]),
+            new TwigFilter('noCatch', [$this, 'noCatch'], ['is_safe' => ['all']]),
         ];
     }
 
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('setting', function (string $key, $default = null) {
+                return Setting::get($key, $default);
+            }),
             new TwigFunction('getStyles', [$this, 'getStyles'], ['is_safe' => ['html']]),
             new TwigFunction('getScripts', [$this, 'getScripts'], ['is_safe' => ['html']]),
         ];
     }
 
+    public function getTests(): array
+    {
+        return [
+            new TwigTest(
+            /** @var class-string $class */
+                'instanceof',
+                static function (object $object, string $class): bool {
+                    return (new ReflectionClass($class))->isInstance($object);
+                }
+            ),
+        ];
+    }
 
     public function getStyles(): string
     {
