@@ -41,11 +41,6 @@ class Token
      */
     private \DateTimeImmutable $lastUsed;
 
-    public static function getTokenName()
-    {
-        return Config::get('security', 'token_name', '_token_refresh');
-    }
-
 
     public function getToken(): string
     {

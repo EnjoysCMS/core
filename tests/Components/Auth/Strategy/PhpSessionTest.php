@@ -34,13 +34,14 @@ class PhpSessionTest extends TestCase
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
         $session->expects($this->exactly(1))->method('set');
-        $container = $this->getMock(ContainerInterface::class);
         $cookie = $this->getMock(Cookie::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
-        $authStrategy = new PhpSession($em, $session, $cookie);
+
+        $authStrategy = new PhpSession($em, $session, $cookie, $config);
 
         $authStrategy->login(new User(), ['remember' => false]);
     }
@@ -48,42 +49,40 @@ class PhpSessionTest extends TestCase
     public function testLoginWithRemember()
     {
         $em = $this->getMock(EntityManager::class);
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
         $session = $this->createMock(Session::class);
         $tokenRepository = $this->createMock(TokenRepository::class);
         $cookie = $this->getMock(Cookie::class);
 
-        $em->method('getRepository')->willReturn($tokenRepository);
-
-
-        $config->method('getConfig')->willReturn([
-            'autologin_cookie_ttl' => '1 month'
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh'],
+            ['security->autologin_cookie_ttl', null, '1 month'],
         ]);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+
+        $em->method('getRepository')->willReturn($tokenRepository);
 
         $cookie->expects($this->exactly(1))->method('set');
         $em->expects($this->exactly(1))->method('persist');
         $em->expects($this->exactly(1))->method('flush');
         $tokenRepository->expects($this->exactly(1))->method('clearUsersOldTokens');
 
-        $authStrategy = new PhpSession($em, $session, $cookie);
+        $authStrategy = new PhpSession($em, $session, $cookie, $config);
 
         $authStrategy->login(new User(), ['remember' => true]);
     }
 
     public function testLogout()
     {
-        $container = $this->getMock(ContainerInterface::class);
-        $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
-
-
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()));
+        $config = $this->getMock(\Enjoys\Config\Config::class);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
+
+
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
+
         $session->expects($this->exactly(2))->method('delete');
 
         $authStrategy->logout();
@@ -97,12 +96,15 @@ class PhpSessionTest extends TestCase
         $tokenRepository = $this->createMock(TokenRepository::class);
         $tokenRepository->method('find')->willReturn(new Token());
         $em->method('getRepository')->willReturn($tokenRepository);
-        $container = $this->getMock(ContainerInterface::class);
-        $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
 
-        $authStrategy = new PhpSession($em, $session, $cookie);
+        $config = $this->getMock(\Enjoys\Config\Config::class);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
+
+
+        $authStrategy = new PhpSession($em, $session, $cookie, $config);
+
         $em->expects($this->exactly(1))->method('remove');
         $em->expects($this->exactly(1))->method('flush');
         $authStrategy->deleteToken('token');
@@ -116,12 +118,12 @@ class PhpSessionTest extends TestCase
         $tokenRepository = $this->createMock(TokenRepository::class);
         $tokenRepository->method('find')->willReturn(null);
         $em->method('getRepository')->willReturn($tokenRepository);
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
-        $authStrategy = new PhpSession($em, $session, $cookie);
+        $authStrategy = new PhpSession($em, $session, $cookie, $config);
         $em->expects($this->exactly(0))->method('remove');
         $em->expects($this->exactly(0))->method('flush');
         $authStrategy->deleteToken('token');
@@ -139,10 +141,11 @@ class PhpSessionTest extends TestCase
 
     public function testGetAuthorizedDataIfAuthorize()
     {
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
+
 
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
@@ -157,7 +160,8 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options())
+                'cookie' => new Cookie(new Options()),
+                'config' => $config
             ])->getMock()
         ;
         $authStrategy->method('isAuthorized')->willReturn(true);
@@ -168,10 +172,10 @@ class PhpSessionTest extends TestCase
 
     public function testIsAuthorizedTrueBySession()
     {
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
 
         $em = $this->getMock(EntityManager::class);
@@ -181,23 +185,23 @@ class PhpSessionTest extends TestCase
             ['authenticate', null, true]
         ]);
 
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()));
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
 
         $this->assertTrue($authStrategy->isAuthorized());
     }
 
     public function testIsAuthorizedTrueByCookie()
     {
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $config->method('getConfig')->willReturn([
-            'autologin_cookie_ttl' => '1 month'
+        $config->method('get')->willReturnMap([
+            ['security->autologin_cookie_ttl', null, '1 month']
         ]);
 
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
-        $_COOKIE[Token::getTokenName()] = 'token';
+        $_COOKIE['_token_refresh'] = 'token';
 
 
         $em = $this->getMock(EntityManager::class);
@@ -223,7 +227,8 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options())
+                'cookie' => new Cookie(new Options()),
+                'config' => $config,
             ])
             ->getMock()
         ;
@@ -234,16 +239,17 @@ class PhpSessionTest extends TestCase
 
     public function testIsAuthorizedFalseByCookie()
     {
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $config->method('getConfig')->willReturn([
-            'autologin_cookie_ttl' => '1 month'
+        $config->method('get')->willReturnMap([
+            ['security->autologin_cookie_ttl', null, '1 month']
         ]);
 
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
-        $_COOKIE[Token::getTokenName()] = 'token';
+
+        $_COOKIE['_token_refresh'] = 'token';
 
 
         $em = $this->getMock(EntityManager::class);
@@ -265,7 +271,8 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options())
+                'cookie' => new Cookie(new Options()),
+                'config' => $config
             ])
             ->getMock()
         ;
@@ -279,15 +286,15 @@ class PhpSessionTest extends TestCase
 
     public function testIsAuthorizedFalse()
     {
-        $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
-        $container->method('get')->willReturn($config);
-        Config::setContainer($container);
+        $config->method('get')->willReturnMap([
+            ['security->token_name', null, '_token_refresh']
+        ]);
 
 
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()));
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
 
         $this->assertFalse($authStrategy->isAuthorized());
     }

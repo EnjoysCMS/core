@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Repositories;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Components\Helpers\Config;
+use Enjoys\Config\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use Exception;
@@ -19,16 +19,16 @@ class TokenRepository extends EntityRepository
     /**
      * @throws Exception
      */
-    public function clearUsersOldTokens(Token $currentToken)
+    public function clearUsersOldTokens(Token $currentToken, Config $config)
     {
         $this->gc();
         $this->clearInactiveTokensByUser($currentToken->getUser());
-        $this->clearTokenIfMaxCount($currentToken);
+        $this->clearTokenIfMaxCount($currentToken, $config);
     }
 
-    public function clearTokenIfMaxCount(Token $currentToken)
+    public function clearTokenIfMaxCount(Token $currentToken,  Config $config)
     {
-        $maxCount = Config::get('security', 'max_tokens', 0);
+        $maxCount = $config->get('security->max_tokens', 0);
 
         if ($maxCount <= 0) {
             return;
