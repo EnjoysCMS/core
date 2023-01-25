@@ -6,9 +6,9 @@ namespace EnjoysCMS\Core\Components\Auth;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Enjoys\Config\Config;
 use Enjoys\Cookie\Exception;
 use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
-use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -22,10 +22,11 @@ final class Authorize
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, Config $config)
     {
-        $strategy = Config::get('security', 'auth_strategy', PhpSession::class);
-        $this->strategy = $container->get($strategy);
+        $this->strategy = $container->get(
+            $config->get('security->auth_strategy', PhpSession::class)
+        );
     }
 
     public function setAuthorized(User $user, array $data = []): void
@@ -34,11 +35,6 @@ final class Authorize
     }
 
 
-    /**
-     * @throws OptimisticLockException
-     * @throws Exception
-     * @throws ORMException
-     */
     public function logout(): void
     {
         $this->strategy->logout();

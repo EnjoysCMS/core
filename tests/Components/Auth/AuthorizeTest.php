@@ -20,14 +20,13 @@ class AuthorizeTest extends TestCase
     {
         $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
+        $config->method('get')->willReturn('strategy-class-string');
+
         $strategy = $this->getMock(StrategyInterface::class);
         $strategy->expects($this->exactly(1))->method('login');
-        $container->method('get')->will(
-            $this->onConsecutiveCalls($config, $strategy)
-        );
-        Config::setContainer($container);
+        $container->method('get')->willReturn($strategy);
 
-        $authorize = new Authorize($container);
+        $authorize = new Authorize($container, $config);
 
         $authorize->setAuthorized(new User());
 
@@ -37,14 +36,12 @@ class AuthorizeTest extends TestCase
     {
         $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
+        $config->method('get')->willReturn('strategy-class-string');
         $strategy = $this->getMock(StrategyInterface::class);
         $strategy->expects($this->exactly(1))->method('logout');
-        $container->method('get')->will(
-            $this->onConsecutiveCalls($config, $strategy)
-        );
-        Config::setContainer($container);
+        $container->method('get')->willReturn($strategy);
 
-        $authorize = new Authorize($container);
+        $authorize = new Authorize($container, $config);
 
         $authorize->logout();
 
@@ -54,14 +51,13 @@ class AuthorizeTest extends TestCase
     {
         $container = $this->getMock(ContainerInterface::class);
         $config = $this->getMock(\Enjoys\Config\Config::class);
+        $config->method('get')->willReturn('strategy-class-string');
+
         $strategy = $this->getMock(StrategyInterface::class);
         $strategy->expects($this->exactly(1))->method('getAuthorizedData');
-        $container->method('get')->will(
-            $this->onConsecutiveCalls($config, $strategy)
-        );
-        Config::setContainer($container);
+        $container->method('get')->willReturn($strategy);
 
-        $authorize = new Authorize($container);
+        $authorize = new Authorize($container, $config);
 
         $authorize->getAuthorizedData();
 
