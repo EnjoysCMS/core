@@ -19,7 +19,7 @@ class Config extends HelpersBase
      */
     public static function get(string $section, string $key, $default = null)
     {
-        if (null === $config = self::$container?->get('Config')->getConfig($section)) {
+        if (null === $config = self::$container?->get(\Enjoys\Config\Config::class)->getConfig($section)) {
             return $default;
         }
 
@@ -36,6 +36,6 @@ class Config extends HelpersBase
      */
     public static function getAll(string $section)
     {
-        return self::$container?->get('Config')->getConfig($section) ?? [];
+        return self::$container?->get(\Enjoys\Config\Config::class)->getConfig($section) ?? [];
     }
 }
