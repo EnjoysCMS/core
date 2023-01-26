@@ -23,7 +23,6 @@
         "ramsey/uuid": "^4.1",
         "ramsey/uuid-doctrine": "^1.6",
         "rybakit/twig-deferred-extension": "dev-master#54402209bbf01a57d8a86212eac1ecfc84d5d1ed",
-        "symfony/config": "^5.2",
         "symfony/http-foundation": "^5.2",
         "symfony/routing": "^5.4",
         "symfony/twig-bridge": "^5.2",
