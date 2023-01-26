@@ -19,7 +19,7 @@ class Setting extends HelpersBase
     {
         $settings = self::$container->get('Setting');
         /** @var LoggerInterface $logger */
-        $logger = self::$container->get(LoggerInterface::class)->withName('Setting');
+        $logger = self::$container->get(LoggerInterface::class);
 
         if (array_key_exists($key, $settings)) {
             return $settings[$key];

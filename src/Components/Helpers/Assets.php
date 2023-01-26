@@ -38,7 +38,7 @@ class Assets extends HelpersBase
      */
     public static function createSymlink($link, $target)
     {
-        $logger = self::$container->get(LoggerInterface::class)->withName('AssetsCollector');
+        $logger = self::$container->get(LoggerInterface::class);
         AssetsCollector\Helpers::createSymlink($link, $target, $logger);
     }
 

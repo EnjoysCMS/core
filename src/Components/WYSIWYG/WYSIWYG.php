@@ -33,7 +33,7 @@ class WYSIWYG
             $wysiwyg = new self($container->make($editorName), $twig);
         } catch (\Error $error) {
             $wysiwyg = new self(new NullEditor(), $twig);
-            $container->get(LoggerInterface::class)->withName('WYSIWYG')->error($error->getMessage());
+            $container->get(LoggerInterface::class)->error($error->getMessage());
         }
 
         return $wysiwyg;

@@ -33,9 +33,6 @@ class Blocks
         $this->entityManager = $container->get(EntityManager::class);
         $this->bocksRepository = $this->entityManager->getRepository(Block::class);
         $this->logger = $container->get(LoggerInterface::class);
-        if (method_exists($this->logger, 'withName')){
-            $this->logger = $this->logger->withName('Blocks');
-        }
     }
 
 
@@ -60,7 +57,7 @@ class Blocks
 
 
         if ($block === null) {
-            $this->logger->notice(sprintf('Not found block by id: %s', $blockId), debug_backtrace());
+            $this->logger->notice(sprintf('Blocks: Not found block by id: %s', $blockId), debug_backtrace());
             return null;
         }
 
@@ -72,7 +69,7 @@ class Blocks
             ) === false
         ) {
             $this->logger->debug(
-                sprintf("Access not allowed to block: '%s'", $block->getName()),
+                sprintf("Blocks: Access not allowed to block: '%s'", $block->getName()),
                 [
                     'id' => $block->getId(),
                     'class' => $block->getClass(),
@@ -83,7 +80,7 @@ class Blocks
         }
 
         if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds())) {
-            $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsIds());
+            $this->logger->debug(sprintf('Blocks: Location not constrains: %s', $block->getId()), $block->getLocationsIds());
             return null;
         }
 

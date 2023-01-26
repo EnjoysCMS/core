@@ -5,21 +5,25 @@ namespace EnjoysCMS\Core\Components\Widgets;
 use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\Entities\Widget;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
 class Widgets
 {
     private \EnjoysCMS\Core\Repositories\Widgets $widgetsRepository;
-    private Environment $twig;
     private LoggerInterface $logger;
 
 
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     public function __construct(private ContainerInterface $container)
     {
         $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
-        $this->twig = $container->get(Environment::class);
         $this->logger = $container->get(LoggerInterface::class);
     }
 
@@ -31,7 +35,7 @@ class Widgets
         $widget = $this->widgetsRepository->find($widgetId);
 
         if ($widget === null) {
-            $this->logger->notice(sprintf('Not found widget by id: %s', $widgetId), debug_backtrace());
+            $this->logger->notice(sprintf('Widgets: Not found widget by id: %s', $widgetId), debug_backtrace());
             return null;
         }
 
@@ -40,7 +44,7 @@ class Widgets
 //                ":Блок: Доступ к просмотру блока '{$widget->getName()}'"
 //            ) === false) {
 //            $this->logger->debug(
-//                sprintf("Access not allowed to widget: '%s'", $widget->getName()),
+//                sprintf("Widgets: Access not allowed to widget: '%s'", $widget->getName()),
 //                [
 //                    'id' => $widget->getId(),
 //                    'class' => $widget->getClass(),
@@ -55,7 +59,7 @@ class Widgets
             $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
             return $obj->view();
         } catch (\Throwable $e) {
-            $this->logger->error(sprintf('Occurred Error: %s', $e->getMessage()), $e->getTrace());
+            $this->logger->error(sprintf('Widgets: Occurred Error: %s', $e->getMessage()), $e->getTrace());
             return $e->getMessage();
         }
     }
