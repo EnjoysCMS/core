@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core;
 
-use HttpSoft\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class BaseController
 {
-    public function __construct(ResponseInterface $response = null)
+    public function __construct(protected ResponseInterface $response)
     {
-        $this->response = $response ?? new Response();
     }
 
-    private function writeBody(string $body)
+    private function writeBody(string $body): void
     {
         $this->response->getBody()->write($body);
     }
