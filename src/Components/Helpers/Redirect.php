@@ -9,6 +9,8 @@ use Psr\Http\Message\UriInterface;
 
 /**
  * @deprecated
+ * @required httpsoft/http-server-request
+ * @required httpsoft/http-emitter
  */
 class Redirect
 {
