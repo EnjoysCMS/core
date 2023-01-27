@@ -7,6 +7,9 @@ namespace EnjoysCMS\Core;
 use HttpSoft\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @deprecated
+ */
 abstract class BaseController
 {
     protected ResponseInterface $response;
