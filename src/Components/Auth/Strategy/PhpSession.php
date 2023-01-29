@@ -28,10 +28,6 @@ final class PhpSession implements StrategyInterface
 
     private string $tokenName;
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function __construct(
         private EntityManager $em,
         private Session $session,
@@ -73,8 +69,8 @@ final class PhpSession implements StrategyInterface
     {
         $this->session->delete('user');
         $this->session->delete('authenticate');
-        if ($this->cookie::has($this->tokenName)) {
-            $token = $this->cookie::get($this->tokenName);
+        if ($this->cookie->has($this->tokenName)) {
+            $token = $this->cookie->get($this->tokenName);
             $this->deleteToken($token);
         }
     }
@@ -109,10 +105,10 @@ final class PhpSession implements StrategyInterface
             return true;
         }
 
-        if ($this->cookie::has($this->tokenName) && $retry < 1) {
+        if ($this->cookie->has($this->tokenName) && $retry < 1) {
             $retry++;
             $authenticate = $authenticate ?? new Authenticate($this->em, $this->config);
-            $token = $this->cookie::get($this->tokenName);
+            $token = $this->cookie->get($this->tokenName);
             if ($authenticate->checkToken($token)) {
                 $this->login($authenticate->getUser(), ['authenticate' => 'autologin', 'token' => $token]);
                 return $this->isAuthorized($retry, $authenticate);

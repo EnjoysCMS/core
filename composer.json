@@ -10,7 +10,7 @@
         "doctrine/orm": "^2.8",
         "enjoys/assets-collector": "^2.0",
         "enjoys/config": "^1.0",
-        "enjoys/cookie": "^1.0",
+        "enjoys/cookie": "^2.0",
         "enjoys/functions": "^2.0",
         "enjoys/session": "^2.0",
         "league/flysystem": "^3.0",
@@ -31,7 +31,8 @@
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^5.4",
         "dg/bypass-finals": "^1.4",
-        "fakerphp/faker": "^1.21"
+        "fakerphp/faker": "^1.21",
+        "guzzlehttp/guzzle": "^7.5.0"
     },
     "scripts": {
         "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",

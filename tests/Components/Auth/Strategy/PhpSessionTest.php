@@ -15,8 +15,10 @@ use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;
+use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
 class PhpSessionTest extends TestCase
@@ -24,9 +26,16 @@ class PhpSessionTest extends TestCase
 
     use MockHelper;
 
+    private ServerRequestInterface $request;
+
+    protected function setUp(): void
+    {
+        $this->request = ServerRequest::fromGlobals();
+    }
+
     protected function tearDown(): void
     {
-        $_COOKIE = [];
+
     }
 
     public function testLoginWithoutRemember()
@@ -81,7 +90,7 @@ class PhpSessionTest extends TestCase
         ]);
 
 
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options($this->request)), $config);
 
         $session->expects($this->exactly(2))->method('delete');
 
@@ -160,7 +169,7 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options()),
+                'cookie' => new Cookie(new Options($this->request)),
                 'config' => $config
             ])->getMock()
         ;
@@ -185,7 +194,7 @@ class PhpSessionTest extends TestCase
             ['authenticate', null, true]
         ]);
 
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options($this->request)), $config);
 
         $this->assertTrue($authStrategy->isAuthorized());
     }
@@ -201,7 +210,7 @@ class PhpSessionTest extends TestCase
             ['security->token_name', null, '_token_refresh']
         ]);
 
-        $_COOKIE['_token_refresh'] = 'token';
+//        $_COOKIE['_token_refresh'] = 'token';
 
 
         $em = $this->getMock(EntityManager::class);
@@ -227,7 +236,9 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options()),
+                'cookie' => new Cookie(new Options($this->request->withCookieParams([
+                    '_token_refresh' => 'token'
+                ]))),
                 'config' => $config,
             ])
             ->getMock()
@@ -249,9 +260,6 @@ class PhpSessionTest extends TestCase
         ]);
 
 
-        $_COOKIE['_token_refresh'] = 'token';
-
-
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
 
@@ -271,7 +279,9 @@ class PhpSessionTest extends TestCase
             ->setConstructorArgs([
                 'session' => $session,
                 'em' => $em,
-                'cookie' => new Cookie(new Options()),
+                'cookie' => new Cookie(new Options($this->request->withCookieParams([
+                    '_token_refresh' => 'token'
+                ]))),
                 'config' => $config
             ])
             ->getMock()
@@ -294,7 +304,7 @@ class PhpSessionTest extends TestCase
 
         $em = $this->getMock(EntityManager::class);
         $session = $this->createMock(Session::class);
-        $authStrategy = new PhpSession($em, $session, new Cookie(new Options()), $config);
+        $authStrategy = new PhpSession($em, $session, new Cookie(new Options($this->request)), $config);
 
         $this->assertFalse($authStrategy->isAuthorized());
     }
