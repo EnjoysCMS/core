@@ -18,7 +18,6 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 {
-
     private AttributeDriver $attributeDriver;
     private AnnotationDriver $annotationDriver;
 
@@ -49,7 +48,7 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 
     public function isTransient($className): bool
     {
-        if (in_array($className, $this->attributeDriver->getAllClassNames(), true)){
+        if (in_array($className, $this->attributeDriver->getAllClassNames(), true)) {
             return $this->attributeDriver->isTransient($className);
         }
         return  $this->annotationDriver->isTransient($className);

@@ -1,0 +1,12 @@
+--TEST--
+notAccess
+--TEMPLATE--
+{% if access('@notAccess') %}
+true
+{% else %}
+false
+{% endif %}
+--DATA--
+return []
+--EXPECT--
+false

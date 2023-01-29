@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Modules;
-
 
 use Enjoys\Config\Config;
 use Symfony\Component\Yaml\Yaml;
 
 final class ModuleConfig
 {
-
     private bool $strict = true;
 
     private ?array $config;
@@ -87,7 +84,7 @@ final class ModuleConfig
     }
 
     /**
-     * @deprecated since 4.3.7. use asArray()
+     * @deprecated since 4.3.7. use asArray(). remove in 5.0
      */
     public function getAll(): array
     {
@@ -103,6 +100,4 @@ final class ModuleConfig
     {
         return $this->module;
     }
-
-
 }

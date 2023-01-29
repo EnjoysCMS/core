@@ -1,0 +1,12 @@
+--TEST--
+access
+--TEMPLATE--
+{% if access('@access') %}
+true
+{% else %}
+false
+{% endif %}
+--DATA--
+return []
+--EXPECT--
+true

@@ -1,25 +1,18 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Repositories;
 
-
+use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\Helpers\Blocks;
 use EnjoysCMS\Core\Components\Helpers\Routes;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\ORMException;
 
 class ACL extends EntityRepository
 {
-
     public function findAcl(string $action): ?\EnjoysCMS\Core\Entities\ACL
     {
         return $this->findOneBy(['action' => $action]);
     }
 
-    /**
-     * @throws ORMException
-     */
     public function getAllActiveACL(): array
     {
         $allActiveControllers = Routes::getAllActiveControllers();
@@ -38,9 +31,6 @@ class ACL extends EntityRepository
         return $allAcl;
     }
 
-    /**
-     * @throws ORMException
-     */
     public function synchronizeActives(): void
     {
         $this->getAllActiveACL();

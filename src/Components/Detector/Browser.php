@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Detector;
 
-
 final class Browser
 {
     public static function getFingerprint(): string
@@ -17,5 +16,4 @@ final class Browser
 
         return hash_hmac('sha256', $data, $_ENV['SECRET_PHRASE'] ?? 'secret phrase');
     }
-
 }

@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Modules;
-
 
 use Psr\Container\ContainerInterface;
 
 final class ModuleCollection
 {
-
     private array $collection;
 
     public function __construct(ContainerInterface $container)

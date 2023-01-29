@@ -8,24 +8,38 @@ use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Components\Helpers\Config;
 
 /**
- * Class Token
- * @package EnjoysCMS\Core\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\TokenRepository")
  * @ORM\Table(name="tokens")
  */
 class Token
 {
 
-    public static function getTokenName()
-    {
-        return Config::get('security', 'token_name', '_token_refresh');
-    }
-
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
     private string $token;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private \DateTimeImmutable $exp;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $fingerprint = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private \DateTimeImmutable $lastUsed;
 
 
     public function getToken(): string
@@ -38,12 +52,6 @@ class Token
         $this->token = $token;
     }
 
-    /**
-     * @var \DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private \DateTimeImmutable $exp;
-
 
     public function getExp(): \DateTimeImmutable
     {
@@ -54,12 +62,6 @@ class Token
     {
         $this->exp = $exp;
     }
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $fingerprint = null;
 
 
     public function getFingerprint(): ?string
@@ -72,11 +74,6 @@ class Token
         $this->fingerprint = $fingerprint;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $user;
 
     public function getUser()
     {
@@ -87,13 +84,6 @@ class Token
     {
         $this->user = $user;
     }
-
-    /**
-     * @var \DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private \DateTimeImmutable $lastUsed;
-
 
     public function getLastUsed(): \DateTimeImmutable
     {

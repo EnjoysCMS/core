@@ -1,16 +1,15 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\AccessControl;
-
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
+use Exception;
 
 class ACL
 {
@@ -20,12 +19,12 @@ class ACL
     private ObjectRepository|\EnjoysCMS\Core\Repositories\ACL|EntityRepository $aclRepository;
 
     /**
-     * @var array|object[]
+     * @var \EnjoysCMS\Core\Entities\ACL[]
      */
     private array $aclLists = [];
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(private EntityManager $entityManager, Identity $identity)
     {
@@ -71,6 +70,7 @@ class ACL
         return $this->aclRepository->findAcl($action);
     }
 
+
     /**
      * @throws OptimisticLockException
      * @throws ORMException
@@ -79,22 +79,24 @@ class ACL
     {
         $new = false;
         $acl = $this->getAcl($action);
-        if ($acl === null){
+
+        if ($acl === null) {
             $acl = new \EnjoysCMS\Core\Entities\ACL();
             $acl->setAction($action);
             $new = true;
         }
+
         $acl->setComment($comment === '' ? $action : $comment);
         $this->entityManager->persist($acl);
 
-        if($flush){
+        if ($flush) {
             $this->entityManager->flush();
         }
 
-        if ($new === true){
+        if ($new === true) {
             $this->aclLists[] = $acl;
         }
+
         return $acl;
     }
-
 }

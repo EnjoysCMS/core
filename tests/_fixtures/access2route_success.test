@@ -1,0 +1,8 @@
+--TEST--
+access
+--TEMPLATE--
+{{ access2route('@access') }}
+--DATA--
+return []
+--EXPECT--
+1

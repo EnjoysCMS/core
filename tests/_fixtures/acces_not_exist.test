@@ -1,0 +1,12 @@
+--TEST--
+notExist
+--TEMPLATE--
+{% if access('not_exist_route') %}
+true
+{% else %}
+false
+{% endif %}
+--DATA--
+return []
+--EXPECT--
+false

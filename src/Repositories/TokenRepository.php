@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Repositories;
-
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Components\Helpers\Config;
+use Enjoys\Config\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use Exception;
@@ -21,24 +19,24 @@ class TokenRepository extends EntityRepository
     /**
      * @throws Exception
      */
-    public function clearUsersOldTokens(Token $currentToken)
+    public function clearUsersOldTokens(Token $currentToken, Config $config)
     {
         $this->gc();
         $this->clearInactiveTokensByUser($currentToken->getUser());
-        $this->clearTokenIfMaxCount($currentToken);
+        $this->clearTokenIfMaxCount($currentToken, $config);
     }
 
-    public function clearTokenIfMaxCount(Token $currentToken)
+    public function clearTokenIfMaxCount(Token $currentToken,  Config $config)
     {
-        $maxCount = Config::get('security', 'max_tokens', 0);
+        $maxCount = $config->get('security->max_tokens', 0);
 
-        if ($maxCount <= 0){
+        if ($maxCount <= 0) {
             return;
         }
 
         $allTokensCount = $this->count(['user' => $currentToken->getUser()]);
 
-        if($allTokensCount <= $maxCount){
+        if ($allTokensCount <= $maxCount) {
             return;
         }
 
@@ -49,7 +47,7 @@ class TokenRepository extends EntityRepository
             ->andWhere('t.user = :user')
             ->setParameter('user', $currentToken->getUser())
             ->orderBy('t.lastUsed', 'desc')
-            ->setMaxResults($allTokensCount-$maxCount)
+            ->setMaxResults($allTokensCount - $maxCount)
             ->getQuery()
             ->getResult()
         ;
@@ -86,8 +84,8 @@ class TokenRepository extends EntityRepository
 
     /**
      * gcProbability int 10 the probability (parts per million) that garbage collection (GC) should be performed
-     *      when storing a piece of data in the cache. Defaults to 10, meaning 0.001% chance.
-     *      This number should be between 0 and 1000000. A value 0 means no GC will be performed at all.
+     * when storing a piece of data in the cache. Defaults to 10, meaning 0.001% chance.
+     * This number should be between 0 and 1000000. A value 0 means no GC will be performed at all.
      */
     private int $gcProbability = 10;
 

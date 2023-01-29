@@ -1,0 +1,12 @@
+--TEST--
+access2route_success 2
+--TEMPLATE--
+{% if accessInRoutes(['@notAccess', '@access']) %}
+true
+{% else %}
+false
+{% endif %}
+--DATA--
+return []
+--EXPECT--
+true

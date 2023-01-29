@@ -3,12 +3,10 @@
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class UsersGroup
- *
- * @package App\Components\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Group")
  * @ORM\Table(name="`groups`")
  */
@@ -18,13 +16,11 @@ class Group
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @var                        int
      */
     private int $id;
 
     /**
      * @ORM\Column(type="string")
-     * @var                       string
      */
     private string $name;
 
@@ -45,13 +41,13 @@ class Group
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
      */
-    private $users;
+    private Collection $users;
 
     /**
      * @ORM\ManyToMany(targetEntity="ACL", inversedBy="acl")
      * @ORM\JoinTable(name="acl_groups")
      */
-    private $acl;
+    private Collection $acl;
 
     public function __construct()
     {
@@ -59,75 +55,46 @@ class Group
         $this->acl = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return int
-     */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     */
     public function setStatus(int $status): void
     {
         $this->status = $status;
     }
 
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getAcl()
+    public function getAcl(): Collection
     {
         return $this->acl;
     }
 
-    /**
-     * @param ACL $acl
-     */
     public function setAcl(ACL $acl): void
     {
         if ($this->acl->contains($acl)) {
@@ -137,7 +104,7 @@ class Group
         $acl->setGroups($this);
     }
 
-    public function removeAcl(?ACL $acl = null)
+    public function removeAcl(?ACL $acl = null): void
     {
         if ($acl === null) {
             $this->acl->clear();
@@ -152,21 +119,13 @@ class Group
         $acl->removeGroups($this);
     }
 
-    /**
-     * @return bool
-     */
     public function isSystem(): bool
     {
         return $this->system;
     }
 
-    /**
-     * @param bool $system
-     */
     public function setSystem(bool $system): void
     {
         $this->system = $system;
     }
-
-
 }

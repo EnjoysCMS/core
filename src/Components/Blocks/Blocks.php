@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
-
 use DI\DependencyException;
 use DI\FactoryInterface;
 use DI\NotFoundException;
@@ -14,12 +13,12 @@ use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Entities\Block;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-use Twig\Environment;
 
 class Blocks
 {
-
     private ObjectRepository|EntityRepository $bocksRepository;
     private LoggerInterface $logger;
     private EntityManager $entityManager;
@@ -33,15 +32,10 @@ class Blocks
     {
         $this->entityManager = $container->get(EntityManager::class);
         $this->bocksRepository = $this->entityManager->getRepository(Block::class);
-        //  $this->twig = $container->get(Environment::class);
-        $this->logger = $container->get(LoggerInterface::class)->withName('Blocks');
+        $this->logger = $container->get(LoggerInterface::class);
     }
 
 
-    /**
-     * @param int|string $id
-     * @return Block|null
-     */
     private function findBlockEntity(int|string $id): ?Block
     {
         if (is_numeric($id)) {
@@ -52,10 +46,10 @@ class Blocks
 
 
     /**
-     * @param int|string $blockId
-     * @return string|null
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getBlock(int|string $blockId): ?string
     {
@@ -63,17 +57,19 @@ class Blocks
 
 
         if ($block === null) {
-            $this->logger->notice(sprintf('Not found block by id: %s', $blockId), debug_backtrace());
+            $this->logger->notice(sprintf('Blocks: Not found block by id: %s', $blockId), debug_backtrace());
             return null;
         }
 
 
-        if (ACL::access(
+        if (
+            ACL::access(
                 $block->getBlockActionAcl(),
                 ":Блок: Доступ к просмотру блока '{$block->getName()}'"
-            ) === false) {
+            ) === false
+        ) {
             $this->logger->debug(
-                sprintf("Access not allowed to block: '%s'", $block->getName()),
+                sprintf("Blocks: Access not allowed to block: '%s'", $block->getName()),
                 [
                     'id' => $block->getId(),
                     'class' => $block->getClass(),
@@ -84,7 +80,7 @@ class Blocks
         }
 
         if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds())) {
-            $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsIds());
+            $this->logger->debug(sprintf('Blocks: Location not constrains: %s', $block->getId()), $block->getLocationsIds());
             return null;
         }
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Doctrine;
-
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

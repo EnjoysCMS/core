@@ -1,4 +1,6 @@
 .idea/
 /vendor/
+/build/
 node_modules/
 /composer.lock
+/.phpunit.cache/

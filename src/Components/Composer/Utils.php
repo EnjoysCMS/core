@@ -1,27 +1,26 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Composer;
 
 use Composer\Autoload\ClassLoader;
-use JetBrains\PhpStorm\Pure;
+use stdClass;
+
+use function json_decode;
 
 class Utils
 {
-
-    public static function findFilePathByClassName(string $classname): bool|string
+    public static function findFilePathByClassName(string $className): bool|string
     {
         $loaders = ClassLoader::getRegisteredLoaders();
 
         foreach ($loaders as $loader) {
-            if (false !== $path = $loader->findFile($classname)) {
+            if (false !== $path = $loader->findFile($className)) {
                 return $path;
             }
         }
         return false;
     }
 
-    #[Pure]
     public static function getLoadersList(): array
     {
         $loaders = ClassLoader::getRegisteredLoaders();
@@ -57,11 +56,11 @@ class Utils
         return false;
     }
 
-    public static function parseComposerJson($composerJsonFile): \stdClass
+    public static function parseComposerJson($composerJsonFile): stdClass
     {
-        $json = \json_decode(file_get_contents($composerJsonFile));
+        $json = json_decode(file_get_contents($composerJsonFile));
 
-        $object = new \stdClass();
+        $object = new stdClass();
 
         $object->packageName = $json->name;
         $object->installPath = Utils::getDirByPackage($object->packageName);

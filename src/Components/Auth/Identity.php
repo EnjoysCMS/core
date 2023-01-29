@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
-
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\User;
+use Exception;
 
 final class Identity
 {
-
-
     private ObjectRepository|EntityRepository $usersRepository;
 
     private ?User $user = null;
@@ -25,7 +22,7 @@ final class Identity
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getUser(): User
     {
@@ -34,7 +31,7 @@ final class Identity
         $this->user ??= $this->getUserById(User::GUEST_ID);
 
         if ($this->user === null) {
-            throw new \Exception('Invalid user');
+            throw new Exception('Invalid user');
         }
         return $this->user;
     }
@@ -53,5 +50,4 @@ final class Identity
 
         $this->user = $this->getUserById($userData->userId);
     }
-
 }

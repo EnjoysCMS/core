@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Doctrine\Hydrators;
 
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;

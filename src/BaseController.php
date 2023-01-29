@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core;
 
-
 use HttpSoft\Message\Response;
-use HttpSoft\ServerRequest\ServerRequestCreator;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @deprecated
+ */
 abstract class BaseController
 {
+    protected ResponseInterface $response;
+
     public function __construct(ResponseInterface $response = null)
     {
         $this->response = $response ?? new Response();
     }
 
-    private function writeBody(string $body)
+    private function writeBody(string $body): void
     {
         $this->response->getBody()->write($body);
     }
@@ -36,5 +36,4 @@ abstract class BaseController
         $this->writeBody(json_encode($data));
         return $this->response;
     }
-
 }

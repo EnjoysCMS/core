@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Breadcrumbs;
-
 
 final class Breadcrumbs implements BreadcrumbsInterface
 {
@@ -26,6 +24,4 @@ final class Breadcrumbs implements BreadcrumbsInterface
     {
         return $this->bc;
     }
-
-
 }

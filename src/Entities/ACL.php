@@ -1,23 +1,18 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
- * Class ACL
- *
- * @package                                                       App\Modules\System\Entities
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\ACL")
  * @ORM\Table(name="acl")
  */
 class ACL
 {
     /**
-     * @var                        int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -25,13 +20,11 @@ class ACL
     private int $id;
 
     /**
-     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $action;
 
     /**
-     * @var                       string
      * @ORM\Column(type="string")
      */
     private string $comment;
@@ -39,7 +32,7 @@ class ACL
     /**
      * @ORM\ManyToMany(targetEntity="Group", mappedBy="acl")
      */
-    private $groups;
+    private Collection $groups;
 
 
     public function __construct()
@@ -47,14 +40,14 @@ class ACL
         $this->groups = new ArrayCollection();
     }
 
-    public function removeGroups(?Group $groups = null)
+    public function removeGroups(?Group $groups = null): void
     {
-        if($groups === null) {
+        if ($groups === null) {
             $this->groups->clear();
             return;
         }
 
-        if(!$this->groups->contains($groups)) {
+        if (!$this->groups->contains($groups)) {
             return;
         }
 
@@ -72,59 +65,39 @@ class ACL
         $groups->setAcl($this);
     }
 
-    public function setGroupsCollection(array $groups)
+    public function setGroupsCollection(array $groups): void
     {
         $this->groups = new ArrayCollection($groups);
-
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getGroups()
+
+    public function getGroups(): Collection
     {
         return $this->groups;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * @param string $action
-     */
     public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
-    /**
-     * @return string
-     */
     public function getComment(): string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $comment
-     */
     public function setComment(string $comment): void
     {
         $this->comment = $comment;
     }
-
-
 }

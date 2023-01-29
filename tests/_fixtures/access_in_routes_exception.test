@@ -1,0 +1,12 @@
+--TEST--
+accessInRoutes error
+--TEMPLATE--
+{% if accessInRoutes(['@access', 'not_exist']) %}
+true
+{% else %}
+false
+{% endif %}
+--DATA--
+return []
+--EXCEPTION--
+Twig\Error\RuntimeError: An exception has been thrown during the rendering of a template ("Не найден маршрут not_exist") in "index.twig" at line 2.

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
-
 use DI\DependencyException;
 use DI\FactoryInterface;
 use DI\NotFoundException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -37,6 +38,8 @@ class BlocksTwigExtension extends AbstractExtension
     /**
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function viewBlock(int|string $id): ?string
     {

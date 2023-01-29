@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\Blocks;
 
-
 class Custom extends AbstractBlock
 {
-
     public function view(): string
     {
         $body = $this->block->getBody();
@@ -23,7 +21,7 @@ class Custom extends AbstractBlock
         return '';
     }
 
-    
+
     public static function getMeta(): array
     {
         return [

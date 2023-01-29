@@ -1,18 +1,29 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Helpers;
 
-
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Routing\Route;
 
+/**
+ * @deprecated
+ */
 class Routes extends HelpersBase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public static function getRouteCollection()
     {
         return self::$container->get('Router')->getRouteCollection();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public static function getAllActiveControllers(): array
     {
         $activeRouteControllers = [];
@@ -24,5 +35,4 @@ class Routes extends HelpersBase
         }
         return $activeRouteControllers;
     }
-
 }

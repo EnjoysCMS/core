@@ -5,6 +5,9 @@ namespace EnjoysCMS\Core\Components\TwigExtension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @deprecated use \EnjoysCMS\Core\Components\Extensions\Twig\CoreTwigExtension
+ */
 class Setting extends AbstractExtension
 {
     public function getFunctions(): array

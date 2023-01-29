@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EnjoysCMS\Core\Components\Doctrine\Hydrators;
 
 use Doctrine\DBAL\Exception\NoKeyValue;
@@ -27,6 +26,4 @@ class KeyPair extends AbstractHydrator
         }
         return $data;
     }
-
-
 }

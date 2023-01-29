@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Core\Components\Auth;
 
-
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
+use Enjoys\Config\Config;
 use EnjoysCMS\Core\Components\AccessControl\Password;
 use EnjoysCMS\Core\Components\Detector\Browser;
-use EnjoysCMS\Core\Components\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 final class Authenticate
 {
     private ?User $user;
 
-    public function __construct(private EntityManager $em)
+    public function __construct(private EntityManager $em, private Config $config)
     {
     }
 
@@ -32,9 +33,13 @@ final class Authenticate
         return Password::verify($password, $this->user->getPasswordHash());
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function checkToken(string $token): bool
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
         $tokenRepository = $this->em->getRepository(Token::class);
         /** @var Token $tokenEntity */
         $tokenEntity = $tokenRepository->find($token);
@@ -46,7 +51,7 @@ final class Authenticate
             return false;
         }
 
-        if (Config::get('security', 'check_browser_fingerprint', false)) {
+        if ($this->config->get('security->check_browser_fingerprint', false)) {
             if ($tokenEntity->getFingerprint() !== Browser::getFingerprint()) {
                 return false;
             }
@@ -67,6 +72,4 @@ final class Authenticate
     {
         $this->user = $user;
     }
-
-
 }
