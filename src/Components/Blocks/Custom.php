@@ -10,6 +10,10 @@ class Custom extends AbstractBlock
     {
         $body = $this->block->getBody();
 
+        if ($body === null) {
+            return '';
+        }
+
         if ($this->getOption('allowed_html') === 'true') {
             return $body;
         }
