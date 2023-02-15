@@ -12,6 +12,9 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+/**
+ * @deprecated
+ */
 class WYSIWYG
 {
     public function __construct(private WysiwygInterface $editor, private Environment $twig)
