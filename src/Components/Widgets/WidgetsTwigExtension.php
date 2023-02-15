@@ -6,6 +6,10 @@ use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @deprecated
+ * @todo Move to \EnjoysCMS\Core\Components\Extensions\Twig\CoreTwigExtension
+ */
 class WidgetsTwigExtension extends AbstractExtension
 {
     private Widgets $widgets;
