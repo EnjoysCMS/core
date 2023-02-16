@@ -32,7 +32,8 @@
         "vimeo/psalm": "^5.4",
         "dg/bypass-finals": "^1.4",
         "fakerphp/faker": "^1.21",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "guzzlehttp/guzzle": "^7.5.0",
+        "symfony/var-dumper": "^6.0"
     },
     "scripts": {
         "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",
