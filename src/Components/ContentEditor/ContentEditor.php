@@ -33,7 +33,7 @@ class ContentEditor
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function withConfig(array|string|EditorConfig $config): ContentEditor
+    public function withConfig(array|string|null|EditorConfig $config): ContentEditor
     {
         return new ContentEditor($this->container, $config, $this->logger);
     }
