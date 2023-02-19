@@ -2,6 +2,9 @@
 
 namespace EnjoysCMS\Core\Components\WYSIWYG;
 
+/**
+ * @deprecated
+ */
 interface WysiwygInterface
 {
     public function getTwigTemplate(): string;

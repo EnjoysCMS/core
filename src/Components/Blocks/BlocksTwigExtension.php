@@ -12,6 +12,10 @@ use Psr\Container\NotFoundExceptionInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @deprecated
+ * @todo Move to \EnjoysCMS\Core\Components\Extensions\Twig\CoreTwigExtension
+ */
 class BlocksTwigExtension extends AbstractExtension
 {
     /**

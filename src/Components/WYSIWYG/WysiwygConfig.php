@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Components\WYSIWYG;
 
+/**
+ * @deprecated
+ */
 final class WysiwygConfig
 {
     private string|null $editorName = null;

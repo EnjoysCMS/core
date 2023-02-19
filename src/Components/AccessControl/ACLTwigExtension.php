@@ -10,6 +10,10 @@ use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @deprecated
+ * @todo Move to \EnjoysCMS\Core\Components\Extensions\Twig
+ */
 class ACLTwigExtension extends AbstractExtension
 {
     /**
