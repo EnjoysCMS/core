@@ -8,9 +8,7 @@ use HttpSoft\ServerRequest\ServerRequestCreator;
 use Psr\Http\Message\UriInterface;
 
 /**
- * @deprecated
- * required httpsoft/http-server-request
- * required httpsoft/http-emitter
+ * @deprecated since 4.7.0 use implementation of \EnjoysCMS\Core\Helpers\Redirect\RedirectInterface
  */
 class Redirect
 {

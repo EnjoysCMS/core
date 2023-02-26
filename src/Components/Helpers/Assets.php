@@ -41,17 +41,4 @@ class Assets extends HelpersBase
         $logger = self::$container->get(LoggerInterface::class);
         AssetsCollector\Helpers::createSymlink($link, $target, $logger);
     }
-
-    //    public static function getCss($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
-    //    {
-    //        $assets = self::$container->get(AssetsCollector\Assets::class);
-    //        $assets->getCss($ns);
-    //    }
-    //
-    //
-    //    public static function getJs($ns = AssetsCollector\Assets::NAMESPACE_COMMON)
-    //    {
-    //        $assets = self::$container->get(AssetsCollector\Assets::class);
-    //        $assets->getJs($ns);
-    //    }
 }
