@@ -13,7 +13,7 @@ interface RedirectInterface
     /**
      * @template TEmit of bool
      * @psalm-param TEmit $emit
-     * @psalm-return (TEmit is true ? never-return : ResponseInterface)
+     * @psalm-return (TEmit is true ? never : ResponseInterface)
      */
     public function http(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface;
 }
