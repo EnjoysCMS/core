@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterface
@@ -31,7 +32,10 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
             $params = $request->getQueryParams();
             $route = (string)$request->getQueryParams()['_route'];
             unset($params['_route']);
-            return $this->redirect->http($this->urlGenerator->generate($route, $params));
+            try {
+                return $this->redirect->http($this->urlGenerator->generate($route, $params));
+            } catch (RouteNotFoundException) {
+            }
         }
         return $handler->handle($request);
     }
