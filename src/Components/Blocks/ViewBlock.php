@@ -5,44 +5,26 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Components\Blocks;
 
 use DI\DependencyException;
-use DI\FactoryInterface;
 use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Entities\Block;
+use EnjoysCMS\Core\Repositories\BlockRepository;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-class Blocks
+class ViewBlock
 {
-    private ObjectRepository|EntityRepository $bocksRepository;
-    private LoggerInterface $logger;
-    private EntityManager $entityManager;
+    private BlockRepository|EntityRepository $blockRepository;
 
-
-    /**
-     * @throws DependencyException
-     * @throws NotFoundException
-     */
-    public function __construct(private FactoryInterface $container)
+    public function __construct(private EntityManager $em, private LoggerInterface $logger)
     {
-        $this->entityManager = $container->get(EntityManager::class);
-        $this->bocksRepository = $this->entityManager->getRepository(Block::class);
-        $this->logger = $container->get(LoggerInterface::class);
+        $this->blockRepository = $this->em->getRepository(Block::class);
     }
 
-
-    private function findBlockEntity(int|string $id): ?Block
-    {
-        if (is_numeric($id)) {
-            return $this->bocksRepository->find($id);
-        }
-        return $this->bocksRepository->findOneBy(['alias' => $id]);
-    }
 
 
     /**
@@ -53,8 +35,7 @@ class Blocks
      */
     public function getBlock(int|string $blockId): ?string
     {
-        $block = $this->findBlockEntity($blockId);
-
+        $block = $this->blockRepository->find($blockId);
 
         if ($block === null) {
             $this->logger->notice(sprintf('Blocks: Not found block by id: %s', $blockId), debug_backtrace());

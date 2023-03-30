@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\BlockRepository")
  * @ORM\Table(name="blocks")
  */
 class Block

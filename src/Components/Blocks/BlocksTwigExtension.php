@@ -19,9 +19,9 @@ use Twig\TwigFunction;
 class BlocksTwigExtension extends AbstractExtension
 {
     /**
-     * @var Blocks
+     * @var ViewBlock
      */
-    private Blocks $blocks;
+    private ViewBlock $blocks;
 
     /**
      * @throws DependencyException
@@ -29,7 +29,7 @@ class BlocksTwigExtension extends AbstractExtension
      */
     public function __construct(FactoryInterface $container)
     {
-        $this->blocks = $container->make(Blocks::class);
+        $this->blocks = $container->make(ViewBlock::class);
     }
 
     public function getFunctions(): array
