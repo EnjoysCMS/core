@@ -8,6 +8,7 @@ use EnjoysCMS\Core\Interfaces\EmitterInterface;
 use EnjoysCMS\Core\Interfaces\RedirectInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class Redirect implements RedirectInterface
 {
@@ -16,6 +17,7 @@ final class Redirect implements RedirectInterface
         private ServerRequestInterface $request,
         private ResponseInterface $response,
         private EmitterInterface $emitter,
+        private UrlGeneratorInterface $urlGenerator,
         private ?\Closure $terminateClosure = null,
     ) {
     }
@@ -41,6 +43,14 @@ final class Redirect implements RedirectInterface
             ($this->terminateClosure)();
         }
         return $response;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toRoute(string $routeName, array $params = [], int $code = 302, bool $emit = false): ResponseInterface
+    {
+        return $this->http($this->urlGenerator->generate($routeName, $params), $code, $emit);
     }
 
 
