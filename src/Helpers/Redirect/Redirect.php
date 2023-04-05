@@ -25,7 +25,7 @@ final class Redirect implements RedirectInterface
     /**
      * @inheritdoc
      */
-    public function http(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface
+    public function toUrl(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface
     {
         $response = $this->response
             ->withStatus($code)
@@ -50,8 +50,16 @@ final class Redirect implements RedirectInterface
      */
     public function toRoute(string $routeName, array $params = [], int $code = 302, bool $emit = false): ResponseInterface
     {
-        return $this->http($this->urlGenerator->generate($routeName, $params), $code, $emit);
+        return $this->toUrl($this->urlGenerator->generate($routeName, $params), $code, $emit);
     }
 
 
+    /**
+     * @inheritdoc
+     * @deprecated
+     */
+    public function http(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface
+    {
+        return $this->toUrl($uri, $code, $emit);
+    }
 }
