@@ -7,6 +7,9 @@ namespace EnjoysCMS\Core\Components\Modules;
 use Enjoys\Config\Config;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @deprecated
+ */
 final class ModuleConfig
 {
     private bool $strict = true;
@@ -57,6 +60,9 @@ final class ModuleConfig
         $this->config = $config->getConfig($this->module->packageName);
     }
 
+    /**
+     * @deprecated
+     */
     public function strict(bool $strict): ModuleConfig
     {
         $this->strict = $strict;
@@ -67,6 +73,7 @@ final class ModuleConfig
      * @param string $key
      * @param null $default
      * @return mixed
+     * @deprecated
      */
     public function get(string $key, $default = null): mixed
     {
@@ -91,11 +98,17 @@ final class ModuleConfig
         return $this->asArray();
     }
 
+    /**
+     * @deprecated
+     */
     public function asArray(): array
     {
         return (array)$this->config;
     }
 
+    /**
+     * @deprecated
+     */
     public function getModule(): ?Module
     {
         return $this->module;
