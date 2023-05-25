@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace  EnjoysCMS\Core\StorageUpload;
+namespace EnjoysCMS\Core\StorageUpload;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -13,8 +13,12 @@ final class Local implements StorageUploadInterface
     private string $rootDirectory;
     private string $publicUrl;
 
-    public function __construct(string $rootDirectory, string $publicUrl, private array $permissionMap = [])
-    {
+    public function __construct(
+        string $rootDirectory,
+        string $publicUrl,
+        private array $permissionMap = [],
+        private array $config = []
+    ) {
         $this->rootDirectory = getenv('ROOT_PATH') . rtrim($rootDirectory, '/') . '/';
         $this->publicUrl = rtrim($publicUrl, '/') . '/';
     }
@@ -27,7 +31,8 @@ final class Local implements StorageUploadInterface
                 PortableVisibilityConverter::fromArray(
                     $this->permissionMap
                 ),
-            )
+            ),
+            config: $this->config
         );
     }
 

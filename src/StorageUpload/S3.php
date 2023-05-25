@@ -17,8 +17,12 @@ final class S3 implements StorageUploadInterface
     private AwsS3V3Adapter $adapter;
     private string $prefix;
 
-    public function __construct(private string $bucket, string $prefix = '', array $clientOptions = [])
-    {
+    public function __construct(
+        private string $bucket,
+        string $prefix = '',
+        array $clientOptions = [],
+        private array $config = []
+    ) {
         $this->prefix = (empty($prefix)) ? '' : rtrim($prefix, '/') . '/';
         $this->client = new S3Client($clientOptions);
         $this->adapter = new AwsS3V3Adapter(
@@ -30,7 +34,7 @@ final class S3 implements StorageUploadInterface
             )
         );
 
-        $this->filesystem = new Filesystem($this->adapter);
+        $this->filesystem = new Filesystem($this->adapter, config: $this->config);
     }
 
     public function getFileSystem(): Filesystem
