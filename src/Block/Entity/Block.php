@@ -2,82 +2,56 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Block\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use EnjoysCMS\Core\Components\Blocks\Custom;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Entities\Location;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="blocks")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'blocks')]
 class Block
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 50, unique: true, nullable: true, options: ['default' => null])]
     private ?string $alias = null;
 
-
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default":null})
-     */
+    #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $class = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $body = null;
 
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $options = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default":0})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 1})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
     private int $status = 1;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $removable = false;
 
-
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $cloned = false;
 
+    #[ORM\JoinTable(name: 'blocks_locations')]
+    #[ORM\JoinColumn(name: 'block_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'location_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Location::class)]
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Location")
-     * @ORM\JoinTable(
-     *     name="blocks_locations",
-     *     joinColumns={@ORM\JoinColumn(name="block_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id")}
-     * )
-     */
     private Collection $locations;
 
     public function __construct()
