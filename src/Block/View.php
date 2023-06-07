@@ -61,7 +61,7 @@ class View
                 sprintf("Blocks: Access not allowed to block: '%s'", $block->getName()),
                 [
                     'id' => $block->getId(),
-                    'class' => $block->getClass(),
+                    'class' => $block->getClassName(),
                     'name' => $block->getName(),
                 ]
             );
@@ -73,6 +73,6 @@ class View
             return null;
         }
 
-        return $this->container->make($block->getClass(), ['block' => $block])->view();
+        return $this->container->make($block->getClassName(), ['block' => $block])->view();
     }
 }

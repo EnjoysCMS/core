@@ -20,7 +20,7 @@ class Block
         return $this->name;
     }
 
-    public function setClassName(string $className)
+    public function setClassName(string $className): void
     {
         $this->className = $className;
     }
@@ -30,7 +30,7 @@ class Block
         return $this->className;
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
     }

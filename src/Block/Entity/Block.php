@@ -7,7 +7,6 @@ namespace EnjoysCMS\Core\Block\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Block\UserBlock;
 use EnjoysCMS\Core\Entities\Location;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
@@ -16,9 +15,9 @@ class Block
 {
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\Column(type: 'uuid')]
+    private string $id;
 
     #[ORM\Column(type: 'string', length: 50, unique: true, nullable: true, options: ['default' => null])]
     private ?string $alias = null;
@@ -26,8 +25,8 @@ class Block
     #[ORM\Column(type: 'string')]
     private string $name;
 
-    #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
-    private ?string $class = null;
+    #[ORM\Column(type: 'string')]
+    private string $className;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $body = null;
@@ -63,9 +62,14 @@ class Block
         $this->locations = new ArrayCollection();
     }
 
-    public function getId(): string|int
+    public function setId(string $id): void
     {
-        return $this->getAlias() ?? $this->id;
+        $this->id = $id;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getAlias(): ?string
@@ -97,14 +101,14 @@ class Block
         $this->name = $name;
     }
 
-    public function getClass(): ?string
+    public function getClassName(): string
     {
-        return $this->class ?? UserBlock::class;
+        return $this->className;
     }
 
-    public function setClass(string $class): void
+    public function setClassName(string $className): void
     {
-        $this->class = $class;
+        $this->className = $className;
     }
 
     public function getStatus(): int
@@ -146,7 +150,7 @@ class Block
 
     public function getBlockActionAcl(): string
     {
-        return "{$this->getClass()}::view({$this->getId()})";
+        return "{$this->getClassName()}::view({$this->getId()})";
     }
 
     public function getBlockCommentAcl(): string
@@ -210,4 +214,6 @@ class Block
     {
         $this->locations[] = $location;
     }
+
+
 }
