@@ -6,6 +6,23 @@ namespace EnjoysCMS\Core\Block;
 
 class UserBlock extends AbstractBlock
 {
+    public const META = [
+        'options' => [
+            'allowed_html' => [
+                'value' => 'true',
+                'name' => 'Разрешить использование HTML?',
+                'description' => null,
+                'form' => [
+                    'type' => 'radio',
+                    'data' => [
+                        'true' => 'Да',
+                        'false' => 'Нет'
+                    ]
+                ]
+            ]
+        ]
+    ];
+
     public function view(): string
     {
         $body = '';
@@ -20,25 +37,4 @@ class UserBlock extends AbstractBlock
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 
-
-
-    public static function getMeta(): array
-    {
-        return [
-            'options' => [
-                'allowed_html' => [
-                    'value' => 'true',
-                    'name' => 'Разрешить использование HTML?',
-                    'description' => null,
-                    'form' => [
-                        'type' => 'radio',
-                        'data' => [
-                            'true' => 'Да',
-                            'false' => 'Нет'
-                        ]
-                    ]
-                ]
-            ]
-        ];
-    }
 }
