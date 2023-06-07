@@ -69,7 +69,9 @@ class AnnotationClassLoader implements LoaderInterface
 
         foreach ($this->getAnnotations($class) as $annot) {
             $collection->addResource(new FileResource($class->getFileName()));
-            $collection->addBlock(new Block($annot->getName(), $class->getName(), $annot->getOptions()));
+            $collection->addBlock(
+                new Block(className: $class->getName(), name: $annot->getName(), options: $annot->getOptions())
+            );
         }
 
 
