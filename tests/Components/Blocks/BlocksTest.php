@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Components\AccessControl\ACL;
 use EnjoysCMS\Core\Components\Blocks\Blocks;
-use EnjoysCMS\Core\Components\Blocks\BlocksInterface;
+use EnjoysCMS\Core\Components\Blocks\BlockInterface;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\HelpersBase;
 use EnjoysCMS\Core\Entities\Block;
@@ -58,7 +58,7 @@ class BlocksTest extends TestCase
         $block4->setClass('Block3');
         $this->setProperty($block4, 'id', 4);
 
-        $blocksInterface = $this->getMock(BlocksInterface::class);
+        $blocksInterface = $this->getMock(BlockInterface::class);
         $blocksInterface->method('view')->will(
             $this->onConsecutiveCalls('View1', 'View2')
         );

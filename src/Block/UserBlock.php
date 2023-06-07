@@ -2,28 +2,24 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Blocks;
+namespace EnjoysCMS\Core\Block;
 
-class Custom extends AbstractBlock
+class UserBlock extends AbstractBlock
 {
     public function view(): string
     {
-        $body = $this->block->getBody();
+        $body = '';
 
-        if ($body === null) {
-            return '';
-        }
-
-        if ($this->getOption('allowed_html') === 'true') {
-            return $body;
-        }
+//        if ($body === null) {
+//            return '';
+//        }
+//
+//        if ($this->getOption('allowed_html') === 'true') {
+//            return $body;
+//        }
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 
-    public static function getBlockDefinitionFile(): string
-    {
-        return '';
-    }
 
 
     public static function getMeta(): array

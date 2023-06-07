@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Blocks;
+namespace EnjoysCMS\Core\Block;
 
 use DI\DependencyException;
 use DI\FactoryInterface;
@@ -10,16 +10,16 @@ use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
+use EnjoysCMS\Core\Block\Entity\Block;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
-use EnjoysCMS\Core\Entities\Block;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-class Blocks
+class View
 {
-    private ObjectRepository|EntityRepository $bocksRepository;
+    private Repository\Block|EntityRepository $repository;
     private LoggerInterface $logger;
     private EntityManager $entityManager;
 
@@ -31,17 +31,8 @@ class Blocks
     public function __construct(private FactoryInterface $container)
     {
         $this->entityManager = $container->get(EntityManager::class);
-        $this->bocksRepository = $this->entityManager->getRepository(Block::class);
+        $this->repository = $this->entityManager->getRepository(Block::class);
         $this->logger = $container->get(LoggerInterface::class);
-    }
-
-
-    private function findBlockEntity(int|string $id): ?Block
-    {
-        if (is_numeric($id)) {
-            return $this->bocksRepository->find($id);
-        }
-        return $this->bocksRepository->findOneBy(['alias' => $id]);
     }
 
 
@@ -51,16 +42,14 @@ class Blocks
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function getBlock(int|string $blockId): ?string
+    public function view(int|string $blockId): ?string
     {
-        $block = $this->findBlockEntity($blockId);
-
+        $block = $this->repository->find($blockId);
 
         if ($block === null) {
             $this->logger->notice(sprintf('Blocks: Not found block by id: %s', $blockId), debug_backtrace());
             return null;
         }
-
 
         if (
             ACL::access(

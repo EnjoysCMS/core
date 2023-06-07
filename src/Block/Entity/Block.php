@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Block\Entity;
+namespace EnjoysCMS\Core\Block\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use EnjoysCMS\Core\Components\Blocks\Custom;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Block\UserBlock;
 use EnjoysCMS\Core\Entities\Location;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
 #[ORM\Table(name: 'blocks')]
 class Block
 {
@@ -91,7 +91,7 @@ class Block
 
     public function getClass(): ?string
     {
-        return $this->class ?? Custom::class;
+        return $this->class ?? UserBlock::class;
     }
 
     public function setClass(string $class): void

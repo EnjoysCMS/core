@@ -2,6 +2,8 @@
 
 namespace EnjoysCMS\Core\Components\Extensions\Twig;
 
+use DI\Container;
+use EnjoysCMS\Core\Block\View;
 use EnjoysCMS\Core\Components\Helpers\Setting;
 use ReflectionClass;
 use Twig\Extension\AbstractExtension;
@@ -14,6 +16,10 @@ class CoreTwigExtension extends AbstractExtension
     private static array $scripts = [];
     private static array $styles = [];
     private bool $noCatch = false;
+
+    public function __construct(private Container $container)
+    {
+    }
 
     public function getFilters(): array
     {
@@ -32,6 +38,9 @@ class CoreTwigExtension extends AbstractExtension
             }),
             new TwigFunction('getStyles', [$this, 'getStyles'], ['is_safe' => ['html']]),
             new TwigFunction('getScripts', [$this, 'getScripts'], ['is_safe' => ['html']]),
+            new TwigFunction('ViewBlock', callable: function (int|string $id): string {
+                return $this->container->make(View::class)->view($id);
+            }, options: ['is_safe' => ['html']]),
         ];
     }
 
