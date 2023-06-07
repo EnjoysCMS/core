@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\UserBlock;
 use EnjoysCMS\Core\Entities\Location;
@@ -51,7 +51,6 @@ class Block
     #[ORM\JoinColumn(name: 'block_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'location_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Location::class)]
-
     private Collection $locations;
 
     public function __construct()
@@ -64,9 +63,9 @@ class Block
         $this->locations = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): string|int
     {
-        return $this->id;
+        return $this->getAlias() ?? $this->id;
     }
 
     public function getAlias(): ?string
@@ -76,7 +75,16 @@ class Block
 
     public function setAlias(?string $alias): void
     {
-        $this->alias = trim($alias);
+        if ($alias === null) {
+            $this->alias = null;
+            return;
+        }
+
+        if (empty($alias = trim($alias))) {
+            $this->alias = null;
+            return;
+        }
+        $this->alias = $alias;
     }
 
     public function getName(): string
@@ -144,15 +152,6 @@ class Block
     public function getBlockCommentAcl(): string
     {
         return ":Блок: Доступ к просмотру блока '{$this->getName()}'";
-    }
-
-
-    public function getTwigTemplateString(bool $alias = false): string
-    {
-        if ($alias === true) {
-            return "{{ ViewBlock('{$this->getAlias()}') }}";
-        }
-        return "{{ ViewBlock({$this->getId()}) }}";
     }
 
     public function isRemovable(): bool
