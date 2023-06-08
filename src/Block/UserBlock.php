@@ -31,7 +31,7 @@ class UserBlock extends AbstractBlock
             return '';
         }
 
-        if ($this->getBlockOptions()->getValue('allowed_html') === true) {
+        if ($this->getBlockOptions()->getValue('allowed_html') === 'true') {
             return $body;
         }
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);

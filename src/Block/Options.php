@@ -5,13 +5,14 @@ namespace EnjoysCMS\Core\Block;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
 
 /**
  * @implements  ArrayAccess<string, array{value: mixed}>
  * @implements  IteratorAggregate<string, array{value: mixed}>
  */
-class Options implements ArrayAccess, IteratorAggregate
+class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
 {
     /**
      * @var array<string, array{value: mixed}>
@@ -45,8 +46,32 @@ class Options implements ArrayAccess, IteratorAggregate
 
     public function getValue(string $key): mixed
     {
-        return $this->options[$key]['value'];
+        return $this->options[$key]['value'] ?? null;
     }
+
+    public function hasOption(string $key): bool
+    {
+        return array_key_exists($key, $this->options);
+    }
+
+    public function setValue(string $key, mixed $value): void
+    {
+        if ($this->hasOption($key)){
+            $this->options[$key]['value'] = $value;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @return void
+     */
+    public function setValues(array $options): void
+    {
+        foreach ($options as $key => $value) {
+            $this->setValue($key, $value);
+        }
+    }
+
 
     private function populate(array $data): void
     {
@@ -123,4 +148,11 @@ class Options implements ArrayAccess, IteratorAggregate
     {
         return new ArrayIterator($this->options);
     }
+
+    public function jsonSerialize()
+    {
+       return $this->options;
+    }
+
+
 }

@@ -39,6 +39,7 @@ class Block
     #[ORM\Column(type: 'json', options: ['default' => []])]
     private iterable $options = [];
 
+
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
 
