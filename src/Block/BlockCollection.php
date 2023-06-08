@@ -10,19 +10,14 @@ class BlockCollection implements Countable
 {
 
     /**
-     * @var Block[]
+     * @var Metadata[]
      */
-    private array $collection;
+    private array $collection = [];
 
     /**
      * @var ResourceInterface[]
      */
     private array $resources = [];
-
-    public function __construct($collection = [])
-    {
-        $this->collection = $collection;
-    }
 
 
     public function count(): int
@@ -44,7 +39,7 @@ class BlockCollection implements Countable
     public function addCollection(BlockCollection $collection): void
     {
         foreach ($collection->getCollection() as $block) {
-            $this->addBlock($block);
+            $this->addMetadata($block);
         }
         foreach ($collection->getResources() as $resource) {
             $this->addResource($resource);
@@ -56,9 +51,9 @@ class BlockCollection implements Countable
         return $this->collection;
     }
 
-    public function addBlock(Block $block): void
+    public function addMetadata(Metadata $metadata): void
     {
-        $this->collection[] = $block;
+        $this->collection[] = $metadata;
     }
 
 

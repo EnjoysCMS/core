@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Block\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\BlockInterface;
 use EnjoysCMS\Core\Block\BlockOptions;
 use EnjoysCMS\Core\Entities\Location;
@@ -27,6 +28,9 @@ class Block
     #[ORM\Column(type: 'string')]
     private string $name;
 
+    /**
+     * @var class-string<AbstractBlock>
+     */
     #[ORM\Column(type: 'string')]
     private string $className;
 
@@ -104,13 +108,16 @@ class Block
     }
 
     /**
-     * @return class-string<BlockInterface>
+     * @return class-string<AbstractBlock>
      */
     public function getClassName(): string
     {
         return $this->className;
     }
 
+    /**
+     * @param class-string<AbstractBlock> $className
+     */
     public function setClassName(string $className): void
     {
         $this->className = $className;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block;
 
-use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
@@ -20,20 +19,17 @@ use Psr\Log\LoggerInterface;
 class View
 {
     private Repository\Block|EntityRepository $repository;
-    private LoggerInterface $logger;
-    private EntityManager $entityManager;
 
 
     /**
-     * @throws NotFoundException
      * @throws NotSupported
-     * @throws DependencyException
      */
-    public function __construct(private Container $container)
-    {
-        $this->entityManager = $container->get(EntityManager::class);
+    public function __construct(
+        private BlockFactory $blockFactory,
+        private EntityManager $entityManager,
+        private LoggerInterface $logger
+    ) {
         $this->repository = $this->entityManager->getRepository(Block::class);
-        $this->logger = $container->get(LoggerInterface::class);
     }
 
 
@@ -45,11 +41,11 @@ class View
      */
     public function view(string $blockId): ?string
     {
-        /** @var null|Block $block */
+        /** @var null|Metadata $block */
         $block = $this->repository->find($blockId);
 
         if ($block === null) {
-            $this->logger->notice(sprintf('Blocks: Not found block by id: %s', $blockId), debug_backtrace());
+            $this->logger->notice(sprintf('Not found block by id: %s', $blockId));
             return null;
         }
 
@@ -60,7 +56,7 @@ class View
             ) === false
         ) {
             $this->logger->debug(
-                sprintf("Blocks: Access not allowed to block: '%s'", $block->getName()),
+                sprintf("Access not allowed to block: '%s'", $block->getName()),
                 [
                     'id' => $block->getId(),
                     'class' => $block->getClassName(),
@@ -71,10 +67,10 @@ class View
         }
 
         if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds(), true)) {
-            $this->logger->debug(sprintf('Blocks: Location not constrains: %s', $block->getId()), $block->getLocationsIds());
+            $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsIds());
             return null;
         }
 
-        return $this->container->make($block->getClassName())->setEntity($block)->view();
+        return $this->blockFactory->create($block->getClassName())->setEntity($block)->view();
     }
 }

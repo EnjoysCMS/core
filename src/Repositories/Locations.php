@@ -7,6 +7,9 @@ use EnjoysCMS\Core\Entities\Location;
 
 class Locations extends EntityRepository
 {
+    /**
+     * @return array<string, string>
+     */
     public function getListLocationsForSelectForm(): array
     {
         $locations = $this->findBy([], ['name' => 'desc']);
