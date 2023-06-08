@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Block;
 use Countable;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
-class BlockCollection implements Countable
+class Collection implements Countable
 {
 
     /**
@@ -36,7 +36,7 @@ class BlockCollection implements Countable
         return $this->resources;
     }
 
-    public function addCollection(BlockCollection $collection): void
+    public function addCollection(Collection $collection): void
     {
         foreach ($collection->getCollection() as $block) {
             $this->addMetadata($block);

@@ -2,7 +2,7 @@
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use EnjoysCMS\Core\Block\BlockCollection;
+use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use LogicException;
 use ReflectionClass;
@@ -51,14 +51,14 @@ class AnnotationFileLoader extends FileLoader
      *
      * @param  mixed  $resource
      * @param  string|null  $type
-     * @return BlockCollection|null
+     * @return Collection|null
      * @throws ReflectionException
      */
-    public function load(mixed $resource, string $type = null): ?BlockCollection
+    public function load(mixed $resource, string $type = null): ?Collection
     {
         $path = $this->locator->locate($resource);
 
-        $collection = new BlockCollection();
+        $collection = new Collection();
         if ($class = $this->findClass($path)) {
             $reflectionClass = new ReflectionClass($class);
             if ($reflectionClass->isAbstract()) {

@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
 use EnjoysCMS\Core\Block\Metadata;
-use EnjoysCMS\Core\Block\BlockCollection;
+use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -49,9 +49,9 @@ class AnnotationClassLoader implements LoaderInterface
     /**
      * @param mixed $resource
      * @param string|null $type
-     * @return BlockCollection
+     * @return Collection
      */
-    public function load(mixed $resource, string $type = null): BlockCollection
+    public function load(mixed $resource, string $type = null): Collection
     {
         if (!class_exists($resource)) {
             throw new InvalidArgumentException(sprintf('Class "%s" does not exist.', $resource));
@@ -64,7 +64,7 @@ class AnnotationClassLoader implements LoaderInterface
             );
         }
 
-        $collection = new BlockCollection();
+        $collection = new Collection();
 
         foreach ($this->getAnnotations($class) as $annot) {
             $collection->addResource(new FileResource($class->getFileName()));

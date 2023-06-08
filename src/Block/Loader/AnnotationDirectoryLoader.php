@@ -3,7 +3,7 @@
 namespace EnjoysCMS\Core\Block\Loader;
 
 
-use EnjoysCMS\Core\Block\BlockCollection;
+use EnjoysCMS\Core\Block\Collection;
 use Exception;
 use FilesystemIterator;
 use InvalidArgumentException;
@@ -24,9 +24,9 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
      * @throws InvalidArgumentException When the directory does not exist or its routes cannot be parsed
      * @throws ReflectionException
      */
-    public function load(mixed $resource, string $type = null): ?BlockCollection
+    public function load(mixed $resource, string $type = null): ?Collection
     {
-        $collection = new BlockCollection();
+        $collection = new Collection();
         if (!is_dir($dir = $this->locator->locate($resource))) {
             return parent::supports($resource, $type) ? parent::load($resource, $type) : $collection;
         }
