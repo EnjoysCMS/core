@@ -6,7 +6,7 @@ class Block
 {
 
 
-    public function __construct(private string $className, private string $name, private array $options = [])
+    public function __construct(private string $className, private string $name, private BlockOptions $options)
     {
     }
 
@@ -30,12 +30,12 @@ class Block
         return $this->className;
     }
 
-    public function setOptions(array $options): void
+    public function setOptions(BlockOptions $options): void
     {
         $this->options = $options;
     }
 
-    public function getOptions(): array
+    public function getOptions(): BlockOptions
     {
         return $this->options;
     }

@@ -75,6 +75,6 @@ class View
             return null;
         }
 
-        return $this->container->make($block->getClassName(), ['block' => $block])->view();
+        return $this->container->make($block->getClassName())->setEntity($block)->view();
     }
 }

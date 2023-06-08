@@ -3,10 +3,10 @@
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
+use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
 use EnjoysCMS\Core\Block\Block;
 use EnjoysCMS\Core\Block\BlockCollection;
-use EnjoysCMS\Core\Block\BlockInterface;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -47,8 +47,8 @@ class AnnotationClassLoader implements LoaderInterface
     }
 
     /**
-     * @param  mixed  $resource
-     * @param  string|null  $type
+     * @param mixed $resource
+     * @param string|null $type
      * @return BlockCollection
      */
     public function load(mixed $resource, string $type = null): BlockCollection
@@ -70,7 +70,11 @@ class AnnotationClassLoader implements LoaderInterface
         foreach ($this->getAnnotations($class) as $annot) {
             $collection->addResource(new FileResource($class->getFileName()));
             $collection->addBlock(
-                new Block(className: $class->getName(), name: $annot->getName(), options: $annot->getOptions())
+                new Block(
+                    className: $class->getName(),
+                    name: $annot->getName() ?? $class->getShortName(),
+                    options: $annot->getOptions()
+                )
             );
         }
 
@@ -90,12 +94,13 @@ class AnnotationClassLoader implements LoaderInterface
     }
 
     /**
-     * @param  ReflectionClass  $reflection
+     * @param ReflectionClass $reflection
      * @return iterable<int, BlockAnnotation>
      */
     private function getAnnotations(ReflectionClass $reflection): iterable
     {
-        if (!$reflection->implementsInterface(BlockInterface::class)) {
+        if (!$reflection->isSubclassOf(AbstractBlock::class)
+        ) {
             return;
         }
 
