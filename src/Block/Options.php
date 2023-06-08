@@ -2,14 +2,14 @@
 
 namespace EnjoysCMS\Core\Block;
 
-class BlockOptions
+class Options
 {
     /**
      * @var array<string, array{value: mixed}>
      */
     private array $options = [];
 
-    public static function createFromArray(array $data): BlockOptions
+    public static function createFromArray(array $data): Options
     {
         return new self($data);
     }

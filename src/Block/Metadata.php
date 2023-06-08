@@ -14,7 +14,7 @@ class Metadata
      * @var class-string<AbstractBlock>
      */
     private string $className;
-    private BlockOptions $options;
+    private Options $options;
 
     public function __construct(private ReflectionClass $class, private BlockAnnotation $annot)
     {
@@ -37,7 +37,7 @@ class Metadata
         return $this->className;
     }
 
-    public function getOptions(): BlockOptions
+    public function getOptions(): Options
     {
         return $this->options;
     }

@@ -13,13 +13,11 @@ class BlockFactory
     }
 
     /**
-     * @template T
-     * @param class-string<T> $className
-     * @return T
+     * @param class-string<AbstractBlock> $className
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function create(string $className)
+    public function create(string $className): AbstractBlock
     {
         return $this->container->make($className);
     }

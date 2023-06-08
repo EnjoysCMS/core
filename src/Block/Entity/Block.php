@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\AbstractBlock;
-use EnjoysCMS\Core\Block\BlockInterface;
-use EnjoysCMS\Core\Block\BlockOptions;
+use EnjoysCMS\Core\Block\Options;
 use EnjoysCMS\Core\Entities\Location;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
@@ -193,9 +192,9 @@ class Block
         $this->cloned = $cloned;
     }
 
-    public function getOptions(): BlockOptions
+    public function getOptions(): Options
     {
-        return BlockOptions::createFromArray($this->options);
+        return Options::createFromArray($this->options);
     }
 
     public function getOptionsKeyValue(): array

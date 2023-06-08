@@ -7,9 +7,9 @@ abstract class AbstractBlock implements BlockInterface
 
     private ?\EnjoysCMS\Core\Block\Entity\Block $entity;
 
-    final public function getBlockOptions(): BlockOptions
+    final public function getBlockOptions(): Options
     {
-        return $this->entity?->getOptions() ?? new BlockOptions();
+        return $this->entity?->getOptions() ?? new Options();
     }
 
     final public function setEntity(\EnjoysCMS\Core\Block\Entity\Block $entity): static

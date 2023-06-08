@@ -16,7 +16,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-class View
+class BlockModel
 {
     private Repository\Block|EntityRepository $repository;
 
@@ -41,7 +41,7 @@ class View
      */
     public function view(string $blockId): ?string
     {
-        /** @var null|Metadata $block */
+        /** @var null|Block $block */
         $block = $this->repository->find($blockId);
 
         if ($block === null) {
@@ -71,6 +71,9 @@ class View
             return null;
         }
 
-        return $this->blockFactory->create($block->getClassName())->setEntity($block)->view();
+        return $this->blockFactory
+            ->create($block->getClassName())
+            ->setEntity($block)
+            ->view();
     }
 }

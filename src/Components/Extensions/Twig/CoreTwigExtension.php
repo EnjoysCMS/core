@@ -3,7 +3,7 @@
 namespace EnjoysCMS\Core\Components\Extensions\Twig;
 
 use DI\Container;
-use EnjoysCMS\Core\Block\View;
+use EnjoysCMS\Core\Block\BlockModel;
 use EnjoysCMS\Core\Components\Helpers\Setting;
 use ReflectionClass;
 use Twig\Extension\AbstractExtension;
@@ -39,7 +39,7 @@ class CoreTwigExtension extends AbstractExtension
             new TwigFunction('getStyles', [$this, 'getStyles'], ['is_safe' => ['html']]),
             new TwigFunction('getScripts', [$this, 'getScripts'], ['is_safe' => ['html']]),
             new TwigFunction('ViewBlock', callable: function (string $id): ?string {
-                return $this->container->make(View::class)->view($id);
+                return $this->container->get(BlockModel::class)->view($id);
             }, options: ['is_safe' => ['html']]),
         ];
     }
