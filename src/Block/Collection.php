@@ -56,5 +56,16 @@ class Collection implements Countable
         $this->collection[] = $metadata;
     }
 
+    public function getMetadata(\ReflectionClass $class): ?Metadata
+    {
+        foreach ($this->collection as $metadata){
+            if ($metadata->getClassName() === $class->getName()){
+                return $metadata;
+            }
+        }
+
+        return null;
+    }
+
 
 }
