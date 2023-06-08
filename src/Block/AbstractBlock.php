@@ -2,17 +2,19 @@
 
 namespace EnjoysCMS\Core\Block;
 
+use EnjoysCMS\Core\Block\Entity\Block;
+
 abstract class AbstractBlock implements BlockInterface
 {
 
-    private ?\EnjoysCMS\Core\Block\Entity\Block $entity;
+    private ?Block $entity;
 
     final public function getBlockOptions(): Options
     {
         return $this->entity?->getOptions() ?? new Options();
     }
 
-    final public function setEntity(\EnjoysCMS\Core\Block\Entity\Block $entity): static
+    final public function setEntity(Block $entity): static
     {
         $this->entity = $entity;
         return $this;
@@ -23,15 +25,15 @@ abstract class AbstractBlock implements BlockInterface
         return $this->entity;
     }
 
-    public function preRemove()
+    public function preRemove(): void
     {
     }
 
-    public function postEdit()
+    public function postEdit(): void
     {
     }
 
-    public function postClone()
+    public function postClone(): void
     {
     }
 

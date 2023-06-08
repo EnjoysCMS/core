@@ -16,6 +16,10 @@ class Metadata
     private string $className;
     private Options $options;
 
+    /**
+     * @param ReflectionClass<AbstractBlock> $class
+     * @param BlockAnnotation $annot
+     */
     public function __construct(private ReflectionClass $class, private BlockAnnotation $annot)
     {
         $this->name = $this->annot->getName() ?? $this->class->getShortName();

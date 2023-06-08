@@ -25,15 +25,15 @@ class UserBlock extends AbstractBlock
 
     public function view(): string
     {
-        $body = '';
+        $body = $this->getEntity()?->getBody();
 
-//        if ($body === null) {
-//            return '';
-//        }
-//
-//        if ($this->getOption('allowed_html') === 'true') {
-//            return $body;
-//        }
+        if ($body === null) {
+            return '';
+        }
+
+        if ($this->getBlockOptions()->getValue('allowed_html') === true) {
+            return $body;
+        }
         return htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE);
     }
 

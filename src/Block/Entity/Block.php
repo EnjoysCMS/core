@@ -37,7 +37,7 @@ class Block
     private ?string $body = null;
 
     #[ORM\Column(type: 'json', options: ['default' => []])]
-    private array $options = [];
+    private iterable $options = [];
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
@@ -199,17 +199,14 @@ class Block
 
     public function getOptionsKeyValue(): array
     {
-        if (null === $options = $this->getOptions()->all()) {
-            return [];
-        }
         $ret = [];
-        foreach ($options as $key => $option) {
+        foreach ($this->getOptions() as $key => $option) {
             $ret[$key] = $option['value'];
         }
         return $ret;
     }
 
-    public function setOptions(array $options): void
+    public function setOptions(iterable $options): void
     {
         $this->options = $options;
     }
