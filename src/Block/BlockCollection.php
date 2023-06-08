@@ -3,15 +3,16 @@
 namespace EnjoysCMS\Core\Block;
 
 
+use Countable;
 use Symfony\Component\Config\Resource\ResourceInterface;
 
-class BlockCollection implements \Countable
+class BlockCollection implements Countable
 {
 
     /**
      * @var Block[]
      */
-    private array $collection = [];
+    private array $collection;
 
     /**
      * @var ResourceInterface[]

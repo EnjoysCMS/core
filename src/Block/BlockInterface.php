@@ -6,5 +6,5 @@ namespace EnjoysCMS\Core\Block;
 
 interface BlockInterface
 {
-    public function view(): string;
+    public function view(): ?string;
 }

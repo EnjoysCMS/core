@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block;
 
+use DI\Container;
 use DI\DependencyException;
-use DI\FactoryInterface;
 use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Block\Entity\Block;
 use EnjoysCMS\Core\Components\Detector\Locations;
 use EnjoysCMS\Core\Components\Helpers\ACL;
@@ -25,10 +25,11 @@ class View
 
 
     /**
-     * @throws DependencyException
      * @throws NotFoundException
+     * @throws NotSupported
+     * @throws DependencyException
      */
-    public function __construct(private FactoryInterface $container)
+    public function __construct(private Container $container)
     {
         $this->entityManager = $container->get(EntityManager::class);
         $this->repository = $this->entityManager->getRepository(Block::class);
@@ -42,8 +43,9 @@ class View
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function view(int|string $blockId): ?string
+    public function view(string $blockId): ?string
     {
+        /** @var null|Block $block */
         $block = $this->repository->find($blockId);
 
         if ($block === null) {
@@ -68,7 +70,7 @@ class View
             return null;
         }
 
-        if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds())) {
+        if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds(), true)) {
             $this->logger->debug(sprintf('Blocks: Location not constrains: %s', $block->getId()), $block->getLocationsIds());
             return null;
         }

@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Block\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Block\BlockInterface;
 use EnjoysCMS\Core\Entities\Location;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
@@ -101,6 +102,9 @@ class Block
         $this->name = $name;
     }
 
+    /**
+     * @return class-string<BlockInterface>
+     */
     public function getClassName(): string
     {
         return $this->className;
@@ -127,6 +131,9 @@ class Block
         return $this->locations;
     }
 
+    /**
+     * @return int[]
+     */
     public function getLocationsIds(): array
     {
         $ids = [];

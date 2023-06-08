@@ -38,7 +38,7 @@ class CoreTwigExtension extends AbstractExtension
             }),
             new TwigFunction('getStyles', [$this, 'getStyles'], ['is_safe' => ['html']]),
             new TwigFunction('getScripts', [$this, 'getScripts'], ['is_safe' => ['html']]),
-            new TwigFunction('ViewBlock', callable: function (int|string $id): string {
+            new TwigFunction('ViewBlock', callable: function (string $id): ?string {
                 return $this->container->make(View::class)->view($id);
             }, options: ['is_safe' => ['html']]),
         ];
