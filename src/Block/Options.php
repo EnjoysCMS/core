@@ -146,7 +146,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
         unset($this->options[$offset]);
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->options);
     }

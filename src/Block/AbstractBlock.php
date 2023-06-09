@@ -4,25 +4,30 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block;
 
-use EnjoysCMS\Core\Block\Entity\Block;
+use EnjoysCMS\Core\Entities;
 
 abstract class AbstractBlock implements BlockInterface
 {
 
-    private ?Block $entity;
+    private ?Entities\Block $entity;
+
+    public static function getMeta(): array
+    {
+        return [];
+    }
 
     final public function getBlockOptions(): Options
     {
-        return $this->entity?->getOptions() ?? new Options();
+        return  Options::createFromArray($this->entity->getOptions() ?? []);
     }
 
-    final public function setEntity(Block $entity): static
+    final public function setEntity(Entities\Block $entity): static
     {
         $this->entity = $entity;
         return $this;
     }
 
-    final public function getEntity(): ?Entity\Block
+    final public function getEntity(): ?Entities\Block
     {
         return $this->entity;
     }
