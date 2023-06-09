@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
-use EnjoysCMS\Core\Block\Metadata;
 use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
-use Symfony\Component\Config\Resource\FileResource;
 
 use function is_string;
 
@@ -67,10 +67,8 @@ class AnnotationClassLoader implements LoaderInterface
         $collection = new Collection();
 
         foreach ($this->getAnnotations($class) as $annot) {
-            $collection->addResource(new FileResource($class->getFileName()));
-            $collection->addMetadata(
-                new Metadata($class, $annot)
-            );
+            $annot->setReflectionClass($class);
+            $collection->addBlockAnnotation($annot);
         }
 
 

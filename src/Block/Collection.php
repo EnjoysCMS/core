@@ -1,71 +1,109 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block;
 
 
+use ArrayAccess;
+use ArrayIterator;
 use Countable;
-use Symfony\Component\Config\Resource\ResourceInterface;
+use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
+use IteratorAggregate;
+use ReflectionClass;
 
-class Collection implements Countable
+/**
+ * @implements  ArrayAccess<array-key, BlockAnnotation>
+ * @implements  IteratorAggregate<array-key, BlockAnnotation>
+ */
+class Collection implements Countable, ArrayAccess, IteratorAggregate
 {
 
     /**
-     * @var Metadata[]
+     * @var BlockAnnotation[]
      */
     private array $collection = [];
-
-    /**
-     * @var ResourceInterface[]
-     */
-    private array $resources = [];
-
 
     public function count(): int
     {
         return count($this->collection);
     }
 
-    public function addResource(ResourceInterface $resource): void
-    {
-        $this->resources[] = $resource;
-    }
-
-
-    public function getResources(): array
-    {
-        return $this->resources;
-    }
-
-    public function addCollection(Collection $collection): void
-    {
-        foreach ($collection->getCollection() as $block) {
-            $this->addMetadata($block);
-        }
-        foreach ($collection->getResources() as $resource) {
-            $this->addResource($resource);
-        }
-    }
-
-    public function getCollection(): array
+    /**
+     * @return BlockAnnotation[]
+     */
+    public function toArray(): array
     {
         return $this->collection;
     }
 
-    public function addMetadata(Metadata $metadata): void
+    public function addCollection(Collection $collection): void
     {
-        $this->collection[] = $metadata;
+        /** @var BlockAnnotation $blockAnnotation */
+        foreach ($collection as $blockAnnotation) {
+            $this->addBlockAnnotation($blockAnnotation);
+        }
     }
 
-    public function getMetadata(\ReflectionClass $class): ?Metadata
+    public function addBlockAnnotation(BlockAnnotation $blockAnnotation): void
     {
-        foreach ($this->collection as $metadata){
-            if ($metadata->getClassName() === $class->getName()){
-                return $metadata;
+        $this->collection[] = $blockAnnotation;
+    }
+
+    public function getBlockAnnotation(ReflectionClass $class): ?BlockAnnotation
+    {
+        foreach ($this->collection as $blockAnnotation) {
+            if ($blockAnnotation->getClassName() === $class->getName()) {
+                return $blockAnnotation;
             }
         }
 
         return null;
     }
 
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->collection);
+    }
 
+    /**
+     * @param array-key $offset
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        return isset($this->collection[$offset]);
+    }
+
+    /**
+     * @param array-key $offset
+     * @return BlockAnnotation|null
+     */
+    public function offsetGet($offset): ?BlockAnnotation
+    {
+        return $this->collection[$offset] ?? null;
+    }
+
+    /**
+     * @param array-key|null $offset
+     * @param BlockAnnotation $value
+     * @return void
+     */
+    public function offsetSet($offset, $value): void
+    {
+        if ($offset === null) {
+            $this->collection[] = $value;
+            return;
+        }
+        $this->collection[$offset] = $value;
+    }
+
+    /**
+     * @param array-key $offset
+     * @return void
+     */
+    public function offsetUnset($offset): void
+    {
+        unset($this->collection[$offset]);
+    }
 }

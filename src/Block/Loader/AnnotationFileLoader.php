@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block\Loader;
 
 use EnjoysCMS\Core\Block\Collection;
@@ -9,13 +11,11 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader;
-use Symfony\Component\Config\Resource\FileResource;
 
 use function count;
 use function defined;
 use function function_exists;
 use function in_array;
-
 use function is_string;
 
 use const PATHINFO_EXTENSION;
@@ -49,8 +49,8 @@ class AnnotationFileLoader extends FileLoader
     /**
      * Loads from annotations from a file.
      *
-     * @param  mixed  $resource
-     * @param  string|null  $type
+     * @param mixed $resource
+     * @param string|null $type
      * @return Collection|null
      * @throws ReflectionException
      */
@@ -65,7 +65,6 @@ class AnnotationFileLoader extends FileLoader
                 return null;
             }
 
-            $collection->addResource(new FileResource($path));
             $collection->addCollection($this->loader->load($class, $type));
         }
 
@@ -114,7 +113,7 @@ class AnnotationFileLoader extends FileLoader
             }
 
             if (true === $class && T_STRING === $token[0]) {
-                return $namespace.'\\'.$token[1];
+                return $namespace . '\\' . $token[1];
             }
 
             if (true === $namespace && isset($nsTokens[$token[0]])) {

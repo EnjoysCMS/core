@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block;
 
 use EnjoysCMS\Core\Block\Entity\Block;

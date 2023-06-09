@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block\Loader;
 
 
@@ -13,7 +15,6 @@ use RecursiveIteratorIterator;
 use ReflectionClass;
 use ReflectionException;
 use SplFileInfo;
-use Symfony\Component\Config\Resource\DirectoryResource;
 
 use function is_string;
 
@@ -30,8 +31,6 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
         if (!is_dir($dir = $this->locator->locate($resource))) {
             return parent::supports($resource, $type) ? parent::load($resource, $type) : $collection;
         }
-
-        $collection->addResource(new DirectoryResource($dir, '/\.php$/'));
 
         /** @var SplFileInfo[] $files */
         $files = iterator_to_array(
@@ -90,7 +89,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
 
         try {
             return is_dir($this->locator->locate($resource));
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

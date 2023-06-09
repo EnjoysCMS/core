@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EnjoysCMS\Core\Block;
 
 use ArrayAccess;
@@ -56,7 +58,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
 
     public function setValue(string $key, mixed $value): void
     {
-        if ($this->hasOption($key)){
+        if ($this->hasOption($key)) {
             $this->options[$key]['value'] = $value;
         }
     }
@@ -151,7 +153,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
 
     public function jsonSerialize()
     {
-       return $this->options;
+        return $this->options;
     }
 
 
