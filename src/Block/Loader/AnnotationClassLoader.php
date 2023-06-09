@@ -11,80 +11,45 @@ use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
+use ReflectionException;
+use Symfony\Component\Finder\Finder;
 
-use function is_string;
-
-class AnnotationClassLoader implements LoaderInterface
+class AnnotationClassLoader
 {
-    /**
-     * @var string
-     */
-    protected string $annotationClass = BlockAnnotation::class;
-    protected LoaderResolverInterface $resolver;
 
-    public function __construct(protected ?Reader $reader = null)
+    public function __construct(private Finder $finder, protected ?Reader $reader = null)
     {
+        $this->finder->files()->name('/\.php$/');
     }
 
-    public function getResolver(): LoaderResolverInterface
-    {
-        return $this->resolver;
-    }
-
-    public function setResolver(LoaderResolverInterface $resolver): void
-    {
-        $this->resolver = $resolver;
-    }
 
     /**
-     * Sets the annotation class to read route properties from.
+     * @throws ReflectionException
      */
-    public function setAnnotationClass(string $class): void
+    public function getCollection(): Collection
     {
-        $this->annotationClass = $class;
-    }
-
-    /**
-     * @param mixed $resource
-     * @param string|null $type
-     * @return Collection
-     */
-    public function load(mixed $resource, string $type = null): Collection
-    {
-        if (!class_exists($resource)) {
-            throw new InvalidArgumentException(sprintf('Class "%s" does not exist.', $resource));
-        }
-
-        $class = new ReflectionClass($resource);
-        if ($class->isAbstract()) {
-            throw new InvalidArgumentException(
-                sprintf('Annotations from class "%s" cannot be read as it is abstract.', $class->getName())
-            );
-        }
-
         $collection = new Collection();
 
-        foreach ($this->getAnnotations($class) as $annot) {
-            $annot->setReflectionClass($class);
-            $collection->addBlockAnnotation($annot);
+        foreach ($this->finder as $file) {
+            if ($class = $this->findClass($file->getPathname())) {
+                $reflectionClass = new ReflectionClass($class);
+
+                if ($reflectionClass->isAbstract()) {
+                    continue;
+                }
+
+
+                foreach ($this->getAnnotations($reflectionClass) as $annot) {
+                    $annot->setReflectionClass($reflectionClass);
+                    $collection->addBlockAnnotation($annot);
+                }
+            }
         }
 
 
         return $collection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(mixed $resource, string $type = null): bool
-    {
-        return is_string($resource) && preg_match(
-                '/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/',
-                $resource
-            ) && (!$type || 'annotation' === $type);
-    }
 
     /**
      * @param ReflectionClass $reflection
@@ -99,7 +64,7 @@ class AnnotationClassLoader implements LoaderInterface
 
         foreach (
             $reflection->getAttributes(
-                $this->annotationClass,
+                BlockAnnotation::class,
                 ReflectionAttribute::IS_INSTANCEOF
             ) as $attribute
         ) {
@@ -113,11 +78,82 @@ class AnnotationClassLoader implements LoaderInterface
         $annotations = $this->reader->getClassAnnotations($reflection);
 
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof $this->annotationClass) {
+            if ($annotation instanceof BlockAnnotation) {
                 yield $annotation;
             }
         }
     }
 
+    /**
+     * Returns the full class name for the first class in the file.
+     */
+    protected function findClass(string $file): string|false
+    {
+        $class = false;
+        $namespace = false;
+        $tokens = token_get_all(file_get_contents($file));
+
+        if (1 === count($tokens) && T_INLINE_HTML === $tokens[0][0]) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'The file "%s" does not contain PHP code. Did you forgot to add the "<?php" start tag at the beginning of the file?',
+                    $file
+                )
+            );
+        }
+
+        $nsTokens = [T_NS_SEPARATOR => true, T_STRING => true];
+        if (defined('T_NAME_QUALIFIED')) {
+            $nsTokens[T_NAME_QUALIFIED] = true;
+        }
+        for ($i = 0; isset($tokens[$i]); ++$i) {
+            $token = $tokens[$i];
+            if (!isset($token[1])) {
+                continue;
+            }
+
+            if (true === $class && T_STRING === $token[0]) {
+                return $namespace . '\\' . $token[1];
+            }
+
+            if (true === $namespace && isset($nsTokens[$token[0]])) {
+                $namespace = $token[1];
+                while (isset($tokens[++$i][1], $nsTokens[$tokens[$i][0]])) {
+                    $namespace .= $tokens[$i][1];
+                }
+                $token = $tokens[$i];
+            }
+
+            if (T_CLASS === $token[0]) {
+                // Skip usage of ::class constant and anonymous classes
+                $skipClassToken = false;
+                for ($j = $i - 1; $j > 0; --$j) {
+                    if (!isset($tokens[$j][1])) {
+                        if ('(' === $tokens[$j] || ',' === $tokens[$j]) {
+                            $skipClassToken = true;
+                        }
+                        break;
+                    }
+
+                    if (T_DOUBLE_COLON === $tokens[$j][0] || T_NEW === $tokens[$j][0]) {
+                        $skipClassToken = true;
+                        break;
+                    } elseif (!in_array($tokens[$j][0], [T_WHITESPACE, T_DOC_COMMENT, T_COMMENT])) {
+                        break;
+                    }
+                }
+
+                if (!$skipClassToken) {
+                    $class = true;
+                }
+            }
+
+            if (T_NAMESPACE === $token[0]) {
+                $namespace = true;
+            }
+        }
+
+        return false;
+    }
 
 }
