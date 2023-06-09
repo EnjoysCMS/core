@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Extensions\Twig;
+namespace EnjoysCMS\Core\Extensions\Twig;
 
 use DI\Container;
 use EnjoysCMS\Core\Block\BlockModel;

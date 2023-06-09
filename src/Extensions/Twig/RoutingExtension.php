@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace EnjoysCMS\Core\Components\Extensions\Twig;
+namespace EnjoysCMS\Core\Extensions\Twig;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
