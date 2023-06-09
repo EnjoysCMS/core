@@ -6,6 +6,9 @@ use Enjoys\Traits\Options;
 use EnjoysCMS\Core\Entities\Block as Entity;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @deprecated
+ */
 abstract class AbstractBlock implements BlocksInterface
 {
     use Options;
