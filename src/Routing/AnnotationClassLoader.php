@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace EnjoysCMS\Core;
+namespace EnjoysCMS\Core\Routing;
 
 use Symfony\Component\Routing\Loader\AnnotationClassLoader as BaseLoader;
 use Symfony\Component\Routing\Route;
