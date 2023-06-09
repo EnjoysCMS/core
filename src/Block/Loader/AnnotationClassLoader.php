@@ -31,6 +31,7 @@ class AnnotationClassLoader
         $collection = new Collection();
 
         foreach ($this->finder as $file) {
+            /** @var class-string $class */
             if ($class = $this->findClass($file->getPathname())) {
                 $reflectionClass = new ReflectionClass($class);
 
@@ -38,6 +39,10 @@ class AnnotationClassLoader
                     continue;
                 }
 
+                if (!$reflectionClass->isSubclassOf(AbstractBlock::class)
+                ) {
+                    continue;
+                }
 
                 foreach ($this->getAnnotations($reflectionClass) as $annot) {
                     $annot->setReflectionClass($reflectionClass);
@@ -57,12 +62,7 @@ class AnnotationClassLoader
      */
     private function getAnnotations(ReflectionClass $reflection): iterable
     {
-        if (!$reflection->isSubclassOf(AbstractBlock::class)
-        ) {
-            return;
-        }
-
-        foreach (
+         foreach (
             $reflection->getAttributes(
                 BlockAnnotation::class,
                 ReflectionAttribute::IS_INSTANCEOF
@@ -86,8 +86,10 @@ class AnnotationClassLoader
 
     /**
      * Returns the full class name for the first class in the file.
+     * @param string $file
+     * @return non-empty-string|class-string|false
      */
-    protected function findClass(string $file): string|false
+    protected function findClass(string $file): false|string
     {
         $class = false;
         $namespace = false;
