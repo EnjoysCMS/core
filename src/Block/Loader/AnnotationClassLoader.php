@@ -33,7 +33,11 @@ class AnnotationClassLoader
         foreach ($this->finder as $file) {
             /** @var class-string $class */
             if ($class = $this->findClass($file->getPathname())) {
-                $reflectionClass = new ReflectionClass($class);
+                try {
+                    $reflectionClass = new ReflectionClass($class);
+                }catch (ReflectionException){
+                    continue;
+                }
 
                 if ($reflectionClass->isAbstract()) {
                     continue;
