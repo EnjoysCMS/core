@@ -21,11 +21,15 @@ class Utils
         return false;
     }
 
+    /**
+     * @return list<string>
+     */
     public static function getLoadersList(): array
     {
         $loaders = ClassLoader::getRegisteredLoaders();
         $list = [];
-        foreach ($loaders as $dir => $loader) {
+        foreach (array_keys($loaders) as $dir) {
+            /** @var string $dir */
             $list[] = $dir;
         }
         return $list;
