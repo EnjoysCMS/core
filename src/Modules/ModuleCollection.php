@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Modules;
+namespace EnjoysCMS\Core\Modules;
 
 use Psr\Container\ContainerInterface;
 

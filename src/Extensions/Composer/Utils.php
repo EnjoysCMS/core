@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Composer;
+namespace EnjoysCMS\Core\Extensions\Composer;
 
 use Composer\Autoload\ClassLoader;
 use stdClass;

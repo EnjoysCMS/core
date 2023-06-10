@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Modules;
+namespace EnjoysCMS\Core\Modules;
 
 class Module
 {
