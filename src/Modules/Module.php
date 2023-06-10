@@ -12,6 +12,7 @@ class Module
     public array $paths;
     public string $moduleName;
     public array $adminLinks = [];
+    public array $namespaces = [];
 
     public function __construct(object $data)
     {
