@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Modules;
 
-use Psr\Container\ContainerInterface;
-
 final class ModuleCollection
 {
-    private array $collection;
+    /**
+     * @var Module[]
+     */
+    private array $collection = [];
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->collection = $container->get('Modules');
-    }
 
     public function find(string $value): ?Module
     {
@@ -32,5 +29,32 @@ final class ModuleCollection
             }
         }
         return null;
+    }
+
+    /**
+     * @return Module[]
+     */
+    public function getCollection(): array
+    {
+        return $this->collection;
+    }
+
+
+    public function addModule(Module $module): void
+    {
+        if ($this->has($module)){
+            return;
+        }
+        $this->collection[] = $module;
+    }
+
+    public function has(Module $module): bool
+    {
+        foreach ($this->collection as $item) {
+            if ($item->moduleName === $module->moduleName){
+                return true;
+            }
+        }
+        return false;
     }
 }
