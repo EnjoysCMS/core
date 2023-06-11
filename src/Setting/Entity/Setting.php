@@ -1,52 +1,39 @@
 <?php
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Core\Setting\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 //Type::addType('allowedSettingType', EnumSettingAllowedType::class);
 
 /**
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Setting")
- * @ORM\Table(name="setting")
+ * @psalm-suppress MissingConstructor
  */
+#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Setting\Repository\Setting::class)]
+#[ORM\Table(name: 'setting')]
 class Setting
 {
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @ORM\Id
-     */
+
+    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Id]
     private string $var;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $value = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $type;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $params;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description = null;
 
-
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
+    #[ORM\Column(type: 'boolean', options: ["default" => false])]
     private bool $removable = false;
 
 
