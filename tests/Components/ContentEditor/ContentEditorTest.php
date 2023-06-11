@@ -6,8 +6,8 @@ use DI\Container;
 use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
-use EnjoysCMS\Core\Components\ContentEditor\ContentEditor;
-use EnjoysCMS\Core\Components\ContentEditor\NullEditor;
+use EnjoysCMS\Core\ContentEditor\ContentEditor;
+use EnjoysCMS\Core\ContentEditor\NullEditor;
 use PHPUnit\Framework\TestCase;
 
 class ContentEditorTest extends TestCase

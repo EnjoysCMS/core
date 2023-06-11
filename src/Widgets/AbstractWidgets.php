@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Widgets;
+namespace EnjoysCMS\Core\Widgets;
 
 use EnjoysCMS\Core\Entities\Widget as Entity;
 use Enjoys\Traits\Options;

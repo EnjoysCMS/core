@@ -7,8 +7,8 @@ namespace Tests\EnjoysCMS\Traits;
 
 
 use Doctrine\ORM\EntityManager;
-use EnjoysCMS\Core\Components\AccessControl\ACL;
-use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\AccessControl\ACL;
+use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
 use Tests\EnjoysCMS\TestHelper;
 

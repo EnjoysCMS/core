@@ -6,9 +6,9 @@ namespace Tests\EnjoysCMS\Components\Auth;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Components\Auth\Authorize;
-use EnjoysCMS\Core\Components\Auth\AuthorizedData;
-use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\Auth\Authorize;
+use EnjoysCMS\Core\Auth\AuthorizedData;
+use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;

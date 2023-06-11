@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Widgets;
+namespace EnjoysCMS\Core\Widgets;
 
 use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;

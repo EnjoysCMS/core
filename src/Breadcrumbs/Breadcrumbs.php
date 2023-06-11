@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Breadcrumbs;
+namespace EnjoysCMS\Core\Breadcrumbs;
 
 final class Breadcrumbs implements BreadcrumbsInterface
 {

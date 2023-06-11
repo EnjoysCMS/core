@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\EnjoysCMS\Components\Auth;
 
-use EnjoysCMS\Core\Components\Auth\Authorize;
-use EnjoysCMS\Core\Components\Auth\StrategyInterface;
-use EnjoysCMS\Core\Components\Helpers\Config;
+use EnjoysCMS\Core\Auth\Authorize;
+use EnjoysCMS\Core\Auth\StrategyInterface;
+use EnjoysCMS\Core\Helpers\Config;
 use EnjoysCMS\Core\Entities\User;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

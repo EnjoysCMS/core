@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Auth\Strategy;
+namespace EnjoysCMS\Core\Auth\Strategy;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
@@ -12,10 +12,10 @@ use Enjoys\Config\Config;
 use Enjoys\Cookie\Cookie;
 use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
-use EnjoysCMS\Core\Components\Auth\Authenticate;
-use EnjoysCMS\Core\Components\Auth\AuthorizedData;
-use EnjoysCMS\Core\Components\Auth\StrategyInterface;
-use EnjoysCMS\Core\Components\Detector\Browser;
+use EnjoysCMS\Core\Auth\Authenticate;
+use EnjoysCMS\Core\Auth\AuthorizedData;
+use EnjoysCMS\Core\Auth\StrategyInterface;
+use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;

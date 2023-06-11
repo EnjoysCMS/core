@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Auth;
+namespace EnjoysCMS\Core\Auth;
 
 final class AuthorizedData
 {

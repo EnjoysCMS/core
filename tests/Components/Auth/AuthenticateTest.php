@@ -6,9 +6,9 @@ namespace Tests\EnjoysCMS\Components\Auth;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Components\AccessControl\Password;
-use EnjoysCMS\Core\Components\Auth\Authenticate;
-use EnjoysCMS\Core\Components\Helpers\Config;
+use EnjoysCMS\Core\AccessControl\Password;
+use EnjoysCMS\Core\Auth\Authenticate;
+use EnjoysCMS\Core\Helpers\Config;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use EnjoysCMS\Core\Repositories\TokenRepository;

@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\AccessControl;
+namespace EnjoysCMS\Core\AccessControl;
 
 class Password
 {

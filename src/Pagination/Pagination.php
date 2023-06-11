@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Pagination;
+namespace EnjoysCMS\Core\Pagination;
 
 use EnjoysCMS\Core\Exception\NotFoundException;
 

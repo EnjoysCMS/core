@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Detector;
+namespace EnjoysCMS\Core\Detector;
 
 final class Browser
 {

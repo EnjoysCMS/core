@@ -2,7 +2,7 @@
 
 namespace Tests\EnjoysCMS\Components\ContentEditor;
 
-use EnjoysCMS\Core\Components\ContentEditor\ContentEditorInterface;
+use EnjoysCMS\Core\ContentEditor\ContentEditorInterface;
 
 class TestEditor implements ContentEditorInterface
 {

@@ -4,14 +4,14 @@ namespace EnjoysCMS\Core\Extensions\Twig;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use EnjoysCMS\Core\Components\AccessControl\ACL;
+use EnjoysCMS\Core\AccessControl\ACL;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ACLTwigExtension extends AbstractExtension
+class AclTwigExtension extends AbstractExtension
 {
     /**
      * @var ACL

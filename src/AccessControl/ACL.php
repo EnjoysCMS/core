@@ -1,13 +1,12 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\AccessControl;
+namespace EnjoysCMS\Core\AccessControl;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\Persistence\ObjectRepository;
-use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
 use Exception;
 
@@ -16,7 +15,7 @@ class ACL
     private User $user;
 
 
-    private ObjectRepository|\EnjoysCMS\Core\Repositories\ACL|EntityRepository $aclRepository;
+    private \EnjoysCMS\Core\Repositories\ACL|EntityRepository $aclRepository;
 
     /**
      * @var \EnjoysCMS\Core\Entities\ACL[]

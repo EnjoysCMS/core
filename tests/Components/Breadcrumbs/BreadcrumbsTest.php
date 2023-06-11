@@ -2,7 +2,7 @@
 
 namespace Tests\EnjoysCMS\Components\Breadcrumbs;
 
-use EnjoysCMS\Core\Components\Breadcrumbs\Breadcrumbs;
+use EnjoysCMS\Core\Breadcrumbs\Breadcrumbs;
 use PHPUnit\Framework\TestCase;
 
 class BreadcrumbsTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Detector;
+namespace EnjoysCMS\Core\Detector;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;

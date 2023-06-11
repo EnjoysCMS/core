@@ -26,7 +26,7 @@ class LocationsTest extends TestCase
         $locationsRepository->method('findOneBy')->willReturn($locationEntity);
         $em->method('getRepository')->willReturn($locationsRepository);
 
-        $locations = new \EnjoysCMS\Core\Components\Detector\Locations($em);
+        $locations = new \EnjoysCMS\Core\Detector\Locations($em);
         $locations->setCurrentLocation(new Route('test-route'));
         $this->assertSame('test-name', $locations::getCurrentLocation()->getName());
         $this->assertSame('test-location', $locations::getCurrentLocation()->getLocation());
@@ -43,7 +43,7 @@ class LocationsTest extends TestCase
         $locationsRepository->method('findOneBy')->willReturn(null);
         $em->method('getRepository')->willReturn($locationsRepository);
 
-        $locations = new \EnjoysCMS\Core\Components\Detector\Locations($em);
+        $locations = new \EnjoysCMS\Core\Detector\Locations($em);
 
         $route = new Route('test-route');
         $route->setDefault('_controller', ['App\Namespace', 'method']);
@@ -63,7 +63,7 @@ class LocationsTest extends TestCase
         $locationsRepository->method('findOneBy')->willReturn(null);
         $em->method('getRepository')->willReturn($locationsRepository);
 
-        $locations = new \EnjoysCMS\Core\Components\Detector\Locations($em);
+        $locations = new \EnjoysCMS\Core\Detector\Locations($em);
 
         $route = new Route('test-route');
         $route->setDefault('_controller', ['App\Namespace', 'method']);

@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Auth;
+namespace EnjoysCMS\Core\Auth;
 
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Enjoys\Config\Config;
-use Enjoys\Cookie\Exception;
-use EnjoysCMS\Core\Components\Auth\Strategy\PhpSession;
+use EnjoysCMS\Core\Auth\Strategy\PhpSession;
 use EnjoysCMS\Core\Entities\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;

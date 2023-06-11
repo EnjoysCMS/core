@@ -2,7 +2,7 @@
 
 namespace Tests\EnjoysCMS\Components\ContentEditor;
 
-use EnjoysCMS\Core\Components\ContentEditor\EditorConfig;
+use EnjoysCMS\Core\ContentEditor\EditorConfig;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 

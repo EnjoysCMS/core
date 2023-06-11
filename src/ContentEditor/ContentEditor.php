@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\ContentEditor;
+namespace EnjoysCMS\Core\ContentEditor;
 
 use DI\Container;
 use DI\DependencyException;

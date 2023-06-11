@@ -3,8 +3,8 @@
 namespace Tests\EnjoysCMS\Components\AccessControl;
 
 use Doctrine\ORM\EntityManager;
-use EnjoysCMS\Core\Components\AccessControl\ACL;
-use EnjoysCMS\Core\Components\Auth\Identity;
+use EnjoysCMS\Core\AccessControl\ACL;
+use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Entities\User;
 use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\TestHelper;

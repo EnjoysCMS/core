@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Components\Widgets;
+namespace EnjoysCMS\Core\Widgets;
 
 use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;

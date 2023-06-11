@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Components\Auth;
+namespace EnjoysCMS\Core\Auth;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Enjoys\Config\Config;
-use EnjoysCMS\Core\Components\AccessControl\Password;
-use EnjoysCMS\Core\Components\Detector\Browser;
+use EnjoysCMS\Core\AccessControl\Password;
+use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Entities\Token;
 use EnjoysCMS\Core\Entities\User;
 use Psr\Container\ContainerExceptionInterface;

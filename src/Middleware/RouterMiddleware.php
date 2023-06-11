@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Middleware;
 
 
-use EnjoysCMS\Core\Components\Detector\Locations;
+use EnjoysCMS\Core\Detector\Locations;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;

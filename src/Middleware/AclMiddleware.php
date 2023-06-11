@@ -9,7 +9,7 @@ namespace EnjoysCMS\Core\Middleware;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Enjoys\Config\Config;
-use EnjoysCMS\Core\Components\AccessControl\ACL;
+use EnjoysCMS\Core\AccessControl\ACL;
 use EnjoysCMS\Core\Exception\ForbiddenException;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
