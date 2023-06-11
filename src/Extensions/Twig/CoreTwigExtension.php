@@ -4,7 +4,7 @@ namespace EnjoysCMS\Core\Extensions\Twig;
 
 use DI\Container;
 use EnjoysCMS\Core\Block\BlockModel;
-use EnjoysCMS\Core\Components\Helpers\Setting;
+use EnjoysCMS\Core\Setting\Setting;
 use ReflectionClass;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -17,7 +17,7 @@ class CoreTwigExtension extends AbstractExtension
     private static array $styles = [];
     private bool $noCatch = false;
 
-    public function __construct(private Container $container)
+    public function __construct(private readonly Container $container)
     {
     }
 
@@ -34,7 +34,7 @@ class CoreTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('setting', function (string $key, $default = null) {
-                return Setting::get($key, $default);
+                return $this->container->get(Setting::class)->get($key, $default);
             }),
             new TwigFunction('getStyles', [$this, 'getStyles'], ['is_safe' => ['html']]),
             new TwigFunction('getScripts', [$this, 'getScripts'], ['is_safe' => ['html']]),
