@@ -5,7 +5,7 @@ namespace Tests\EnjoysCMS\Components\AccessControl;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\AccessControl\ACL;
 use EnjoysCMS\Core\Auth\Identity;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\TestHelper;
 use Tests\EnjoysCMS\Traits\MockHelper;

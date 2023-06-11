@@ -3,28 +3,22 @@
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Repositories\Locations;
 
-/**
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Locations")
- * @ORM\Table(name="locations")
- */
+#[ORM\Entity(repositoryClass: Locations::class)]
+#[ORM\Table(name: 'locations')]
 class Location
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $location;
 
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default": null})
-     */
+    #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $name = null;
 
     public function getLocation(): string

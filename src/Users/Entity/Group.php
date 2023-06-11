@@ -1,52 +1,41 @@
 <?php
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Core\Users\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Entities\ACL;
 
-/**
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Group")
- * @ORM\Table(name="`groups`")
- */
+#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Users\Repository\Group::class)]
+#[ORM\Table(name: '`groups`')]
 class Group
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+
+    #[ORM\Column(type: 'string')]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 1})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
     private int $status;
-    /**
-     * @ORM\Column(name="`system`", type="boolean", options={"default": false})
-     */
+
+    #[ORM\Column(name: '`system`', type: 'boolean', options: ['default' => false])]
     private bool $system = false;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
-     */
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
     private Collection $users;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="ACL", inversedBy="acl")
-     * @ORM\JoinTable(name="acl_groups")
-     */
+    #[ORM\ManyToMany(targetEntity: ACL::class, inversedBy: 'acl')]
+    #[ORM\JoinTable(name: 'acl_groups')]
     private Collection $acl;
 
     public function __construct()

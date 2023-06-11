@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Repositories;
+namespace EnjoysCMS\Core\Users\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -8,10 +8,10 @@ class Group extends EntityRepository
 {
     public function getListGroupsForSelectForm(): array
     {
+        /** @var \EnjoysCMS\Core\Users\Entity\Group[] $groups */
         $groups = $this->findAll();
         $ret = [];
 
-        /** @var \EnjoysCMS\Core\Entities\Group $group */
         foreach ($groups as $group) {
             $ret[' ' . $group->getId()] = $group->getName();
         }

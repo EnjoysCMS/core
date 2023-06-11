@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Repositories;
+namespace EnjoysCMS\Core\Users\Repository;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
 use Enjoys\Config\Config;
-use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\Token;
+use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
 
 use function random_int;

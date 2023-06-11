@@ -3,7 +3,7 @@
 namespace EnjoysCMS\Core\Repositories;
 
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\User;
 
 class Widgets extends EntityRepository
 {

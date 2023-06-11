@@ -7,7 +7,7 @@ namespace EnjoysCMS\Core\Auth;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
 
 final class Identity

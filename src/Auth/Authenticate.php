@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManager;
 use Enjoys\Config\Config;
 use EnjoysCMS\Core\AccessControl\Password;
 use EnjoysCMS\Core\Detector\Browser;
-use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\Token;
+use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
