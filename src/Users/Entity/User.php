@@ -84,15 +84,6 @@ class User
         $this->setPasswordHash(Password::getHash($password));
     }
 
-    /**
-     * @deprecated use genAndSetPasswordHash(). remove in 5.0
-     *
-     */
-    public function genAdnSetPasswordHash(string $password): void
-    {
-        $this->genAndSetPasswordHash($password);
-    }
-
     public function getLogin(): string
     {
         return $this->login;
