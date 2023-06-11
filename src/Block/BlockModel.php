@@ -10,8 +10,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Block\Entity\Block;
+use EnjoysCMS\Core\Components\AccessControl\ACL;
 use EnjoysCMS\Core\Components\Detector\Locations;
-use EnjoysCMS\Core\Components\Helpers\ACL;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -25,9 +25,10 @@ class BlockModel
      * @throws NotSupported
      */
     public function __construct(
-        private BlockFactory $blockFactory,
-        private EntityManager $entityManager,
-        private LoggerInterface $logger
+        private readonly BlockFactory $blockFactory,
+        private readonly EntityManager $entityManager,
+        private readonly ACL $ACL,
+        private readonly LoggerInterface $logger
     ) {
         $this->repository = $this->entityManager->getRepository(Block::class);
     }
@@ -50,7 +51,7 @@ class BlockModel
         }
 
         if (
-            ACL::access(
+            $this->ACL->access(
                 $block->getBlockActionAcl(),
                 ":Блок: Доступ к просмотру блока '{$block->getName()}'"
             ) === false
