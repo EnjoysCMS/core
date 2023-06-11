@@ -2,7 +2,9 @@
 
 namespace EnjoysCMS\Core\Widgets;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -14,6 +16,10 @@ class WidgetsTwigExtension extends AbstractExtension
 {
     private Widgets $widgets;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->widgets = $container->get(Widgets::class);

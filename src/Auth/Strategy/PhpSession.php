@@ -16,9 +16,9 @@ use EnjoysCMS\Core\Auth\Authenticate;
 use EnjoysCMS\Core\Auth\AuthorizedData;
 use EnjoysCMS\Core\Auth\StrategyInterface;
 use EnjoysCMS\Core\Detector\Browser;
-use EnjoysCMS\Core\Entities\Token;
-use EnjoysCMS\Core\Entities\User;
-use EnjoysCMS\Core\Repositories\TokenRepository;
+use EnjoysCMS\Core\Users\Entity\Token;
+use EnjoysCMS\Core\Users\Entity\User;
+use EnjoysCMS\Core\Users\Repository\TokenRepository;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Ramsey\Uuid\Uuid;
@@ -29,10 +29,10 @@ final class PhpSession implements StrategyInterface
     private string $tokenName;
 
     public function __construct(
-        private EntityManager $em,
-        private Session $session,
-        private Cookie $cookie,
-        private Config $config
+        private readonly EntityManager $em,
+        private readonly Session $session,
+        private readonly Cookie $cookie,
+        private readonly Config $config
     ) {
         $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
     }

@@ -9,6 +9,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use Twig\Environment;
 
 class Widgets
@@ -21,7 +22,7 @@ class Widgets
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function __construct(private ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
         $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
         $this->logger = $container->get(LoggerInterface::class);
@@ -58,7 +59,7 @@ class Widgets
             $class = $widget->getClass();
             $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
             return $obj->view();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error(sprintf('Widgets: Occurred Error: %s', $e->getMessage()), $e->getTrace());
             return $e->getMessage();
         }

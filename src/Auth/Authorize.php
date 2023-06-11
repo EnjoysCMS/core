@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Auth;
 
 use Enjoys\Config\Config;
 use EnjoysCMS\Core\Auth\Strategy\PhpSession;
-use EnjoysCMS\Core\Entities\User;
+use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;

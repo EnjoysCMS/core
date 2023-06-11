@@ -10,7 +10,7 @@ use DI\NotFoundException;
 
 class BlockFactory
 {
-    public function __construct(private Container $container)
+    public function __construct(private readonly Container $container)
     {
     }
 

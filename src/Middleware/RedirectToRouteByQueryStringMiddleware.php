@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Middleware;
 
 
-use EnjoysCMS\Core\Interfaces\RedirectInterface;
+use EnjoysCMS\Core\Http\Response\RedirectInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,8 +20,7 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
     private string $indexRouteName = 'system/index';
 
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private RedirectInterface $redirect
+        private readonly RedirectInterface $redirect
     ) {
     }
 
@@ -33,7 +32,7 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
             $route = (string)$request->getQueryParams()['_route'];
             unset($params['_route']);
             try {
-                return $this->redirect->http($this->urlGenerator->generate($route, $params));
+                return $this->redirect->toRoute($route, $params);
             } catch (RouteNotFoundException) {
             }
         }

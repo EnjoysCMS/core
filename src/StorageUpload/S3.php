@@ -18,10 +18,10 @@ final class S3 implements StorageUploadInterface
     private string $prefix;
 
     public function __construct(
-        private string $bucket,
+        private readonly string $bucket,
         string $prefix = '',
         array $clientOptions = [],
-        private array $config = []
+        private readonly array $config = []
     ) {
         $this->prefix = (empty($prefix)) ? '' : rtrim($prefix, '/') . '/';
         $this->client = new S3Client($clientOptions);

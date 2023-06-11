@@ -16,8 +16,8 @@ final class Local implements StorageUploadInterface
     public function __construct(
         string $rootDirectory,
         string $publicUrl,
-        private array $permissionMap = [],
-        private array $config = []
+        private readonly array $permissionMap = [],
+        private readonly array $config = []
     ) {
         $this->rootDirectory = getenv('ROOT_PATH') . rtrim($rootDirectory, '/') . '/';
         $this->publicUrl = rtrim($publicUrl, '/') . '/';

@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Auth\Authorize;
 use EnjoysCMS\Core\Auth\AuthorizedData;
 use EnjoysCMS\Core\Auth\Identity;
-use EnjoysCMS\Core\Entities\User;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\Traits\MockHelper;

@@ -17,8 +17,10 @@ use Symfony\Component\Finder\Finder;
 class AnnotationClassLoader
 {
 
-    public function __construct(private Finder $finder, protected ?Reader $reader = null)
-    {
+    public function __construct(
+        private readonly Finder $finder,
+        protected ?Reader $reader = null
+    ) {
         $this->finder->files()->name('/\.php$/');
     }
 
@@ -62,7 +64,7 @@ class AnnotationClassLoader
      */
     private function getAnnotations(ReflectionClass $reflection): iterable
     {
-         foreach (
+        foreach (
             $reflection->getAttributes(
                 BlockAnnotation::class,
                 ReflectionAttribute::IS_INSTANCEOF

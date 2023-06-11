@@ -6,18 +6,23 @@ namespace EnjoysCMS\Core\Auth;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectRepository;
-use EnjoysCMS\Core\Entities\User;
+use Doctrine\ORM\Exception\NotSupported;
+use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
 
 final class Identity
 {
-    private ObjectRepository|EntityRepository $usersRepository;
+    private EntityRepository $usersRepository;
 
     private ?User $user = null;
 
-    public function __construct(EntityManager $em, private Authorize $authorize)
-    {
+    /**
+     * @throws NotSupported
+     */
+    public function __construct(
+        EntityManager $em,
+        private readonly Authorize $authorize
+    ) {
         $this->usersRepository = $em->getRepository(User::class);
     }
 

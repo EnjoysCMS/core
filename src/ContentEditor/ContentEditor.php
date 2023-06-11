@@ -12,20 +12,17 @@ class ContentEditor
 {
     private EditorConfig $config;
     private ContentEditorInterface $editor;
-    private ?LoggerInterface $logger;
 
     /**
      * @throws DependencyException
      * @throws NotFoundException
      */
     public function __construct(
-        private Container $container,
+        private readonly Container $container,
         array|string|null|EditorConfig $config = null,
-        ?LoggerInterface $logger = null,
+        private readonly LoggerInterface $logger = new NullLogger(),
     ) {
         $this->config = ($config instanceof EditorConfig) ? $config : new EditorConfig($config);
-        $this->logger = $logger ?? new NullLogger();
-
         $this->editor = $this->initEditor();
     }
 

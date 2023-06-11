@@ -12,6 +12,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use RuntimeException;
 
 class RequestHandler implements RequestHandlerInterface
 {
@@ -22,7 +23,7 @@ class RequestHandler implements RequestHandlerInterface
     private string $handlerAttribute = '_controller';
 
 
-    public function __construct(private Container $container)
+    public function __construct(private readonly Container $container)
     {
 
     }
@@ -43,7 +44,7 @@ class RequestHandler implements RequestHandlerInterface
         $requestHandler = $request->getAttribute($this->handlerAttribute);
 
         if (empty($requestHandler)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 sprintf('Empty request handler %s', $this->handlerAttribute)
             );
         }

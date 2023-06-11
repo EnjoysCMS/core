@@ -21,9 +21,9 @@ use Symfony\Component\Routing\RouteCollection;
 final class AclMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private RouteCollection $routeCollection,
-        private Config $config,
-        private ACL $acl
+        private readonly RouteCollection $routeCollection,
+        private readonly Config $config,
+        private readonly ACL $acl
     ) {
     }
 

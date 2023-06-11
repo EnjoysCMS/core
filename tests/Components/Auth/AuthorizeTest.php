@@ -6,8 +6,6 @@ namespace Tests\EnjoysCMS\Components\Auth;
 
 use EnjoysCMS\Core\Auth\Authorize;
 use EnjoysCMS\Core\Auth\StrategyInterface;
-use EnjoysCMS\Core\Helpers\Config;
-use EnjoysCMS\Core\Entities\User;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;

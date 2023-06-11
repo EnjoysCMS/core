@@ -3,45 +3,33 @@
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Repositories\Widgets;
+use EnjoysCMS\Core\Users\Entity\User;
 
-/**
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\Widgets")
- * @ORM\Table(name="widgets")
- */
+#[ORM\Entity(repositoryClass: Widgets::class)]
+#[ORM\Table(name: 'widgets')]
 class Widget
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", nullable=true, options={"default":null})
-     */
+    #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $class = null;
 
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $options = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default":0})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     */
-    private $user;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private User $user;
 
     public function setUser(User $user): void
     {

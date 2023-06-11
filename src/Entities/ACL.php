@@ -5,33 +5,25 @@ namespace EnjoysCMS\Core\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Users\Entity\Group;
 
-/**
- * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\ACL")
- * @ORM\Table(name="acl")
- */
+#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Repositories\ACL::class)]
+#[ORM\Table(name: 'acl')]
 class ACL
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $action;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $comment;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Group", mappedBy="acl")
-     */
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'acl')]
     private Collection $groups;
 
 

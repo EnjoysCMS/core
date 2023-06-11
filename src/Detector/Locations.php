@@ -4,8 +4,8 @@ namespace EnjoysCMS\Core\Detector;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;

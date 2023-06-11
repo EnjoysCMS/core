@@ -15,11 +15,11 @@ final class Redirect implements RedirectInterface
 {
 
     public function __construct(
-        private ServerRequestInterface $request,
-        private ResponseInterface $response,
-        private EmitterInterface $emitter,
-        private UrlGeneratorInterface $urlGenerator,
-        private ?Closure $terminateClosure = null,
+        private readonly ServerRequestInterface $request,
+        private readonly ResponseInterface $response,
+        private readonly EmitterInterface $emitter,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ?Closure $terminateClosure = null,
     ) {
     }
 

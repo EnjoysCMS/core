@@ -1,58 +1,41 @@
 <?php
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Core\Users\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use EnjoysCMS\Core\AccessControl\Password;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="users")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'users')]
 class User
 {
     public const ADMIN_GROUP_ID = 1;
     public const GUEST_ID = 1;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     protected string $name;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     */
+    #[ORM\Column(type: 'string', unique: true)]
     protected string $login;
 
-    /**
-     * @ORM\Column(name="password", type="string", options={"default": ""})
-     */
+    #[ORM\Column(name: 'password', type: 'string', options: ['default' => ''])]
     private string $passwordHash;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $editable = true;
 
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
-     * @ORM\JoinTable(name="users_groups")
-     */
+    #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'users_groups')]
     private Collection $groups;
 
 
@@ -98,7 +81,7 @@ class User
 
     public function genAndSetPasswordHash(string $password): void
     {
-        $this->passwordHash = Password::getHash($password);
+        $this->setPasswordHash(Password::getHash($password));
     }
 
     /**

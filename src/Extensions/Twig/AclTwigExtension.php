@@ -7,36 +7,21 @@ use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\ACL;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class AclTwigExtension extends AbstractExtension
 {
-    /**
-     * @var ACL
-     */
-    private ACL $acl;
-    /**
-     * @var RouteCollection
-     */
-    private RouteCollection $routeCollection;
-    /**
-     * @var LoggerInterface|null
-     */
-    private ?LoggerInterface $logger;
 
     private bool $disableCheck = false;
 
-
     public function __construct(
-        ACL $acl,
-        RouteCollection $routeCollection,
-        LoggerInterface $logger = null
+        private readonly ACL $acl,
+        private readonly RouteCollection $routeCollection,
+        private readonly LoggerInterface $logger = new NullLogger()
     ) {
-        $this->acl = $acl;
-        $this->routeCollection = $routeCollection;
-        $this->logger = $logger;
     }
 
     public function getFunctions(): array

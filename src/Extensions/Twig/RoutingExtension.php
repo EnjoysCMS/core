@@ -18,6 +18,8 @@ use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
 use Twig\TwigFunction;
 
+use function count;
+
 /**
  * Provides integration of the Routing component with Twig.
  * The part of symfony/twig-bridge
@@ -26,7 +28,7 @@ use Twig\TwigFunction;
 final class RoutingExtension extends AbstractExtension
 {
 
-    public function __construct(private UrlGeneratorInterface $generator)
+    public function __construct(private readonly UrlGeneratorInterface $generator)
     {
     }
 
@@ -80,7 +82,7 @@ final class RoutingExtension extends AbstractExtension
             $argsNode->hasNode(1) ? $argsNode->getNode(1) : null
         );
 
-        if (null === $paramsNode || $paramsNode instanceof ArrayExpression && \count($paramsNode) <= 2 &&
+        if (null === $paramsNode || $paramsNode instanceof ArrayExpression && count($paramsNode) <= 2 &&
             (!$paramsNode->hasNode(1) || $paramsNode->getNode(1) instanceof ConstantExpression)
         ) {
             return ['html'];
