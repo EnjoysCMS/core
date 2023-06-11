@@ -21,6 +21,7 @@ use EnjoysCMS\Core\Users\Entity\User;
 use EnjoysCMS\Core\Users\Repository\TokenRepository;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 
 final class PhpSession implements StrategyInterface
@@ -32,7 +33,8 @@ final class PhpSession implements StrategyInterface
         private readonly EntityManager $em,
         private readonly Session $session,
         private readonly Cookie $cookie,
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly ServerRequestInterface $request,
     ) {
         $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
     }
