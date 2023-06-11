@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Components\Helpers\Config;
 
 /**
  * @ORM\Entity(repositoryClass="EnjoysCMS\Core\Repositories\TokenRepository")
