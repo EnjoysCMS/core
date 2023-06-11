@@ -26,8 +26,10 @@ class ACL
     /**
      * @throws Exception
      */
-    public function __construct(private EntityManager $entityManager, Identity $identity)
-    {
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        Identity $identity
+    ) {
         $this->user = $identity->getUser();
         $this->aclRepository = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
         $this->aclLists = $this->aclRepository->findAll();
