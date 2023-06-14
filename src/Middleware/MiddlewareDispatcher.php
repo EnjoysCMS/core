@@ -14,10 +14,13 @@ use RuntimeException;
 final class MiddlewareDispatcher implements RequestHandlerInterface
 {
 
+    /**
+     * @var array<int, mixed>
+     */
     private array $queue;
 
     /**
-     * @param iterable<MiddlewareInterface|callable(ServerRequestInterface, RequestHandlerInterface):ResponseInterface> $queue
+     * @param array<int, mixed>|iterable $queue
      * @param RequestHandlerInterface $requestHandler
      * @param MiddlewareResolverInterface|null $resolver
      */
@@ -34,6 +37,7 @@ final class MiddlewareDispatcher implements RequestHandlerInterface
             throw new InvalidArgumentException('$queue cannot be empty');
         }
 
+        /** @var array<int, mixed> $queue */
         $this->queue = $queue;
     }
 
@@ -66,5 +70,22 @@ final class MiddlewareDispatcher implements RequestHandlerInterface
                 MiddlewareInterface::class
             )
         );
+    }
+
+    public function addToQueue(mixed $middleware): void
+    {
+        $key = key($this->queue);
+        $this->queue = array_insert_before($this->queue, $key, $middleware);
+        $this->setInternalPoint($key);
+    }
+
+    private function setInternalPoint(int $point): void
+    {
+        while (key($this->queue) !== null) {
+            if ($point === key($this->queue)) {
+                return;
+            }
+            next($this->queue);
+        }
     }
 }
