@@ -24,23 +24,23 @@ final class BreadcrumbCollection
     }
 
     /**
-     * @param array{string, array}|string|null $data
+     * @param array{string, ?array}|string|null $data
      * @param string|null $title
-     * @param bool $skipRoute
+     * @param bool $skipUrlResolve
      * @return $this
      */
-    public function add(string|array|null $data = null, ?string $title = null, bool $skipRoute = false): BreadcrumbCollection
+    public function add(string|array|null $data = null, ?string $title = null, bool $skipUrlResolve = false): BreadcrumbCollection
     {
         $breadcrumb = new Breadcrumb($this->urlResolver);
         $breadcrumb->setTitle($title);
-        $breadcrumb->setUrl($data, $skipRoute);
+        $breadcrumb->setUrl($data, $skipUrlResolve);
         $this->stack[] = $breadcrumb;
 
         return $this;
     }
 
     /**
-     * @param array{string, array}|string $data
+     * @param array{string, ?array}|string $data
      * @return $this
      */
     public function remove(string|array $data): BreadcrumbCollection
@@ -72,7 +72,7 @@ final class BreadcrumbCollection
     }
 
     /**
-     * @param BreadcrumbInterface|array{string, array}|string $breadcrumb
+     * @param BreadcrumbInterface|array{string, ?array}|string $breadcrumb
      * @return BreadcrumbInterface|null
      */
     private function find(BreadcrumbInterface|string|array $breadcrumb): ?BreadcrumbInterface

@@ -37,7 +37,7 @@ class Breadcrumb implements BreadcrumbInterface, Stringable
     }
 
     /**
-     * @param array{string, array}|string|null $data
+     * @param array{string, ?array}|string|null $data
      */
     public function setUrl(string|array|null $data, bool $skipRoute = false): static
     {
@@ -52,6 +52,7 @@ class Breadcrumb implements BreadcrumbInterface, Stringable
             return $this;
         }
 
+        /** @var array{string, ?array} $data */
         $this->url = $this->urlResolver->resolve($data);
         return $this;
     }
