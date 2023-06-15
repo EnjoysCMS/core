@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace EnjoysCMS\Core\Middleware;
+namespace EnjoysCMS\Core\AccessControl\Middleware;
 
 
 use Doctrine\ORM\Exception\ORMException;
