@@ -13,6 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
+use Symfony\Component\Routing\Route;
 
 class RequestHandler implements RequestHandlerInterface
 {
@@ -41,8 +42,9 @@ class RequestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $requestHandler = $request->getAttribute($this->handlerAttribute);
-
+        /** @var Route $route */
+        $route = $request->getAttribute('_route');
+        $requestHandler = $route->getDefault($this->handlerAttribute);
         if (empty($requestHandler)) {
             throw new RuntimeException(
                 sprintf('Empty request handler %s', $this->handlerAttribute)

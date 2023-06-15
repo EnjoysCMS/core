@@ -11,7 +11,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 
-final class MiddlewareDispatcher implements RequestHandlerInterface
+final class HttpMiddlewareDispatcher implements RequestHandlerInterface
 {
 
     /**
@@ -25,10 +25,13 @@ final class MiddlewareDispatcher implements RequestHandlerInterface
      * @param MiddlewareResolverInterface|null $resolver
      */
     public function __construct(
-        iterable $queue,
         private readonly RequestHandlerInterface $requestHandler,
         private readonly ?MiddlewareResolverInterface $resolver = null
     ) {
+    }
+
+    public function setQueque(iterable $queue)
+    {
         if (!is_array($queue)) {
             $queue = iterator_to_array($queue);
         }
@@ -39,6 +42,7 @@ final class MiddlewareDispatcher implements RequestHandlerInterface
 
         /** @var array<int, mixed> $queue */
         $this->queue = $queue;
+        reset( $this->queue);
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -72,20 +76,4 @@ final class MiddlewareDispatcher implements RequestHandlerInterface
         );
     }
 
-    public function addToQueue(mixed $middleware): void
-    {
-        $key = key($this->queue);
-        $this->queue = array_insert_before($this->queue, $key, $middleware);
-        $this->setInternalPoint($key);
-    }
-
-    private function setInternalPoint(int $point): void
-    {
-        while (key($this->queue) !== null) {
-            if ($point === key($this->queue)) {
-                return;
-            }
-            next($this->queue);
-        }
-    }
 }

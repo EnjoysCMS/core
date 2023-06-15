@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace EnjoysCMS\Core\Middleware;
+namespace EnjoysCMS\Core\Routing\Middleware;
 
 
 use DI\DependencyException;
@@ -18,7 +18,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\Routing\Router;
 
-final class RouterMiddleware implements MiddlewareInterface
+final class RouteMatchMiddleware implements MiddlewareInterface
 {
 
     public function __construct(
@@ -37,26 +37,28 @@ final class RouterMiddleware implements MiddlewareInterface
     {
         $bridge = new HttpFoundationFactory();
         $match = $this->router->matchRequest($bridge->createRequest($request->withUploadedFiles([])));
+        $route = $this->router->getRouteCollection()->get($match['_route']);
+        $request = $request->withAttribute('_route', $route);
+        return $handler->handle($request);
+//        foreach ($match as $key => $value) {
+//            $request = $request->withAttribute($key, $value);
+//        }
 
-        foreach ($match as $key => $value) {
-            $request = $request->withAttribute($key, $value);
-        }
+//
+//        dd($request->getAttributes());
+//        if ($route === null) {
+//            return $handler->handle($request);
+//        }
+//
+//
+//        $this->locations->setCurrentLocation($router);
 
-        $router = $this->router->getRouteCollection()->get($match['_route']);
-
-        if ($router === null) {
-            return $handler->handle($request);
-        }
-
-
-        $this->locations->setCurrentLocation($router);
-
-        foreach (array_reverse($router->getOption('middlewares') ?? []) as $middleware){
-            $handler->addToQueue($middleware);
-        }
+//        foreach (array_reverse($router->getOption('middlewares') ?? []) as $middleware){
+//            $handler->addToQueue($middleware);
+//        }
 //dd($request->getAttributes());
 //dd($handler);
-        return $handler->handle($request);
+
     }
 
 }

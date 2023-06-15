@@ -16,12 +16,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Routing\RouteCollection;
 
 final class AclMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly RouteCollection $routeCollection,
         private readonly Config $config,
         private readonly ACL $acl
     ) {
@@ -34,7 +32,7 @@ final class AclMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $route = $this->routeCollection->get($request->getAttribute('_route', ''));
+        $route = $request->getAttribute('_route');
         if ($route === null) {
             throw new InvalidArgumentException('Route not set');
         }
