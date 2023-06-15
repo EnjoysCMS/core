@@ -17,12 +17,12 @@ class BreadcrumbUrlResolver implements BreadcrumbUrlResolverInterface
     }
 
     /**
-     * @param array{string, ?array} $data
+     * @param array{string, ?array} $dataUrl
      * @return string
      */
-    public function resolve(array $data): string
+    public function resolve(array $dataUrl): string
     {
-        [$routeName, $routeParams] = $this->resolveRouteParams($data);
+        [$routeName, $routeParams] = $this->resolveRouteParams($dataUrl);
 
         try {
             return $this->urlGenerator->generate($routeName, $routeParams);

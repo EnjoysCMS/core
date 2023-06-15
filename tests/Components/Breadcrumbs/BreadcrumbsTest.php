@@ -12,7 +12,7 @@ class BreadcrumbsTest extends TestCase
     {
         $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add($url = 'testUrl', $title = 'testTitle');
-        $bc = $breadcrumbs->get();
+        $bc = $breadcrumbs->getBreadcrumbs();
         $this->assertNotEmpty($bc);
         $this->assertCount(1, $bc);
         $this->assertSame($url, $bc[0]->url);
@@ -24,7 +24,7 @@ class BreadcrumbsTest extends TestCase
         $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add('testUrl', 'testTitle');
         $breadcrumbs->add($url = null, $title = 'testTitle2');
-        $bc = $breadcrumbs->get();
+        $bc = $breadcrumbs->getBreadcrumbs();
         $this->assertNotEmpty($bc);
         $this->assertCount(2, $bc);
         $this->assertSame($url, $bc[1]->url);
@@ -35,7 +35,7 @@ class BreadcrumbsTest extends TestCase
     {
         $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add();
-        $bc = $breadcrumbs->get();
+        $bc = $breadcrumbs->getBreadcrumbs();
         $this->assertNotEmpty($bc);
         $this->assertCount(1, $bc);
         $this->assertNull($bc[0]->url);
@@ -47,7 +47,7 @@ class BreadcrumbsTest extends TestCase
         $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add();
         $breadcrumbs->add();
-        $bc = $breadcrumbs->get();
+        $bc = $breadcrumbs->getBreadcrumbs();
         $this->assertNotEmpty($bc);
         $this->assertCount(2, $bc);
         $this->assertNull($bc[0]->url);

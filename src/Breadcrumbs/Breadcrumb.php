@@ -37,23 +37,23 @@ class Breadcrumb implements BreadcrumbInterface, Stringable
     }
 
     /**
-     * @param array{string, ?array}|string|null $data
+     * @param array{string, ?array}|string|null $dataUrl
      */
-    public function setUrl(string|array|null $data, bool $skipRoute = false): static
+    public function setUrl(string|array|null $dataUrl, bool $skipRoute = false): static
     {
-        if ($data === null) {
+        if ($dataUrl === null) {
             $this->url = '';
             return $this;
         }
-        $data = (array)$data;
+        $dataUrl = (array)$dataUrl;
 
         if ($skipRoute){
-            $this->url = $data[0];
+            $this->url = $dataUrl[0];
             return $this;
         }
 
-        /** @var array{string, ?array} $data */
-        $this->url = $this->urlResolver->resolve($data);
+        /** @var array{string, ?array} $dataUrl */
+        $this->url = $this->urlResolver->resolve($dataUrl);
         return $this;
     }
 

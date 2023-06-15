@@ -16,12 +16,9 @@ final class BreadcrumbCollection
      */
     private array $stack = [];
 
+    private ?BreadcrumbInterface $lastBreadcrumb = null;
 
-    public function addBreadcrumbWithoutUrl(string $title): BreadcrumbCollection
-    {
-        $this->add(title: $title);
-        return $this;
-    }
+
 
     /**
      * @param array{string, ?array}|string|null $data
@@ -80,11 +77,13 @@ final class BreadcrumbCollection
         $url = $breadcrumb instanceof BreadcrumbInterface ? $breadcrumb->getUrl() : (new Breadcrumb(
             $this->urlResolver
         ))->setUrl($breadcrumb)->getUrl();
+
         foreach ($this->stack as $item) {
             if ($item->getUrl() === $url) {
                 return $item;
             }
         }
+
         return null;
     }
 
@@ -92,8 +91,14 @@ final class BreadcrumbCollection
     /**
      * @return BreadcrumbInterface[]
      */
-    public function get(): array
+    public function getBreadcrumbs(bool $withLastBreadcrumb = false): array
     {
+
+        if ($withLastBreadcrumb){
+            if ($this->getLastBreadcrumb() !== null){
+                return array_merge($this->stack, [$this->getLastBreadcrumb()]);
+            }
+        }
         return $this->stack;
     }
 
@@ -111,7 +116,28 @@ final class BreadcrumbCollection
             }
             $result[$url] = $item->getTitle();
         }
+
+        if (null !== $lastBreadcrumb = $this->getLastBreadcrumb()){
+            $result[$lastBreadcrumb->getUrl() ?? ''] = $lastBreadcrumb->getTitle();
+        }
+
         return $result;
+    }
+
+    /**
+     * @param string $title
+     * @param array{string, ?array}|string|null $dataUrl
+     * @return $this
+     */
+    public function setLastBreadcrumb(string $title, array|string|null $dataUrl = null): BreadcrumbCollection
+    {
+        $this->lastBreadcrumb = (new Breadcrumb($this->urlResolver))->setTitle($title)->setUrl($dataUrl);
+        return $this;
+    }
+
+    public function getLastBreadcrumb(): ?BreadcrumbInterface
+    {
+        return $this->lastBreadcrumb;
     }
 
 }
