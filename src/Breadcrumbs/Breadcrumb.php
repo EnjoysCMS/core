@@ -26,9 +26,10 @@ class Breadcrumb implements BreadcrumbInterface, Stringable
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
+        return $this;
     }
 
 
@@ -39,11 +40,11 @@ class Breadcrumb implements BreadcrumbInterface, Stringable
 
     /**
      * @param array{string, array}|string|null $data
-     * @return void
      */
-    public function setUrl(string|array|null $data): void
+    public function setUrl(string|array|null $data): static
     {
         $this->url = $this->resolveUrl($data);
+        return $this;
     }
 
     /**

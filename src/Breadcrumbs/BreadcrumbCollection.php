@@ -14,7 +14,7 @@ final class BreadcrumbCollection
     }
 
     /**
-     * @var BreadcrumbInterface[]
+     * @var array<int, BreadcrumbInterface>
      */
     private array $stack = [];
 
@@ -40,6 +40,54 @@ final class BreadcrumbCollection
         return $this;
     }
 
+    /**
+     * @param array{string, array}|string $data
+     * @return $this
+     */
+    public function remove(string|array $data): BreadcrumbCollection
+    {
+        $tmp = $this->find($data);
+
+        if ($tmp === null){
+            return $this;
+        }
+
+        $position = $this->findPosition($tmp);
+        if ($position === null){
+            return $this;
+        }
+
+        unset($this->stack[$position]);
+
+        return $this;
+
+    }
+
+    private function findPosition(BreadcrumbInterface $breadcrumb): ?int
+    {
+        foreach ($this->stack as $position => $item) {
+            if ($item === $breadcrumb) {
+                return $position;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param BreadcrumbInterface|array{string, array}|string $breadcrumb
+     * @return BreadcrumbInterface|null
+     */
+    private function find(BreadcrumbInterface|string|array $breadcrumb): ?BreadcrumbInterface
+    {
+        $url = $breadcrumb instanceof BreadcrumbInterface ? $breadcrumb->getUrl() : (new Breadcrumb($this->urlGenerator))->setUrl($breadcrumb)->getUrl();
+        foreach ($this->stack as $item) {
+            if ($item->getUrl() === $url) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * @return BreadcrumbInterface[]
@@ -54,7 +102,7 @@ final class BreadcrumbCollection
         $result = [];
         foreach ($this->stack as $item) {
             $url = $item->getUrl();
-            if ($url === null){
+            if ($url === null) {
                 $result[] = $item->getTitle();
                 continue;
             }
