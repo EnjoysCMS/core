@@ -9,9 +9,9 @@ use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NotSupported;
-use EnjoysCMS\Core\Block\Entity\Block;
 use EnjoysCMS\Core\AccessControl\ACL;
-use EnjoysCMS\Core\Detector\Locations;
+use EnjoysCMS\Core\Block\Entity\Block;
+use EnjoysCMS\Core\Location\Location;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -67,7 +67,7 @@ class BlockModel
             return null;
         }
 
-        if (!in_array(Locations::getCurrentLocation()->getId(), $block->getLocationsIds(), true)) {
+        if (!in_array(Location::getCurrentLocation()->getId(), $block->getLocationsIds(), true)) {
             $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsIds());
             return null;
         }

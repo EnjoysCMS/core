@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Detector;
+namespace EnjoysCMS\Core\Location;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;
 
-class Locations
+class Location
 {
     private static Entity $currentLocation;
 

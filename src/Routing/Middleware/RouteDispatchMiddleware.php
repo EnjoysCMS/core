@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Route;
 class RouteDispatchMiddleware implements MiddlewareInterface
 {
 
-    public function __construct(private HttpMiddlewareDispatcher $middlewareDispatcher)
+    public function __construct(private readonly HttpMiddlewareDispatcher $middlewareDispatcher)
     {
     }
 
