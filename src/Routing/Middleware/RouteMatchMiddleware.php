@@ -26,6 +26,10 @@ final class RouteMatchMiddleware implements MiddlewareInterface
     {
         $bridge = new HttpFoundationFactory();
         $match = $this->router->matchRequest($bridge->createRequest($request->withUploadedFiles([])));
+        $request = $request->withAttribute('_routeName', $match['_route']);
+        foreach ($match as $name => $value) {
+            $request = $request->withAttribute($name, $value);
+        }
         $route = $this->router->getRouteCollection()->get($match['_route']);
         $request = $request->withAttribute('_route', $route);
         return $handler->handle($request);
