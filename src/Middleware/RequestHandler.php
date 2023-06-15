@@ -42,9 +42,7 @@ class RequestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var Route $route */
-        $route = $request->getAttribute('_route');
-        $requestHandler = $route->getDefault($this->handlerAttribute);
+        $requestHandler =$request->getAttribute($this->handlerAttribute);
         if (empty($requestHandler)) {
             throw new RuntimeException(
                 sprintf('Empty request handler %s', $this->handlerAttribute)

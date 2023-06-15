@@ -30,10 +30,7 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        /** @var Route $route */
-        $route = $request->getAttribute('_route');
-
-        if ($route === $this->routeCollection->get($this->indexRouteName) && isset($request->getQueryParams()['_route'])) {
+        if ($request->getAttribute('_routeName') === $this->indexRouteName && isset($request->getQueryParams()['_route'])) {
             $params = $request->getQueryParams();
             $redirectRouteName = (string)$request->getQueryParams()['_route'];
             unset($params['_route']);
