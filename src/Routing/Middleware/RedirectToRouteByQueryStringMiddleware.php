@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace EnjoysCMS\Core\Middleware;
+namespace EnjoysCMS\Core\Routing\Middleware;
 
 
 use EnjoysCMS\Core\Http\Response\RedirectInterface;
@@ -13,6 +13,8 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterface
 {
@@ -20,19 +22,23 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
     private string $indexRouteName = 'system/index';
 
     public function __construct(
-        private readonly RedirectInterface $redirect
+        private readonly RedirectInterface $redirect,
+        private readonly RouteCollection $routeCollection,
     ) {
     }
 
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getAttribute('_route') === $this->indexRouteName && isset($request->getQueryParams()['_route'])) {
+        /** @var Route $route */
+        $route = $request->getAttribute('_route');
+
+        if ($route === $this->routeCollection->get($this->indexRouteName) && isset($request->getQueryParams()['_route'])) {
             $params = $request->getQueryParams();
-            $route = (string)$request->getQueryParams()['_route'];
+            $redirectRouteName = (string)$request->getQueryParams()['_route'];
             unset($params['_route']);
             try {
-                return $this->redirect->toRoute($route, $params);
+                return $this->redirect->toRoute($redirectRouteName, $params);
             } catch (RouteNotFoundException) {
             }
         }
