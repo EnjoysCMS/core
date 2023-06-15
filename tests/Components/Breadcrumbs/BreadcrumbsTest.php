@@ -2,7 +2,7 @@
 
 namespace Tests\EnjoysCMS\Components\Breadcrumbs;
 
-use EnjoysCMS\Core\Breadcrumbs\Breadcrumbs;
+use EnjoysCMS\Core\Breadcrumbs\BreadcrumbCollection;
 use PHPUnit\Framework\TestCase;
 
 class BreadcrumbsTest extends TestCase
@@ -10,7 +10,7 @@ class BreadcrumbsTest extends TestCase
 
     public function testBreadcrumbAddOnePosition()
     {
-        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add($url = 'testUrl', $title = 'testTitle');
         $bc = $breadcrumbs->get();
         $this->assertNotEmpty($bc);
@@ -21,7 +21,7 @@ class BreadcrumbsTest extends TestCase
 
     public function testBreadcrumbAddManyPosition()
     {
-        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add('testUrl', 'testTitle');
         $breadcrumbs->add($url = null, $title = 'testTitle2');
         $bc = $breadcrumbs->get();
@@ -33,7 +33,7 @@ class BreadcrumbsTest extends TestCase
 
     public function testBreadcrumbAddNull()
     {
-        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add();
         $bc = $breadcrumbs->get();
         $this->assertNotEmpty($bc);
@@ -44,7 +44,7 @@ class BreadcrumbsTest extends TestCase
 
     public function testBreadcrumbAddManyNull()
     {
-        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs = new BreadcrumbCollection();
         $breadcrumbs->add();
         $breadcrumbs->add();
         $bc = $breadcrumbs->get();
