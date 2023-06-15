@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Breadcrumbs;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 final class BreadcrumbCollection
 {
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly BreadcrumbUrlResolverInterface $urlResolver)
     {
     }
 
@@ -28,13 +26,14 @@ final class BreadcrumbCollection
     /**
      * @param array{string, array}|string|null $data
      * @param string|null $title
+     * @param bool $skipRoute
      * @return $this
      */
-    public function add(string|array|null $data = null, ?string $title = null): BreadcrumbCollection
+    public function add(string|array|null $data = null, ?string $title = null, bool $skipRoute = false): BreadcrumbCollection
     {
-        $breadcrumb = new Breadcrumb($this->urlGenerator);
+        $breadcrumb = new Breadcrumb($this->urlResolver);
         $breadcrumb->setTitle($title);
-        $breadcrumb->setUrl($data);
+        $breadcrumb->setUrl($data, $skipRoute);
         $this->stack[] = $breadcrumb;
 
         return $this;
@@ -48,19 +47,18 @@ final class BreadcrumbCollection
     {
         $tmp = $this->find($data);
 
-        if ($tmp === null){
+        if ($tmp === null) {
             return $this;
         }
 
         $position = $this->findPosition($tmp);
-        if ($position === null){
+        if ($position === null) {
             return $this;
         }
 
         unset($this->stack[$position]);
 
         return $this;
-
     }
 
     private function findPosition(BreadcrumbInterface $breadcrumb): ?int
@@ -79,7 +77,9 @@ final class BreadcrumbCollection
      */
     private function find(BreadcrumbInterface|string|array $breadcrumb): ?BreadcrumbInterface
     {
-        $url = $breadcrumb instanceof BreadcrumbInterface ? $breadcrumb->getUrl() : (new Breadcrumb($this->urlGenerator))->setUrl($breadcrumb)->getUrl();
+        $url = $breadcrumb instanceof BreadcrumbInterface ? $breadcrumb->getUrl() : (new Breadcrumb(
+            $this->urlResolver
+        ))->setUrl($breadcrumb)->getUrl();
         foreach ($this->stack as $item) {
             if ($item->getUrl() === $url) {
                 return $item;
@@ -97,6 +97,9 @@ final class BreadcrumbCollection
         return $this->stack;
     }
 
+    /**
+     * @return array<array-key, string|null>
+     */
     public function getKeyValueArray(): array
     {
         $result = [];
