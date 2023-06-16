@@ -4,21 +4,27 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Breadcrumbs;
 
-final class BreadcrumbCollection
-{
+use ArrayIterator;
+use IteratorAggregate;
 
-    public function __construct(private readonly BreadcrumbUrlResolverInterface $urlResolver)
-    {
-    }
+/**
+ * @implements IteratorAggregate<array-key, BreadcrumbInterface>
+ */
+final class BreadcrumbCollection implements IteratorAggregate
+{
 
     /**
      * @var array<int, BreadcrumbInterface>
      */
     private array $stack = [];
 
+    private bool $appendLastBreadcrumb = false;
+
     private ?BreadcrumbInterface $lastBreadcrumb = null;
 
-
+    public function __construct(private readonly BreadcrumbUrlResolverInterface $urlResolver)
+    {
+    }
 
     /**
      * @param array{string, ?array}|string|null $data
@@ -91,11 +97,10 @@ final class BreadcrumbCollection
     /**
      * @return BreadcrumbInterface[]
      */
-    public function getBreadcrumbs(bool $withLastBreadcrumb = false): array
+    public function getBreadcrumbs(): array
     {
-
-        if ($withLastBreadcrumb){
-            if ($this->getLastBreadcrumb() !== null){
+        if ($this->isAppendLastBreadcrumb()) {
+            if ($this->getLastBreadcrumb() !== null) {
                 return array_merge($this->stack, [$this->getLastBreadcrumb()]);
             }
         }
@@ -117,7 +122,7 @@ final class BreadcrumbCollection
             $result[$url] = $item->getTitle();
         }
 
-        if (null !== $lastBreadcrumb = $this->getLastBreadcrumb()){
+        if (null !== $lastBreadcrumb = $this->getLastBreadcrumb()) {
             $result[$lastBreadcrumb->getUrl() ?? ''] = $lastBreadcrumb->getTitle();
         }
 
@@ -138,6 +143,23 @@ final class BreadcrumbCollection
     public function getLastBreadcrumb(): ?BreadcrumbInterface
     {
         return $this->lastBreadcrumb;
+    }
+
+    public function setAppendLastBreadcrumb(bool $flag = true): BreadcrumbCollection
+    {
+        $this->appendLastBreadcrumb = $flag;
+        return $this;
+    }
+
+
+    public function isAppendLastBreadcrumb(): bool
+    {
+        return $this->appendLastBreadcrumb;
+    }
+
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->getBreadcrumbs());
     }
 
 }
