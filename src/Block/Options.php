@@ -151,10 +151,10 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
         return new ArrayIterator($this->options);
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->options;
     }
-
 
 }
