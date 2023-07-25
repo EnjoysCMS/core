@@ -11,9 +11,9 @@ use Twig\Environment;
 
 abstract class AbstractWidgets
 {
-    use Options;
 
     protected Environment $twig;
+    protected array $options = [];
 
     /**
      * @throws ContainerExceptionInterface
@@ -38,4 +38,56 @@ abstract class AbstractWidgets
     {
         return $this->container;
     }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function setOption(string $key, $value): self
+    {
+        $this->options[$key] = $value;
+        return $this;
+    }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $defaults
+     * @return mixed
+     * @since 1.3.0 добавлен флаг $useInternalMethods
+     */
+    public function getOption(string $key, $defaults = null)
+    {
+
+        if (isset($this->options[$key])) {
+            return $this->options[$key];
+        }
+        return $defaults;
+    }
+
+    /**
+     *
+     * @param array<mixed> $options
+     * @return $this
+     * @since 1.3.0 добавлен флаг $useInternalMethods
+     */
+    public function setOptions(array $options = []): self
+    {
+        foreach ($options as $key => $value) {
+            $this->setOption((string)$key, $value);
+        }
+        return $this;
+    }
+
+    /**
+     *
+     * @return array<mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
 }
