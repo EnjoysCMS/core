@@ -1,10 +1,12 @@
 <?php
 
-namespace EnjoysCMS\Core\Widgets;
+namespace EnjoysCMS\Core\Block;
 
+use DI\Container;
 use DI\FactoryInterface;
 use Doctrine\ORM\EntityManager;
-use EnjoysCMS\Core\Entities\Widget;
+use EnjoysCMS\Core\Block\Entity\Widget;
+use EnjoysCMS\Core\Block\Repository\Widgets;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -12,9 +14,9 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use Twig\Environment;
 
-class Widgets
+class WidgetModel
 {
-    private \EnjoysCMS\Core\Repositories\Widgets $widgetsRepository;
+    private Widgets $widgetsRepository;
     private LoggerInterface $logger;
 
 
@@ -22,7 +24,7 @@ class Widgets
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private readonly Container $container)
     {
         $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
         $this->logger = $container->get(LoggerInterface::class);
@@ -30,7 +32,7 @@ class Widgets
 
 
 
-    public function getWidget(int $widgetId): ?string
+    public function view(int $widgetId): ?string
     {
         /** @var Widget $widget */
         $widget = $this->widgetsRepository->find($widgetId);
@@ -56,9 +58,10 @@ class Widgets
 //        }
 
         try {
+            /** @var class-string<AbstractWidget> $class */
             $class = $widget->getClass();
-            $obj = $this->container->get(FactoryInterface::class)->make($class, ['widget' => $widget]);
-            return $obj->view();
+             return $this->container->make($class)->setEntity($widget)->view();
+
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Widgets: Occurred Error: %s', $e->getMessage()), $e->getTrace());
             return $e->getMessage();

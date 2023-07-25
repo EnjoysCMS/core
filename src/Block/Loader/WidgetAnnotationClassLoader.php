@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
-use EnjoysCMS\Core\Block\AbstractBlock;
-use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
+use EnjoysCMS\Core\Block\AbstractWidget;
+use EnjoysCMS\Core\Block\Annotation\Widget as WidgetAnnotation;
 use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
@@ -14,7 +14,7 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
-class AnnotationClassLoader
+class WidgetAnnotationClassLoader
 {
 
     public function __construct(
@@ -41,14 +41,14 @@ class AnnotationClassLoader
                     continue;
                 }
 
-                if (!$reflectionClass->isSubclassOf(AbstractBlock::class)
+                if (!$reflectionClass->isSubclassOf(AbstractWidget::class)
                 ) {
                     continue;
                 }
 
                 foreach ($this->getAnnotations($reflectionClass) as $annot) {
                     $annot->setReflectionClass($reflectionClass);
-                    $collection->addBlockAnnotation($annot);
+                    $collection->addAnnotation($annot);
                 }
             }
         }
@@ -60,13 +60,13 @@ class AnnotationClassLoader
 
     /**
      * @param ReflectionClass $reflection
-     * @return iterable<int, BlockAnnotation>
+     * @return iterable<int, WidgetAnnotation>
      */
     private function getAnnotations(ReflectionClass $reflection): iterable
     {
         foreach (
             $reflection->getAttributes(
-                BlockAnnotation::class,
+                WidgetAnnotation::class,
                 ReflectionAttribute::IS_INSTANCEOF
             ) as $attribute
         ) {
@@ -80,7 +80,7 @@ class AnnotationClassLoader
         $annotations = $this->reader->getClassAnnotations($reflection);
 
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof BlockAnnotation) {
+            if ($annotation instanceof WidgetAnnotation) {
                 yield $annotation;
             }
         }

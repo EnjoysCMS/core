@@ -1,6 +1,6 @@
 <?php
 
-namespace EnjoysCMS\Core\Repositories;
+namespace EnjoysCMS\Core\Block\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\Users\Entity\User;

@@ -1,9 +1,10 @@
 <?php
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Core\Block\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Repositories\Widgets;
+use EnjoysCMS\Core\Block\Options;
+use EnjoysCMS\Core\Block\Repository\Widgets;
 use EnjoysCMS\Core\Users\Entity\User;
 
 #[ORM\Entity(repositoryClass: Widgets::class)]
@@ -22,8 +23,8 @@ class Widget
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $class = null;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $options = null;
+    #[ORM\Column(type: 'json', options: ['default' => []])]
+    private iterable $options = [];
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
@@ -64,17 +65,6 @@ class Widget
         $this->class = $class;
     }
 
-    public function getOptions(): ?array
-    {
-        return $this->options;
-    }
-
-    public function setOptions(?array $options): void
-    {
-        $this->options = $options;
-    }
-
-
     public function getCacheTtl(): int
     {
         return $this->cacheTtl;
@@ -93,5 +83,24 @@ class Widget
     public function getWidgetCommentAcl(): string
     {
         return ":Widget: Доступ к просмотру блока '{$this->getName()}'";
+    }
+
+    public function getOptions(): Options
+    {
+        return Options::createFromArray($this->options);
+    }
+
+    public function getOptionsKeyValue(): array
+    {
+        $ret = [];
+        foreach ($this->getOptions() as $key => $option) {
+            $ret[$key] = $option['value'];
+        }
+        return $ret;
+    }
+
+    public function setOptions(iterable $options): void
+    {
+        $this->options = $options;
     }
 }

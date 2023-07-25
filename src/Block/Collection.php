@@ -8,19 +8,19 @@ namespace EnjoysCMS\Core\Block;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use EnjoysCMS\Core\Block\Annotation\Block as BlockAnnotation;
+use EnjoysCMS\Core\Block\Annotation\Annotation;
 use IteratorAggregate;
 use ReflectionClass;
 
 /**
- * @implements  ArrayAccess<array-key, BlockAnnotation>
- * @implements  IteratorAggregate<array-key, BlockAnnotation>
+ * @implements  ArrayAccess<array-key, Annotation>
+ * @implements  IteratorAggregate<array-key, Annotation>
  */
 class Collection implements Countable, ArrayAccess, IteratorAggregate
 {
 
     /**
-     * @var BlockAnnotation[]
+     * @var Annotation[]
      */
     private array $collection = [];
 
@@ -30,7 +30,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return BlockAnnotation[]
+     * @return Annotation[]
      */
     public function toArray(): array
     {
@@ -39,22 +39,22 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     public function addCollection(Collection $collection): void
     {
-        /** @var BlockAnnotation $blockAnnotation */
-        foreach ($collection as $blockAnnotation) {
-            $this->addBlockAnnotation($blockAnnotation);
+        /** @var Annotation $annotation */
+        foreach ($collection as $annotation) {
+            $this->addAnnotation($annotation);
         }
     }
 
-    public function addBlockAnnotation(BlockAnnotation $blockAnnotation): void
+    public function addAnnotation(Annotation $annotation): void
     {
-        $this->collection[] = $blockAnnotation;
+        $this->collection[] = $annotation;
     }
 
-    public function getBlockAnnotation(ReflectionClass $class): ?BlockAnnotation
+    public function getAnnotation(ReflectionClass $class): ?Annotation
     {
-        foreach ($this->collection as $blockAnnotation) {
-            if ($blockAnnotation->getClassName() === $class->getName()) {
-                return $blockAnnotation;
+        foreach ($this->collection as $annotation) {
+            if ($annotation->getClassName() === $class->getName()) {
+                return $annotation;
             }
         }
 
@@ -77,16 +77,16 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     /**
      * @param array-key $offset
-     * @return BlockAnnotation|null
+     * @return Annotation|null
      */
-    public function offsetGet($offset): ?BlockAnnotation
+    public function offsetGet($offset): ?Annotation
     {
         return $this->collection[$offset] ?? null;
     }
 
     /**
      * @param array-key|null $offset
-     * @param BlockAnnotation $value
+     * @param Annotation $value
      * @return void
      */
     public function offsetSet($offset, $value): void

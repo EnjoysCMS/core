@@ -17,7 +17,7 @@ use RuntimeException;
  * @Target("CLASS")
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
-class Block implements Annotation
+class Widget implements Annotation
 {
 
     private Options $options;

@@ -22,7 +22,7 @@ abstract class AbstractBlock implements BlockInterface
         return $this;
     }
 
-    final public function getEntity(): ?Entity\Block
+    final public function getEntity(): ?Block
     {
         return $this->entity;
     }
