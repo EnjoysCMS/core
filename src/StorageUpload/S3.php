@@ -23,6 +23,11 @@ final class S3 implements StorageUploadInterface
         array $clientOptions = [],
         private readonly array $config = []
     ) {
+        if (!class_exists(AwsS3V3Adapter::class)) {
+            throw new \RuntimeException(
+                'AWS S3 filesystem adapter for Flysystem not installed. Please set `league/flysystem-aws-s3-v3`. Run `composer require league/flysystem-aws-s3-v3`'
+            );
+        }
         $this->prefix = (empty($prefix)) ? '' : rtrim($prefix, '/') . '/';
         $this->client = new S3Client($clientOptions);
         $this->adapter = new AwsS3V3Adapter(
