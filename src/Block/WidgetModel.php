@@ -3,16 +3,14 @@
 namespace EnjoysCMS\Core\Block;
 
 use DI\Container;
-use DI\FactoryInterface;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Block\Entity\Widget;
 use EnjoysCMS\Core\Block\Repository\Widgets;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use Twig\Environment;
 
 class WidgetModel
 {
@@ -21,15 +19,15 @@ class WidgetModel
 
 
     /**
-     * @throws NotFoundExceptionInterface
-     * @throws ContainerExceptionInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws NotSupported
      */
     public function __construct(private readonly Container $container)
     {
         $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
         $this->logger = $container->get(LoggerInterface::class);
     }
-
 
 
     public function view(int $widgetId): ?string
@@ -60,8 +58,7 @@ class WidgetModel
         try {
             /** @var class-string<AbstractWidget> $class */
             $class = $widget->getClass();
-             return $this->container->make($class)->setEntity($widget)->view();
-
+            return $this->container->make($class)->setEntity($widget)->view();
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Widgets: Occurred Error: %s', $e->getMessage()), $e->getTrace());
             return $e->getMessage();

@@ -1,72 +1,44 @@
 <?php
 
-declare(strict_types=1);
-
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
-use EnjoysCMS\Core\Block\AbstractWidget;
-use EnjoysCMS\Core\Block\Annotation\Widget as WidgetAnnotation;
+use EnjoysCMS\Core\Block\Annotation\Annotation;
 use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
-class WidgetAnnotationClassLoader
+abstract class AnnotationLoader
 {
 
+
+    /**
+     * @param class-string<Annotation> $annotationClass
+     * @param Finder $finder
+     * @param Reader|null $reader
+     */
     public function __construct(
+        private readonly string $annotationClass,
         private readonly Finder $finder,
-        protected ?Reader $reader = null
-    ) {
+        protected ?Reader $reader = null,
+    )
+    {
         $this->finder->files()->name('/\.php$/');
     }
 
-
-    /**
-     * @throws ReflectionException
-     */
-    public function getCollection(): Collection
-    {
-        $collection = new Collection();
-
-        foreach ($this->finder as $file) {
-            /** @var class-string $class */
-            if ($class = $this->findClass($file->getPathname())) {
-                $reflectionClass = new ReflectionClass($class);
-
-                if ($reflectionClass->isAbstract()) {
-                    continue;
-                }
-
-                if (!$reflectionClass->isSubclassOf(AbstractWidget::class)
-                ) {
-                    continue;
-                }
-
-                foreach ($this->getAnnotations($reflectionClass) as $annot) {
-                    $annot->setReflectionClass($reflectionClass);
-                    $collection->addAnnotation($annot);
-                }
-            }
-        }
-
-
-        return $collection;
-    }
-
+    abstract public function getCollection(): Collection;
 
     /**
      * @param ReflectionClass $reflection
-     * @return iterable<int, WidgetAnnotation>
+     * @return iterable<int, Annotation>
      */
-    private function getAnnotations(ReflectionClass $reflection): iterable
+    final protected function getAnnotations(ReflectionClass $reflection): iterable
     {
         foreach (
             $reflection->getAttributes(
-                WidgetAnnotation::class,
+                $this->annotationClass,
                 ReflectionAttribute::IS_INSTANCEOF
             ) as $attribute
         ) {
@@ -80,18 +52,19 @@ class WidgetAnnotationClassLoader
         $annotations = $this->reader->getClassAnnotations($reflection);
 
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof WidgetAnnotation) {
+            if ($annotation instanceof $this->annotationClass) {
                 yield $annotation;
             }
         }
     }
+
 
     /**
      * Returns the full class name for the first class in the file.
      * @param string $file
      * @return non-empty-string|class-string|false
      */
-    protected function findClass(string $file): false|string
+    final protected function findClass(string $file): false|string
     {
         $class = false;
         $namespace = false;
@@ -159,5 +132,4 @@ class WidgetAnnotationClassLoader
 
         return false;
     }
-
 }
