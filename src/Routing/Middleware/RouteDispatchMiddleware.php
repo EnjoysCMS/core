@@ -23,7 +23,7 @@ class RouteDispatchMiddleware implements MiddlewareInterface
         $routeMiddlewares = $route->getOption('middlewares') ?? [];
 
         if ($routeMiddlewares !== []){
-            $this->middlewareDispatcher->setQueque($routeMiddlewares);
+            $this->middlewareDispatcher->setQueue($routeMiddlewares);
             return $this->middlewareDispatcher->handle($request);
         }
 

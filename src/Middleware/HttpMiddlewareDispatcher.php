@@ -20,7 +20,6 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
     private array $queue;
 
     /**
-     * @param array<int, mixed>|iterable $queue
      * @param RequestHandlerInterface $requestHandler
      * @param MiddlewareResolverInterface|null $resolver
      */
@@ -30,7 +29,7 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
     ) {
     }
 
-    public function setQueque(iterable $queue)
+    public function setQueue(iterable $queue): void
     {
         if (!is_array($queue)) {
             $queue = iterator_to_array($queue);
