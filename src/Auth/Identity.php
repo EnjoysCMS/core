@@ -8,22 +8,19 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Users\Entity\User;
+use EnjoysCMS\Core\Users\Repository\UserRepository;
 use Exception;
 
-final class Identity
+final class Identity implements IdentityInterface
 {
-    private EntityRepository $usersRepository;
 
     private ?User $user = null;
 
-    /**
-     * @throws NotSupported
-     */
+
     public function __construct(
-        EntityManager $em,
-        private readonly Authorize $authorize
+        private readonly UserStorageInterface $userStorage,
+        private Authorize $authorize,
     ) {
-        $this->usersRepository = $em->getRepository(User::class);
     }
 
     /**
@@ -32,18 +29,7 @@ final class Identity
     public function getUser(): User
     {
         $this->fetchUserFromAuthorizedData();
-
-        $this->user ??= $this->getUserById(User::GUEST_ID);
-
-        if ($this->user === null) {
-            throw new Exception('Invalid user');
-        }
-        return $this->user;
-    }
-
-    public function getUserById(int $id): ?User
-    {
-        return $this->usersRepository->find($id);
+        return $this->user ?? $this->userStorage->getGuestUser() ?? throw new Exception('Invalid user');
     }
 
     private function fetchUserFromAuthorizedData(): void
@@ -53,6 +39,14 @@ final class Identity
             return;
         }
 
-        $this->user = $this->getUserById($userData->userId);
+        $this->user = $this->userStorage->getUser($userData->userId) ?? $this->userStorage->getGuestUser();
+    }
+
+    /**
+     * @param User|null $user
+     */
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
     }
 }

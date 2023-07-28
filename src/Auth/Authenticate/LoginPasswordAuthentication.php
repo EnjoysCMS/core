@@ -6,46 +6,57 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Auth\Authenticate;
 
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Auth\Authentication;
+use EnjoysCMS\Core\Auth\Identity;
+use EnjoysCMS\Core\Auth\IdentityInterface;
+use EnjoysCMS\Core\Auth\UserStorageInterface;
 use EnjoysCMS\Core\Users\Entity\User;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class LoginPasswordAuthentication implements Authentication
 {
 
     private ?User $user = null;
+    private string $loginField = 'login';
+    private string $passwordField = 'password';
 
     public function __construct(
-        private readonly EntityManager $em
+        private readonly UserStorageInterface $userStorage,
     ) {
     }
 
-    /**
-     * @throws NotSupported
-     */
-    public function validate(string $login, string $password): bool
+    public function authenticate(ServerRequestInterface $request): ?User
     {
-        /** @var null|User $user */
-        $user = $this->em->getRepository(User::class)->findOneBy([
-            'login' => $login
-        ]);
+        $login = $request->getParsedBody()[$this->loginField] ?? $request->getQueryParams()[$this->loginField] ?? '';
+        $password = $request->getParsedBody()[$this->passwordField] ?? $request->getQueryParams()[$this->passwordField] ??  '';
 
-        if ($user === null) {
+        if ($this->validate($login, $password)){
+            return $this->user;
+        }
+
+        return null;
+    }
+
+    private function validate(string $login, string $password): bool
+    {
+        /** @var User $user */
+        $this->user = $this->userStorage->getUserByLogin($login);
+
+        if ($this->user === null) {
             return false;
         }
 
-        $isVerify = password_verify($password, $user->getPasswordHash());
-
-        if ($isVerify === true) {
-            $this->user = $user;
-        }
-
-        return $isVerify;
+        return password_verify($password, $this->user->getPasswordHash());
     }
 
-    public function getUser(): ?User
+
+    public function setPasswordField(string $passwordField): void
     {
-        return $this->user;
+        $this->passwordField = $passwordField;
+    }
+
+    public function setLoginField(string $loginField): void
+    {
+        $this->loginField = $loginField;
     }
 }

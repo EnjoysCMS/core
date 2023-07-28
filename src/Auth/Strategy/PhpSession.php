@@ -13,7 +13,9 @@ use Enjoys\Cookie\Cookie;
 use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
 use EnjoysCMS\Core\Auth\Authenticate;
+use EnjoysCMS\Core\Auth\Authentication;
 use EnjoysCMS\Core\Auth\AuthorizedData;
+use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Auth\StrategyInterface;
 use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Users\Entity\Token;
@@ -34,6 +36,8 @@ final class PhpSession implements StrategyInterface
         private readonly Session $session,
         private readonly Cookie $cookie,
         private readonly Config $config,
+        private readonly Authenticate\LoginPasswordAuthentication $loginPasswordAuthentication,
+        private readonly Authenticate\TokenAuthentication $tokenAuthentication,
         private readonly ServerRequestInterface $request,
     ) {
         $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
@@ -45,12 +49,12 @@ final class PhpSession implements StrategyInterface
      * @throws Exception
      * @throws ORMException
      */
-    public function login(User $user, array $data = []): void
+    public function authorize(User $user, array $data = []): void
     {
         $this->session->set(
             [
                 'user' => [
-                    'id' => $user->getId()
+                    'id' =>$user->getId()
                 ],
                 'authenticate' => $data['authenticate'] ?? 'login'
             ]
@@ -101,7 +105,7 @@ final class PhpSession implements StrategyInterface
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function isAuthorized($retry = 0, ?Authenticate $authenticate = null): bool
+    public function isAuthorized($retry = 0, ?Authentication $authenticate = null): bool
     {
         if (isset($this->session->get('user')['id']) && $this->session->get('authenticate') !== null) {
             return true;
@@ -109,13 +113,13 @@ final class PhpSession implements StrategyInterface
 
         if ($this->cookie->has($this->tokenName) && $retry < 1) {
             $retry++;
-            $authenticate = $authenticate ?? new Authenticate($this->em, $this->config);
-            $token = $this->cookie->get($this->tokenName);
-            if ($authenticate->checkToken($token)) {
-                $this->login($authenticate->getUser(), ['authenticate' => 'autologin', 'token' => $token]);
+            $authenticate = $authenticate ?? $this->tokenAuthentication;
+          //  $token = $this->cookie->get($this->tokenName);
+            if ($authenticate->authenticate($this->request)) {
+                $this->authorize($authenticate->getUser(), ['authenticate' => 'autologin']);
                 return $this->isAuthorized($retry, $authenticate);
             }
-            $this->deleteToken($token);
+            $this->deleteToken();
         }
 
         return false;
@@ -168,8 +172,10 @@ final class PhpSession implements StrategyInterface
      * @throws Exception
      * @throws ORMException
      */
-    public function deleteToken(string $token): void
+    public function deleteToken(): void
     {
+        $token =  $this->cookie->get($this->tokenName);
+
         $this->cookie->delete($this->tokenName);
 
         $tokenRepository = $this->em->getRepository(Token::class);

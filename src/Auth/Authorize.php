@@ -26,12 +26,9 @@ final class Authorize
         );
     }
 
-    public function setAuthorized(?User $user, array $data = []): bool
+    public function setAuthorized(User $user, array $data = []): bool
     {
-        if ($user === null) {
-            return false;
-        }
-        $this->strategy->login($user, $data);
+        $this->strategy->authorize($user, $data);
         return true;
     }
 
