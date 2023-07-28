@@ -20,7 +20,8 @@ final class TokenAuthentication implements Authentication
 {
 
     private ?User $user = null;
-    private string $tokenName;
+    protected string $headerName = 'X-Api-Key';
+    protected string $pattern = '/(.*)/';
 
     public function __construct(
         private readonly EntityManager $em,
@@ -28,19 +29,44 @@ final class TokenAuthentication implements Authentication
         private readonly Config $config,
     )
     {
-        $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
     }
 
-    public function getUser(): ?User
+    public function withPattern(string $pattern): self
     {
-        return $this->user;
+        $new = clone $this;
+        $new->pattern = $pattern;
+        return $new;
     }
+
+    public function withHeaderName(string $name): self
+    {
+        $new = clone $this;
+        $new->headerName = $name;
+        return $new;
+    }
+
+    protected function getToken(ServerRequestInterface $request): ?string
+    {
+        $authHeaders = $request->getHeader($this->headerName);
+        $authHeader = reset($authHeaders);
+        if (!empty($authHeader)) {
+            if (preg_match($this->pattern, $authHeader, $matches)) {
+                $authHeader = $matches[1];
+            } else {
+                return null;
+            }
+            return $authHeader;
+        }
+        return null;
+    }
+
+
 
     public function authenticate(ServerRequestInterface $request): ?User
     {
 
-        if ($this->checkToken($request->getCookieParams()[$this->tokenName] ?? null)){
-            return $this->getUser();
+        if ($this->checkToken($this->getToken($request))){
+            return $this->user;
         }
         return null;
     }
@@ -68,12 +94,8 @@ final class TokenAuthentication implements Authentication
             }
         }
 
-        $this->setUser($this->userStorage->getUser($tokenEntity->getUser()));
+        $this->user = $this->userStorage->getUser($tokenEntity->getUser());
         return true;
     }
 
-    private function setUser(User $user)
-    {
-        $this->user = $user;
-    }
 }

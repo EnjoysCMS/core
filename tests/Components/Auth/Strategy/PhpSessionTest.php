@@ -240,7 +240,7 @@ class PhpSessionTest extends TestCase
             ->getMock()
         ;
 
-        $result = $authStrategy->isAuthorized(authenticate: $authenticate);
+        $result = $authStrategy->isAuthorized(authentication: $authenticate);
         $this->assertTrue($result);
     }
 
@@ -285,7 +285,7 @@ class PhpSessionTest extends TestCase
 
         $authStrategy->expects($this->exactly(1))->method('deleteToken');
 
-        $result = $authStrategy->isAuthorized(authenticate: $authenticate);
+        $result = $authStrategy->isAuthorized(authentication: $authenticate);
         $this->assertFalse($result);
     }
 
