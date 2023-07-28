@@ -16,12 +16,13 @@ class HttpBasicAuthentication implements Authentication
     public function authenticate(ServerRequestInterface $request): ?User
     {
         $token = $this->getTokenFromHeaders($request);
-        if ($this->isBasicToken($token)){
+        if ($this->isBasicToken($token)) {
             [$username, $password] = $this->getCredentials($token);
-            return $this->loginPasswordAuthentication->authenticate($request->withQueryParams([
-                'login' => $username,
-                'password' => $password
-            ]));
+            return $this->loginPasswordAuthentication->authenticate(
+                $request
+                    ->withAttribute($this->loginPasswordAuthentication::LOGIN_ATTR, $username)
+                    ->withAttribute($this->loginPasswordAuthentication::PASS_ATTR, $password)
+            );
         }
         return null;
     }
@@ -38,7 +39,7 @@ class HttpBasicAuthentication implements Authentication
 
     private function isBasicToken(?string $token): bool
     {
-        if ($token === null){
+        if ($token === null) {
             return false;
         }
         return str_starts_with(strtolower($token), 'basic');
@@ -47,7 +48,7 @@ class HttpBasicAuthentication implements Authentication
     private function getCredentials(string $token): array
     {
         return array_map(
-            static fn ($value) => $value === '' ? null : $value,
+            static fn($value) => $value === '' ? null : $value,
             explode(':', base64_decode(substr($token, 6)), 2)
         );
     }

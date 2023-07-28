@@ -25,7 +25,7 @@ final class TokenAuthentication implements Authentication
 
     public function __construct(
         private readonly EntityManager $em,
-        private UserStorageInterface $userStorage,
+        private readonly UserStorageInterface $userStorage,
         private readonly Config $config,
     )
     {

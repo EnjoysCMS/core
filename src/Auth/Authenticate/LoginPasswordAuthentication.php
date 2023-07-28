@@ -7,8 +7,6 @@ namespace EnjoysCMS\Core\Auth\Authenticate;
 
 
 use EnjoysCMS\Core\Auth\Authentication;
-use EnjoysCMS\Core\Auth\Identity;
-use EnjoysCMS\Core\Auth\IdentityInterface;
 use EnjoysCMS\Core\Auth\UserStorageInterface;
 use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,8 +15,8 @@ final class LoginPasswordAuthentication implements Authentication
 {
 
     private ?User $user = null;
-    private string $loginField = 'login';
-    private string $passwordField = 'password';
+    public const LOGIN_ATTR = 'login';
+    public const PASS_ATTR = 'password';
 
     public function __construct(
         private readonly UserStorageInterface $userStorage,
@@ -27,10 +25,10 @@ final class LoginPasswordAuthentication implements Authentication
 
     public function authenticate(ServerRequestInterface $request): ?User
     {
-        $login = $request->getParsedBody()[$this->loginField] ?? $request->getQueryParams()[$this->loginField] ?? '';
-        $password = $request->getParsedBody()[$this->passwordField] ?? $request->getQueryParams()[$this->passwordField] ??  '';
+        $login = $request->getAttribute(self::LOGIN_ATTR, '');
+        $password = $request->getAttribute(self::PASS_ATTR, '');
 
-        if ($this->validate($login, $password)){
+        if ($this->validate($login, $password)) {
             return $this->user;
         }
 
@@ -47,16 +45,5 @@ final class LoginPasswordAuthentication implements Authentication
         }
 
         return password_verify($password, $this->user->getPasswordHash());
-    }
-
-
-    public function setPasswordField(string $passwordField): void
-    {
-        $this->passwordField = $passwordField;
-    }
-
-    public function setLoginField(string $loginField): void
-    {
-        $this->loginField = $loginField;
     }
 }

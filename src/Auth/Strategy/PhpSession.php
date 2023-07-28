@@ -50,6 +50,7 @@ final class PhpSession implements StrategyInterface
     public function authorize(?User $user, array $data = []): void
     {
         if ($user === null) {
+            $this->logout();
             return;
         }
 
@@ -77,10 +78,7 @@ final class PhpSession implements StrategyInterface
     {
         $this->session->delete('user');
         $this->session->delete('authenticate');
-        if ($this->cookie->has($this->tokenName)) {
-            $token = $this->cookie->get($this->tokenName);
-            $this->deleteToken($token);
-        }
+        $this->deleteToken();
     }
 
     /**
@@ -179,7 +177,6 @@ final class PhpSession implements StrategyInterface
         $token = $this->cookie->get($this->tokenName);
 
         $this->cookie->delete($this->tokenName);
-
         $tokenRepository = $this->em->getRepository(Token::class);
         $tokenEntity = $tokenRepository->find($token);
         if ($tokenEntity === null) {
