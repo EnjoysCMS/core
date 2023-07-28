@@ -24,7 +24,7 @@ class DatabaseUserStorage implements UserStorageInterface
 
     public function getUser($userId)
     {
-        return $this->repository->find($userId);
+        return $this->repository->find($userId ?? 0);
     }
 
     public function getUserByLogin($login)

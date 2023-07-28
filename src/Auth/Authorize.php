@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Auth;
 
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Enjoys\Config\Config;
+use Enjoys\Cookie\Exception;
 use EnjoysCMS\Core\Auth\Strategy\PhpSession;
 use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Container\ContainerExceptionInterface;
@@ -32,7 +35,25 @@ final class Authorize
         return true;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     */
+    public function isAuthorized(): bool
+    {
+        $this->strategy->isAuthorized();
+        return true;
+    }
 
+
+    /**
+     * @throws OptimisticLockException
+     * @throws Exception
+     * @throws ORMException
+     */
     public function logout(): void
     {
         $this->strategy->logout();

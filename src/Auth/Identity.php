@@ -7,9 +7,13 @@ namespace EnjoysCMS\Core\Auth;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NotSupported;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\Users\Entity\User;
 use EnjoysCMS\Core\Users\Repository\UserRepository;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 final class Identity implements IdentityInterface
 {
@@ -32,14 +36,20 @@ final class Identity implements IdentityInterface
         return $this->user ?? $this->userStorage->getGuestUser() ?? throw new Exception('Invalid user');
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     * @throws \Enjoys\Cookie\Exception
+     */
     private function fetchUserFromAuthorizedData(): void
     {
-        $userData = $this->authorize->getAuthorizedData();
-        if ($userData === null) {
+        if (!$this->authorize->isAuthorized()){
             return;
         }
 
-        $this->user = $this->userStorage->getUser($userData->userId) ?? $this->userStorage->getGuestUser();
+        $this->user = $this->userStorage->getUser($this->authorize->getAuthorizedData()?->userId) ?? $this->userStorage->getGuestUser();
     }
 
     /**

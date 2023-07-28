@@ -6,10 +6,9 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Auth\Authenticate;
 
 
-use Doctrine\ORM\EntityManager;
 use Enjoys\Config\Config;
 use EnjoysCMS\Core\Auth\Authentication;
-use EnjoysCMS\Core\Auth\IdentityInterface;
+use EnjoysCMS\Core\Auth\TokenStorageInterface;
 use EnjoysCMS\Core\Auth\UserStorageInterface;
 use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Users\Entity\Token;
@@ -24,11 +23,10 @@ final class TokenAuthentication implements Authentication
     protected string $pattern = '/(.*)/';
 
     public function __construct(
-        private readonly EntityManager $em,
+        private readonly TokenStorageInterface $tokenStorage,
         private readonly UserStorageInterface $userStorage,
         private readonly Config $config,
-    )
-    {
+    ) {
     }
 
     public function withPattern(string $pattern): self
@@ -61,11 +59,9 @@ final class TokenAuthentication implements Authentication
     }
 
 
-
     public function authenticate(ServerRequestInterface $request): ?User
     {
-
-        if ($this->checkToken($this->getToken($request))){
+        if ($this->checkToken($this->getToken($request))) {
             return $this->user;
         }
         return null;
@@ -73,13 +69,13 @@ final class TokenAuthentication implements Authentication
 
     private function checkToken(?string $token): bool
     {
-        if ($token === null){
+        if ($token === null) {
             return false;
         }
         $now = new \DateTimeImmutable();
-        $tokenRepository = $this->em->getRepository(Token::class);
+
         /** @var Token $tokenEntity */
-        $tokenEntity = $tokenRepository->find($token);
+        $tokenEntity = $this->tokenStorage->find($token);
         if ($tokenEntity === null) {
             return false;
         }

@@ -26,7 +26,7 @@ class TokenRepository extends EntityRepository
         $this->clearTokenIfMaxCount($currentToken, $config);
     }
 
-    public function clearTokenIfMaxCount(Token $currentToken,  Config $config)
+    public function clearTokenIfMaxCount(Token $currentToken,  Config $config): void
     {
         $maxCount = $config->get('security->max_tokens', 0);
 
@@ -55,7 +55,6 @@ class TokenRepository extends EntityRepository
         foreach ($tokens as $token) {
             $this->getEntityManager()->remove($token);
         }
-        $this->getEntityManager()->flush();
     }
 
     public function clearInactiveTokensByUser(User $user)
