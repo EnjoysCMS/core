@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Middleware;
 
+use ArrayIterator;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,10 +15,7 @@ use RuntimeException;
 final class HttpMiddlewareDispatcher implements RequestHandlerInterface
 {
 
-    /**
-     * @var array<int, mixed>
-     */
-    private array $queue;
+    private ArrayIterator $queue;
 
     /**
      * @param RequestHandlerInterface $requestHandler
@@ -31,31 +29,30 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
 
     public function setQueue(iterable $queue): void
     {
-        if (!is_array($queue)) {
-            $queue = iterator_to_array($queue);
+        if (is_array($queue)) {
+            $queue = new ArrayIterator($queue);
         }
 
-        if (empty($queue)) {
+        if ($queue->count() === 0) {
             throw new InvalidArgumentException('$queue cannot be empty');
         }
 
-        /** @var array<int, mixed> $queue */
+        /** @var ArrayIterator $queue */
         $this->queue = $queue;
-        reset( $this->queue);
+        $this->queue->seek(0);
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $entry = current($this->queue);
-
-        if ($entry === false) {
+        if (!$this->queue->valid()) {
             return $this->requestHandler->handle($request);
         }
 
+        $entry = $this->queue->current();
+
         $middleware = $this->resolver?->resolve($entry) ?? $entry;
 
-        next($this->queue);
-
+        $this->queue->next();
 
         if ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
@@ -66,6 +63,7 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
             return $middleware($request, $this);
         }
 
+
         throw new RuntimeException(
             sprintf(
                 'Invalid middleware queue entry: %s. Middleware must either be callable or implement %s.',
@@ -73,6 +71,20 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
                 MiddlewareInterface::class
             )
         );
+    }
+
+    public function addQueue(array $routeMiddlewares): void
+    {
+        $key = $this->queue->key();
+        $queue = iterator_to_array($this->queue);
+        // array_reverse нужен для того, чтобы вставить массив как есть, так как
+        // $key всё время одинаковый, иначе он вставится перевернутым
+        foreach (array_reverse($routeMiddlewares) as $routeMiddleware) {
+            $queue = array_insert_before($queue, $key, $routeMiddleware);
+        }
+        $this->queue = new ArrayIterator($queue);
+        $this->queue->seek($key);
+        dd($this->queue);
     }
 
 }
