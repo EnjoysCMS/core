@@ -66,8 +66,6 @@ class TokenManage
         $this->repository->clearUsersOldTokens($tokenEntity, $this->config);
 
         $this->em->flush();
-        dd($this->repository->findBy(['user' => $user]));
-
     }
 
     /**
