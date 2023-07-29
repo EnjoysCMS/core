@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Auth\Authenticate;
 
 
+use DateTimeImmutable;
 use Enjoys\Config\Config;
 use EnjoysCMS\Core\Auth\Authentication;
 use EnjoysCMS\Core\Auth\TokenStorageInterface;
@@ -14,6 +15,7 @@ use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Users\Entity\Token;
 use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Http\Message\ServerRequestInterface;
+use Ramsey\Uuid\Uuid;
 
 final class TokenAuthentication implements Authentication
 {
@@ -72,7 +74,12 @@ final class TokenAuthentication implements Authentication
         if ($token === null) {
             return false;
         }
-        $now = new \DateTimeImmutable();
+
+        if (!Uuid::isValid($token)){
+            return false;
+        }
+
+        $now = new DateTimeImmutable();
 
         /** @var Token $tokenEntity */
         $tokenEntity = $this->tokenStorage->find($token);

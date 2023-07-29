@@ -76,7 +76,7 @@ class TokenManage
         $token = $this->cookie->get($this->tokenName);
         $this->cookie->delete($this->tokenName);
 
-        $tokenEntity = $this->repository->find($token);
+        $tokenEntity = $this->repository->find($token ?? '');
         if ($tokenEntity === null) {
             return;
         }
