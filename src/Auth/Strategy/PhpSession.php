@@ -33,10 +33,12 @@ final class PhpSession implements StrategyInterface
         private readonly TokenManage $tokenManage,
         private readonly ServerRequestInterface $request,
     ) {
-        $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function authorize(?User $user, array $data = []): void
     {
         if ($user === null) {
@@ -55,9 +57,13 @@ final class PhpSession implements StrategyInterface
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function logout(): void
     {
         $this->session->delete('auth');
+        $this->tokenManage->delete();
     }
 
     public function getAuthorizedData(): ?AuthorizedData
@@ -72,7 +78,7 @@ final class PhpSession implements StrategyInterface
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function isAuthorized($retry = 0, ?Authentication $authentication = null): bool
+    public function isAuthorized(int $retry = 0, ?Authentication $authentication = null): bool
     {
         $this->authData = AuthorizedData::fromArray($this->session->get('auth', []));
 
@@ -80,7 +86,9 @@ final class PhpSession implements StrategyInterface
             return true;
         }
 
+        /** @var string $tokenName */
         $tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
+        /** @var string|null $autologinToken */
         $autologinToken = $this->cookie->get($tokenName);
 
         if ($autologinToken !== null && $retry < 1) {
