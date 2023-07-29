@@ -84,7 +84,6 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
         }
         $this->queue = new ArrayIterator($queue);
         $this->queue->seek($key);
-        dd($this->queue);
     }
 
 }
