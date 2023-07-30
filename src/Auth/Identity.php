@@ -4,27 +4,41 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Auth;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Exception\NotSupported;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
+use DI\Container;
+use EnjoysCMS\Core\Auth\AuthenticationStorage\PhpSession;
 use EnjoysCMS\Core\Users\Entity\User;
-use EnjoysCMS\Core\Users\Repository\UserRepository;
 use Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 final class Identity implements IdentityInterface
 {
 
-    private ?User $user = null;
+    private ?User $user;
+    private AuthenticationStorageInterface $authenticationStorage;
 
 
     public function __construct(
+        private readonly Container $container,
         private readonly UserStorageInterface $userStorage,
-        private Authorize $authorize,
+        AuthenticationStorageInterface $authenticationStorage = null
     ) {
+        $this->authenticationStorage = $authenticationStorage ?? $this->setAuthenticationStorage(PhpSession::class);
+    }
+
+
+    public function setAuthenticationStorage(string|AuthenticationStorageInterface $authenticationStorage
+    ): AuthenticationStorageInterface {
+        if (is_string($authenticationStorage)) {
+            $this->authenticationStorage = $this->container->get($authenticationStorage);
+            return $this->authenticationStorage;
+        }
+        $this->authenticationStorage = $authenticationStorage;
+        return $this->authenticationStorage;
+    }
+
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
+        $this->authenticationStorage->setUser($user);
     }
 
     /**
@@ -32,31 +46,18 @@ final class Identity implements IdentityInterface
      */
     public function getUser(): User
     {
-        $this->fetchUserFromAuthorizedData();
+//        dd($this->authenticationStorage->getUserId());
+        $this->user = $this->userStorage->getUser($this->authenticationStorage->getUserId());
         return $this->user ?? $this->userStorage->getGuestUser() ?? throw new Exception('Invalid user');
     }
 
     /**
-     * @throws OptimisticLockException
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws ContainerExceptionInterface
-     * @throws \Enjoys\Cookie\Exception
+     * @return AuthenticationStorageInterface
      */
-    private function fetchUserFromAuthorizedData(): void
+    public function getAuthenticationStorage(): AuthenticationStorageInterface
     {
-        if (!$this->authorize->isAuthorized()){
-            return;
-        }
-
-        $this->user = $this->userStorage->getUser($this->authorize->getAuthorizedData()?->userId) ?? $this->userStorage->getGuestUser();
+        return $this->authenticationStorage;
     }
 
-    /**
-     * @param User|null $user
-     */
-    public function setUser(?User $user): void
-    {
-        $this->user = $user;
-    }
+
 }

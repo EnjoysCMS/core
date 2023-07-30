@@ -12,9 +12,6 @@ use Exception;
 
 class ACL
 {
-    private User $user;
-
-
     private \EnjoysCMS\Core\Repositories\ACL|EntityRepository $aclRepository;
 
     /**
@@ -27,9 +24,8 @@ class ACL
      */
     public function __construct(
         private readonly EntityManager $entityManager,
-        Identity $identity
+        private readonly Identity $identity
     ) {
-        $this->user = $identity->getUser();
         $this->aclRepository = $this->entityManager->getRepository(\EnjoysCMS\Core\Entities\ACL::class);
         $this->aclLists = $this->aclRepository->findAll();
     }
@@ -42,9 +38,12 @@ class ACL
     /**
      * @throws OptimisticLockException
      * @throws ORMException
+     * @throws Exception
      */
     public function access(string $action, string $comment = ''): bool
     {
+        $user = $this->identity->getUser();
+
         $acl = null;
         foreach ($this->aclLists as $item) {
             if ($item->getAction() === $action) {
@@ -56,11 +55,11 @@ class ACL
             $acl = $this->addAcl($action, $comment);
         }
 
-        if ($this->user->isAdmin()) {
+        if ($user->isAdmin()) {
             return true;
         }
 
-        if (in_array($acl->getId(), $this->user->getAclAccessIds())) {
+        if (in_array($acl->getId(), $user->getAclAccessIds())) {
             return true;
         }
         return false;

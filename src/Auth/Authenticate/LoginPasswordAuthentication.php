@@ -25,7 +25,9 @@ final class LoginPasswordAuthentication implements Authentication
 
     public function authenticate(ServerRequestInterface $request): ?User
     {
+        /** @var string $login */
         $login = $request->getAttribute(self::LOGIN_ATTR, '');
+        /** @var string $password */
         $password = $request->getAttribute(self::PASS_ATTR, '');
 
         if ($this->validate($login, $password)) {

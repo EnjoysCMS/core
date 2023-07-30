@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Auth\Strategy;
+namespace EnjoysCMS\Core\Auth\AuthenticationStorage;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -12,18 +12,16 @@ use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
 use EnjoysCMS\Core\Auth\Authenticate;
 use EnjoysCMS\Core\Auth\Authentication;
-use EnjoysCMS\Core\Auth\AuthorizedData;
-use EnjoysCMS\Core\Auth\StrategyInterface;
+use EnjoysCMS\Core\Auth\AuthenticationStorageInterface;
 use EnjoysCMS\Core\Auth\TokenManage;
 use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class PhpSession implements StrategyInterface
+final class PhpSession implements AuthenticationStorageInterface
 {
 
-    private ?AuthorizedData $authData = null;
 
     public function __construct(
         private readonly Session $session,
@@ -66,10 +64,7 @@ final class PhpSession implements StrategyInterface
         $this->tokenManage->delete();
     }
 
-    public function getAuthorizedData(): ?AuthorizedData
-    {
-        return $this->authData;
-    }
+
 
     /**
      * @throws ContainerExceptionInterface
@@ -78,11 +73,10 @@ final class PhpSession implements StrategyInterface
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function isAuthorized(int $retry = 0, ?Authentication $authentication = null): bool
+    private function isAuthorized(int $retry = 0, ?Authentication $authentication = null): bool
     {
-        $this->authData = AuthorizedData::fromArray($this->session->get('auth', []));
 
-        if ($this->authData->userId !== null) {
+        if (($this->session->get('auth')['user']['id'] ?? null) !== null) {
             return true;
         }
 
@@ -99,7 +93,7 @@ final class PhpSession implements StrategyInterface
                 $user,
                 ['authenticate' => 'autologin']
             );
-            if ($user !== null){
+            if ($user !== null) {
                 $this->tokenManage->write($user, $autologinToken);
             }
             return $this->isAuthorized($retry, $authentication);
@@ -107,5 +101,23 @@ final class PhpSession implements StrategyInterface
         return false;
     }
 
+    public function getUserId()
+    {
+        if ($this->isAuthorized()){
+            return  $this->session->get('auth')['user']['id'] ?? null;
+        }
+        return null;
+    }
 
+    public function setUser(User $user): void
+    {
+        $this->session->set([
+            'auth' => [
+                'user' => [
+                    'id' => $user->getId()
+                ],
+                'authenticate' => $data['authenticate'] ?? 'login'
+            ]
+        ]);
+    }
 }
