@@ -12,7 +12,7 @@ use Exception;
 final class Identity implements IdentityInterface
 {
 
-    private ?User $user;
+    private ?User $user = null;
     private AuthenticationStorageInterface $authenticationStorage;
 
 
@@ -35,10 +35,12 @@ final class Identity implements IdentityInterface
         return $this->authenticationStorage;
     }
 
-    public function setUser(?User $user): void
+    public function setVerified(?User $user, array $payload = []): void
     {
         $this->user = $user;
-        $this->authenticationStorage->setUser($user);
+        if ($user !== null) {
+            $this->authenticationStorage->setVerified($user, $payload);
+        }
     }
 
     /**
@@ -46,9 +48,12 @@ final class Identity implements IdentityInterface
      */
     public function getUser(): User
     {
-//        dd($this->authenticationStorage->getUserId());
-        $this->user = $this->userStorage->getUser($this->authenticationStorage->getUserId());
-        return $this->user ?? $this->userStorage->getGuestUser() ?? throw new Exception('Invalid user');
+        return $this->user
+            ?? $this->userStorage->getUser($this->authenticationStorage->getUserId())
+            ?? $this->userStorage->getGuestUser()
+            ?? throw new Exception(
+                'Invalid user'
+            );
     }
 
     /**

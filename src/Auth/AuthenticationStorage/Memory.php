@@ -14,7 +14,7 @@ final class Memory implements AuthenticationStorageInterface
 
     private static ?User $user = null;
 
-    public function setUser(User $user): void
+    public function setVerified(User $user, array $payload = []): void
     {
         self::$user = $user;
     }

@@ -22,7 +22,7 @@ class DatabaseUserStorage implements UserStorageInterface
 
     }
 
-    public function getUser($userId)
+    public function getUser($userId): ?User
     {
         return $this->repository->find($userId ?? 0);
     }

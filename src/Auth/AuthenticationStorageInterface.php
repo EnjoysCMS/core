@@ -11,6 +11,6 @@ use EnjoysCMS\Core\Users\Entity\User;
 interface AuthenticationStorageInterface
 {
 
-    public function setUser(User $user): void;
+    public function setVerified(User $user, array $payload = []): void;
     public function getUserId();
 }

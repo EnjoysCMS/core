@@ -33,28 +33,6 @@ final class PhpSession implements AuthenticationStorageInterface
     ) {
     }
 
-
-    /**
-     * @throws Exception
-     */
-    public function authorize(?User $user, array $data = []): void
-    {
-        if ($user === null) {
-            $this->logout();
-            return;
-        }
-
-        $this->session->set([
-            'auth' => [
-                'user' => [
-                    'id' => $user->getId()
-                ],
-                'authenticate' => $data['authenticate'] ?? 'login'
-            ]
-        ]);
-    }
-
-
     /**
      * @throws Exception
      */
@@ -73,7 +51,7 @@ final class PhpSession implements AuthenticationStorageInterface
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    private function isAuthorized(int $retry = 0, ?Authentication $authentication = null): bool
+    private function isVerified(int $retry = 0, ?Authentication $authentication = null): bool
     {
 
         if (($this->session->get('auth')['user']['id'] ?? null) !== null) {
@@ -89,34 +67,41 @@ final class PhpSession implements AuthenticationStorageInterface
             $retry++;
             $authentication = $authentication ?? $this->tokenAuthentication->withHeaderName('X-REFRESH-TOKEN');
             $user = $authentication->authenticate($this->request->withAddedHeader('X-REFRESH-TOKEN', $autologinToken));
-            $this->authorize(
-                $user,
-                ['authenticate' => 'autologin']
-            );
             if ($user !== null) {
+                $this->setVerified(
+                    $user,
+                    ['authenticate' => 'autologin']
+                );
                 $this->tokenManage->write($user, $autologinToken);
             }
-            return $this->isAuthorized($retry, $authentication);
+            return $this->isVerified($retry, $authentication);
         }
         return false;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     */
     public function getUserId()
     {
-        if ($this->isAuthorized()){
+        if ($this->isVerified()){
             return  $this->session->get('auth')['user']['id'] ?? null;
         }
         return null;
     }
 
-    public function setUser(User $user): void
+    public function setVerified(User $user, array $payload = []): void
     {
         $this->session->set([
             'auth' => [
                 'user' => [
                     'id' => $user->getId()
                 ],
-                'authenticate' => $data['authenticate'] ?? 'login'
+                'authenticate' => $payload['authenticate'] ?? 'login'
             ]
         ]);
     }
