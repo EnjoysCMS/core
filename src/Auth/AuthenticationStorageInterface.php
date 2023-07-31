@@ -13,4 +13,5 @@ interface AuthenticationStorageInterface
 
     public function setVerified(User $user, array $payload = []): void;
     public function getUserId();
+    public function logout(): void;
 }

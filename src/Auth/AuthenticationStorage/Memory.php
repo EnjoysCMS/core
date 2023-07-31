@@ -22,4 +22,9 @@ final class Memory implements AuthenticationStorageInterface
     {
         return self::$user?->getId();
     }
+
+    public function logout(): void
+    {
+        self::$user = null;
+    }
 }
