@@ -32,7 +32,7 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
     /**
      * @throws MappingException
      */
-    public function loadMetadataForClass(string $className, ClassMetadata $metadata)
+    public function loadMetadataForClass(string $className, ClassMetadata $metadata): void
     {
         try {
             $this->attributeDriver->loadMetadataForClass($className, $metadata);
@@ -46,6 +46,9 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
     }
 
 
+    /**
+     * @throws \Doctrine\Persistence\Mapping\MappingException
+     */
     public function isTransient($className): bool
     {
         if (in_array($className, $this->attributeDriver->getAllClassNames(), true)) {
