@@ -34,10 +34,11 @@ class Route extends \Symfony\Component\Routing\Annotation\Route
         bool $utf8 = null,
         bool $stateless = null,
         ?string $env = null,
-        private readonly ?string $title = null,
-        private readonly ?string $comment = null,
-        private readonly bool $needAuthorized = true,
-        private readonly array $middlewares = [],
+        // custom fields
+        ?string $title = null,
+        ?string $comment = null,
+        ?bool $needAuthorized = null,
+        ?array $middlewares = null
 
     ) {
         parent::__construct(
@@ -58,34 +59,20 @@ class Route extends \Symfony\Component\Routing\Annotation\Route
             $env
         );
 
-        $this->setOptions(
-            array_merge($this->getOptions(), [
-                'middlewares' => $this->getMiddlewares(),
-                'comment' => $this->getComment(),
-                'title' => $this->getTitle(),
-                'acl' => $this->isNeedAuthorized()
-            ])
-        );
+        $options = $this->getOptions();
+        $options['comment'] = $comment;
+        $options['title'] = $title;
+
+        if ($middlewares !== null) {
+            $options['middlewares'] = $middlewares;
+        }
+
+        if ($needAuthorized !== null) {
+            $options['acl'] = $needAuthorized;
+        }
+
+        $this->setOptions($options);
     }
 
-    public function getMiddlewares(): array
-    {
-        return $this->middlewares;
-    }
-
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function isNeedAuthorized(): bool
-    {
-        return $this->needAuthorized;
-    }
 
 }
