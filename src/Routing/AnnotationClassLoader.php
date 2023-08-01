@@ -31,7 +31,10 @@ class AnnotationClassLoader extends BaseLoader
     ): void {
         parent::addRoute($collection, $annot, $globals, $class, $method);
         $route = $collection->get($annot->getName());
-        $options = $route->getOptions();
+        if ($route === null){
+            return;
+        }
+        $options = $route->getOptions() ?? [];
         $options['middlewares'] = array_merge($globals['options']['middlewares'] ?? [], $annot->getOptions()['middlewares'] ?? []);
         $options['acl'] = (array_key_exists('acl', $options)) ? $options['acl'] : true;
         $route->setOptions($options);
