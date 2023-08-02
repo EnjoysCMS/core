@@ -38,7 +38,8 @@ class Route extends \Symfony\Component\Routing\Annotation\Route
         ?string $title = null,
         ?string $comment = null,
         ?bool $needAuthorized = null,
-        ?array $middlewares = null
+        ?array $middlewares = null,
+        array|string $groups = null,
 
     ) {
         parent::__construct(
@@ -69,6 +70,10 @@ class Route extends \Symfony\Component\Routing\Annotation\Route
 
         if ($needAuthorized !== null) {
             $options['acl'] = $needAuthorized;
+        }
+
+        if ($groups !== null) {
+            $options['groups'] = (array)$groups;
         }
 
         $this->setOptions($options);

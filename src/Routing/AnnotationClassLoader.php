@@ -36,6 +36,7 @@ class AnnotationClassLoader extends BaseLoader
         }
         $options = $route->getOptions() ?? [];
         $options['middlewares'] = array_merge($globals['options']['middlewares'] ?? [], $annot->getOptions()['middlewares'] ?? []);
+        $options['groups'] = array_merge($globals['options']['groups'] ?? [], $annot->getOptions()['groups'] ?? []);
         $options['acl'] = (array_key_exists('acl', $options)) ? $options['acl'] : true;
         $route->setOptions($options);
     }
