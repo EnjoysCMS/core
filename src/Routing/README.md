@@ -15,6 +15,7 @@ _Можно в проекте использовать одновременно 
 - `comment` - по умолчанию _null_
 - `middlewares` - по умолчанию _[]_
 - `needAuthorized` - по умолчанию _true_
+- `groups` - по умолчанию _[]_
 
 __Все поля не обязательны!__
 
@@ -73,3 +74,49 @@ Route `path1` будет иметь путь: `/api/path1`, и один middlewa
 
 Route `path2` будет иметь путь: `/api/path2`, и два middleware (Middleware1, Middleware2), needAuthorized будет true,
 т.к. он явно переопределен
+
+3. Определения `groups` и способ воздействия на роуты с этими метками
+
+```php
+use EnjoysCMS\Core\Routing\Annotation\Route;
+
+class Controller 
+{
+    #[Route('/path1', 'path1',
+        groups: [
+            'api',
+            'group1'
+        ]   
+    )] 
+    public function controller1(){
+     //...
+    }
+    
+    #[Route('/path2', 'path2',
+        groups: 'api'
+    )] 
+    public function controller(){
+     //...
+    }
+}
+```
+
+Файл настройки роутера (например, _config/routing.yml_)
+
+```yaml
+router:
+    #...before something...
+    groups:
+        api:
+            middlewares:
+                - Middleware1::class
+        group1:
+            middlewares:
+                - Middleware2::class
+```
+
+Route `path1` будет иметь два middleware (Middleware1, Middleware2)
+Route `path2` будет иметь один middleware (Middleware1)
+
+По-умочанию, разрешено только менять значение параметров у `middlewares`, и `acl`. Остальное будет пропускаться, для
+добавления дополнительных параметров нужно изменить настройку `allowed_change_group_options` в _config/routing.yml_
