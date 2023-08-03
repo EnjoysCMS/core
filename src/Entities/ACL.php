@@ -18,10 +18,13 @@ class ACL
     private int $id;
 
     #[ORM\Column(type: 'string')]
-    private string $action;
+    private string $route;
 
     #[ORM\Column(type: 'string')]
-    private string $comment;
+    private string $controller;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $comment = null;
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'acl')]
     private Collection $groups;
@@ -73,23 +76,35 @@ class ACL
         return $this->id;
     }
 
-    public function getAction(): string
+    public function getController(): string
     {
-        return $this->action;
+        return $this->controller;
     }
 
-    public function setAction(string $action): void
+    public function setController(string $controller): void
     {
-        $this->action = $action;
+        $this->controller = $controller;
     }
 
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function setComment(string $comment): void
+    public function setComment(?string $comment): void
     {
         $this->comment = $comment;
     }
+
+    public function getRoute(): string
+    {
+        return $this->route;
+    }
+
+    public function setRoute(string $route): void
+    {
+        $this->route = $route;
+    }
+
+
 }

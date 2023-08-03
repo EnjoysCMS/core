@@ -19,7 +19,7 @@ final class TestHelper
         foreach ($data as $action => $comment) {
             $aclEntity = clone $entity;
             $aclEntity->method('getId')->willReturn($i);
-            $aclEntity->method('getAction')->willReturn($action);
+            $aclEntity->method('getController')->willReturn($action);
             $aclEntity->method('getComment')->willReturn($comment);
             $result[$action] = $aclEntity;
             $i++;

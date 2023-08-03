@@ -40,19 +40,20 @@ class ACL
      * @throws ORMException
      * @throws Exception
      */
-    public function access(string $action, string $comment = ''): bool
+    public function access(string $route, string $controller, ?string $comment = null): bool
     {
         $user = $this->identity->getUser();
 
         $acl = null;
         foreach ($this->aclLists as $item) {
-            if ($item->getAction() === $action) {
+            if ($item->getRoute() === $route && $item->getController() === $controller) {
                 $acl = $item;
+                break;
             }
         }
 
         if ($acl === null) {
-            $acl = $this->addAcl($action, $comment);
+            $acl = $this->addAcl($route, $controller, $comment);
         }
 
         if ($user->isAdmin()) {
@@ -75,18 +76,19 @@ class ACL
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function addAcl(string $action, string $comment = '', bool $flush = true): \EnjoysCMS\Core\Entities\ACL
+    public function addAcl(string $route, string $controller, ?string $comment = null, bool $flush = true): \EnjoysCMS\Core\Entities\ACL
     {
         $new = false;
-        $acl = $this->getAcl($action);
+        $acl = $this->getAcl($controller);
 
         if ($acl === null) {
             $acl = new \EnjoysCMS\Core\Entities\ACL();
-            $acl->setAction($action);
+            $acl->setRoute($route);
+            $acl->setController($controller);
             $new = true;
         }
 
-        $acl->setComment($comment === '' ? $action : $comment);
+        $acl->setComment($comment);
         $this->entityManager->persist($acl);
 
         if ($flush) {

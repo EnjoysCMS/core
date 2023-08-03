@@ -37,9 +37,9 @@ final class AclMiddleware implements MiddlewareInterface
             throw new InvalidArgumentException('Route not set');
         }
         $controller = implode('::', (array)$route->getDefault('_controller'));
-
+        $routeName = $request->getAttribute('_routeName');
         if ($route->getOption('acl') !== false
-            && !$this->acl->access($controller, (string)($route->getOption('comment') ?? $controller))
+            && !$this->acl->access($routeName, $controller, $route->getOption('comment'))
             && !$this->config->get('acl->disableChecking', false)
         ) {
             throw new ForbiddenException();
