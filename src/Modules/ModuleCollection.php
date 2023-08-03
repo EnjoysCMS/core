@@ -34,7 +34,7 @@ final class ModuleCollection
     /**
      * @return Module[]
      */
-    public function getCollection(): array
+    public function all(): array
     {
         return $this->collection;
     }
