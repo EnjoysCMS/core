@@ -5,7 +5,7 @@ namespace Tests\EnjoysCMS\Components\AccessControl;
 use Doctrine\ORM\EntityManager;
 use EnjoysCMS\Core\AccessControl\ACL;
 use EnjoysCMS\Core\Auth\Identity;
-use EnjoysCMS\Core\Extensions\Twig\AclTwigExtension;
+use EnjoysCMS\Core\Extensions\Twig\AccessControlTwigExtension;
 use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
 use Symfony\Component\Routing\Route;
@@ -50,7 +50,7 @@ class ACLTwigExtensionTest extends IntegrationTestCase
         });
 
         return [
-            new AclTwigExtension($acl, $routeCollection)
+            new AccessControlTwigExtension($acl, $routeCollection)
         ];
     }
 

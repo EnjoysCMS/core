@@ -9,7 +9,7 @@ namespace EnjoysCMS\Core\AccessControl\Middleware;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Enjoys\Config\Config;
-use EnjoysCMS\Core\AccessControl\ACL;
+use EnjoysCMS\Core\AccessControl\AccessControl;
 use EnjoysCMS\Core\Exception\ForbiddenException;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -17,11 +17,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class AclMiddleware implements MiddlewareInterface
+final class AuthorizeMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly Config $config,
-        private readonly ACL $acl
+        private readonly AccessControl $accessControl
     ) {
     }
 
@@ -39,8 +39,8 @@ final class AclMiddleware implements MiddlewareInterface
         $controller = implode('::', (array)$route->getDefault('_controller'));
         $routeName = $request->getAttribute('_routeName');
         if ($route->getOption('acl') !== false
-            && !$this->acl->access($routeName, $controller, $route->getOption('comment'))
-            && !$this->config->get('acl->disableChecking', false)
+            && !$this->accessControl->isAccess($routeName . $controller)
+            && !$this->config->get('accessControl->disableChecking', false)
         ) {
             throw new ForbiddenException();
         }

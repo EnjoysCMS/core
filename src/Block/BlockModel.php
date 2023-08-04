@@ -9,7 +9,9 @@ use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NotSupported;
-use EnjoysCMS\Core\AccessControl\ACL;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use EnjoysCMS\Core\AccessControl\AccessControl;
 use EnjoysCMS\Core\Block\Entity\Block;
 use EnjoysCMS\Core\Location\Location;
 use Psr\Container\ContainerExceptionInterface;
@@ -27,7 +29,7 @@ class BlockModel
     public function __construct(
         private readonly BlockFactory $blockFactory,
         private readonly EntityManager $entityManager,
-        private readonly ACL $ACL,
+        private readonly AccessControl $accessControl,
         private readonly LoggerInterface $logger
     ) {
         $this->repository = $this->entityManager->getRepository(Block::class);
@@ -37,8 +39,8 @@ class BlockModel
     /**
      * @throws DependencyException
      * @throws NotFoundException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function view(string $blockId): ?string
     {
@@ -50,12 +52,7 @@ class BlockModel
             return null;
         }
 
-        if (
-            $this->ACL->access(
-                $block->getBlockActionAcl(),
-                ":Блок: Доступ к просмотру блока '{$block->getName()}'"
-            ) === false
-        ) {
+        if ($this->accessControl->isAccess($block->getId()) === false) {
             $this->logger->debug(
                 sprintf("Access not allowed to block: '%s'", $block->getName()),
                 [

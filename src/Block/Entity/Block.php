@@ -162,17 +162,6 @@ class Block
         $this->body = $body;
     }
 
-
-    public function getBlockActionAcl(): string
-    {
-        return "{$this->getClassName()}::view({$this->getId()})";
-    }
-
-    public function getBlockCommentAcl(): string
-    {
-        return ":Блок: Доступ к просмотру блока '{$this->getName()}'";
-    }
-
     public function isRemovable(): bool
     {
         return $this->removable;

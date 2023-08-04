@@ -111,17 +111,17 @@ class User
         return $ids;
     }
 
-    public function getAclAccessIds(): array
-    {
-        $ids = [];
-        foreach ($this->getGroups() as $group) {
-            foreach ($group->getAcl() as $acl) {
-                $ids[] = $acl->getId();
-            }
-        }
-
-        return array_unique($ids);
-    }
+//    public function getAclAccessIds(): array
+//    {
+//        $ids = [];
+//        foreach ($this->getGroups() as $group) {
+//            foreach ($group->getAcl() as $acl) {
+//                $ids[] = $acl->getId();
+//            }
+//        }
+//
+//        return array_unique($ids);
+//    }
 
     public function setGroups(Group $groups): void
     {

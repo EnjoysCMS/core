@@ -4,6 +4,7 @@ namespace EnjoysCMS\Core\Extensions\Twig;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use EnjoysCMS\Core\AccessControl\AccessControl;
 use EnjoysCMS\Core\AccessControl\ACL;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -12,15 +13,15 @@ use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class AclTwigExtension extends AbstractExtension
+class AccessControlTwigExtension extends AbstractExtension
 {
 
     private bool $disableCheck = false;
 
     public function __construct(
-        private readonly ACL $acl,
+        private readonly AccessControl $accessControl,
         private readonly RouteCollection $routeCollection,
-        private readonly LoggerInterface $logger = new NullLogger()
+        private LoggerInterface $logger = new NullLogger()
     ) {
     }
 
@@ -43,7 +44,7 @@ class AclTwigExtension extends AbstractExtension
         if ($this->isDisableCheck()) {
             return true;
         }
-        return $this->acl->access($action, (string)$comment);
+        return $this->accessControl->isAccess($action);
     }
 
     public function checkAccessToRoutes(array $routes): bool
@@ -98,5 +99,10 @@ class AclTwigExtension extends AbstractExtension
     public function setDisableCheck(bool $disableCheck): void
     {
         $this->disableCheck = $disableCheck;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 }
