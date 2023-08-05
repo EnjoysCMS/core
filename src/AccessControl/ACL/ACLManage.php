@@ -17,8 +17,7 @@ class ACLManage implements AccessControlManage
 {
     private ACLRepository|EntityRepository $aclRepository;
 
-    private array $aclLists = [];
-
+    private array $aclList;
     /**
      * @throws Exception
      */
@@ -27,12 +26,12 @@ class ACLManage implements AccessControlManage
         private readonly Identity $identity
     ) {
         $this->aclRepository = $this->em->getRepository(ACLEntity::class);
-        $this->aclLists = $this->aclRepository->findAll();
+        $this->aclList = $this->getList();
     }
 
     public function isEmptyAclList(): bool
     {
-        return empty($this->aclLists);
+        return empty($this->getList());
     }
 
     /**
@@ -45,7 +44,8 @@ class ACLManage implements AccessControlManage
         $user = $this->identity->getUser();
 
         $acl = null;
-        foreach ($this->aclLists as $item) {
+
+        foreach ($this->aclList as $item) {
             if ($item->getAction() === $action) {
                 $acl = $item;
                 break;
@@ -108,6 +108,6 @@ class ACLManage implements AccessControlManage
 
     public function getList(): array
     {
-        return $this->aclLists;
+        return $this->aclRepository->findAll();
     }
 }
