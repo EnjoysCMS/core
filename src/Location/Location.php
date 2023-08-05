@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ObjectRepository;
-use EnjoysCMS\Core\Entities\Location as Entity;
+use EnjoysCMS\Core\Location\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;
 
 class Location

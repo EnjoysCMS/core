@@ -1,9 +1,9 @@
 <?php
 
-namespace EnjoysCMS\Core\Entities;
+namespace EnjoysCMS\Core\Location\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Repositories\Locations;
+use EnjoysCMS\Core\Location\Repositories\Locations;
 
 #[ORM\Entity(repositoryClass: Locations::class)]
 #[ORM\Table(name: 'locations')]

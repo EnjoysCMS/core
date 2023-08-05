@@ -1,9 +1,9 @@
 <?php
 
-namespace EnjoysCMS\Core\Repositories;
+namespace EnjoysCMS\Core\Location\Repositories;
 
 use Doctrine\ORM\EntityRepository;
-use EnjoysCMS\Core\Entities\Location;
+use EnjoysCMS\Core\Location\Entities\Location;
 
 class Locations extends EntityRepository
 {

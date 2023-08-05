@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Options;
-use EnjoysCMS\Core\Entities\Location;
+use EnjoysCMS\Core\Location\Entities\Location;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
 #[ORM\Table(name: 'blocks')]
