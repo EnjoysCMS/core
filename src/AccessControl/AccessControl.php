@@ -39,10 +39,6 @@ class AccessControl
         return $this->getManage()->isAccess($task);
     }
 
-    public function registerAction(string $action, ?string $comment = null, bool $flush = true)
-    {
-        return $this->getManage()->register($action, $comment, $flush);
-    }
 
     /**
      * @return Group[]
