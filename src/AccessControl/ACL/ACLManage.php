@@ -17,7 +17,11 @@ class ACLManage implements AccessControlManage
 {
     private ACLRepository|EntityRepository $aclRepository;
 
+    /**
+     * @var ACLEntity[]
+     */
     private array $aclList;
+
     /**
      * @throws Exception
      */
@@ -42,35 +46,26 @@ class ACLManage implements AccessControlManage
     public function isAccess(string $action): bool
     {
         $user = $this->identity->getUser();
-
         $acl = null;
 
-        foreach ($this->aclList as $item) {
+        if ($user->isAdmin()) {
+            return true;
+        }
 
+        foreach ($this->aclList as $item) {
             if ($item->getAction() === $action) {
                 $acl = $item;
                 break;
             }
-        }
-//        dd($acl);
-//        dd($this->aclLists);
-//        if ($acl === null) {
-//            $acl = $this->register($route, $controller, $comment);
-//        }
-
-        if ($user->isAdmin()) {
-            return true;
         }
 
         if ($acl === null){
             return false;
         }
 
-//        dd($user->getGroups());
-        if (in_array($acl->getId(), [])) {
-            return true;
-        }
-        return false;
+        return !$user->getGroups()->filter(
+            fn($el) => in_array($el, $acl->getGroups()->getValues())
+        )->isEmpty();
     }
 
     public function getAccessAction(string $action): ?ACLEntity
@@ -103,7 +98,7 @@ class ACLManage implements AccessControlManage
      */
     public function getAuthorizedGroups(string $action): array
     {
-       return $this->getAccessAction($action)?->getGroups()->toArray() ?? [];
+        return $this->getAccessAction($action)?->getGroups()->toArray() ?? [];
     }
 
     public function getAccessActionsForGroup($group)
