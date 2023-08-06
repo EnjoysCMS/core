@@ -10,6 +10,9 @@ use Doctrine\Persistence\ObjectRepository;
 use EnjoysCMS\Core\Location\Entities\Location as Entity;
 use Symfony\Component\Routing\Route;
 
+/**
+ * @deprecated
+ */
 class Location
 {
     private static Entity $currentLocation;
@@ -25,6 +28,7 @@ class Location
     /**
      * @throws OptimisticLockException
      * @throws ORMException
+     * @deprecated
      */
     public function setCurrentLocation(Route $route): void
     {
@@ -43,6 +47,9 @@ class Location
     }
 
 
+    /**
+     * @deprecated
+     */
     public static function getCurrentLocation(): Entity
     {
         return self::$currentLocation;
