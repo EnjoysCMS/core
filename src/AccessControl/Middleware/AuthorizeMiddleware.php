@@ -46,7 +46,7 @@ final class AuthorizeMiddleware implements MiddlewareInterface
 
         if (($route->getOption('acl') ?? true) !== false
             && !$this->accessControl->isAccess($routeName)
-            && !$this->config->get('accessControl->disableChecking', false)
+            && !$this->config->get('security->accessControl->disableChecking', false)
         ) {
             throw new ForbiddenException();
         }
