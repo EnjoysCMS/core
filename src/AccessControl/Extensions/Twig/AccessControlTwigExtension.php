@@ -1,11 +1,10 @@
 <?php
 
-namespace EnjoysCMS\Core\Extensions\Twig;
+namespace EnjoysCMS\Core\AccessControl\Extensions\Twig;
 
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\AccessControl;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\ExtensionInterface;
 use Twig\TwigFunction;
 
 class AccessControlTwigExtension extends AbstractExtension
@@ -25,11 +24,6 @@ class AccessControlTwigExtension extends AbstractExtension
         ];
     }
 
-
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function checkAccess(string|array $action): bool
     {
         if ($this->isDisableCheck()) {
@@ -38,6 +32,7 @@ class AccessControlTwigExtension extends AbstractExtension
 
         $result = [false];
         foreach ((array)$action as $item) {
+            /** @var string $item */
             $result[] = $this->accessControl->isAccess($item);
         }
         return in_array(true, $result, true);
@@ -48,9 +43,10 @@ class AccessControlTwigExtension extends AbstractExtension
         return $this->disableCheck;
     }
 
-    public function setDisableCheck(bool $disableCheck): void
+    public function setDisableCheck(bool $disableCheck): AccessControlTwigExtension
     {
         $this->disableCheck = $disableCheck;
+        return $this;
     }
 
 }
