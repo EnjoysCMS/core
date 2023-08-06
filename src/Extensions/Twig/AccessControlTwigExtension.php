@@ -5,11 +5,6 @@ namespace EnjoysCMS\Core\Extensions\Twig;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\AccessControl;
-use EnjoysCMS\Core\AccessControl\ACL;
-use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-use Symfony\Component\Routing\RouteCollection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -19,9 +14,7 @@ class AccessControlTwigExtension extends AbstractExtension
     private bool $disableCheck = false;
 
     public function __construct(
-        private readonly AccessControl $accessControl,
-        private readonly RouteCollection $routeCollection,
-        private LoggerInterface $logger = new NullLogger()
+        private readonly AccessControl $accessControl
     ) {
     }
 
@@ -29,8 +22,8 @@ class AccessControlTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('access', [$this, 'checkAccess'], ['is_safe' => ['html']]),
-            new TwigFunction('access2route', [$this, 'checkAccessToRoute'], ['is_safe' => ['html']]),
-            new TwigFunction('accessInRoutes', [$this, 'checkAccessToRoutes'], ['is_safe' => ['html']]),
+            new TwigFunction('access2route', [$this, 'checkAccess'], ['is_safe' => ['html'], 'deprecated' => true]),
+            new TwigFunction('accessInRoutes', [$this, 'checkAccess'], ['is_safe' => ['html'], 'deprecated' => true]),
         ];
     }
 
@@ -39,53 +32,17 @@ class AccessControlTwigExtension extends AbstractExtension
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    public function checkAccess(string $action, ?string $comment = null): bool
-    {
-        if ($this->isDisableCheck()) {
-            return true;
-        }
-        return $this->accessControl->isAccess($action);
-    }
-
-    public function checkAccessToRoutes(array $routes): bool
+    public function checkAccess(string|array $action): bool
     {
         if ($this->isDisableCheck()) {
             return true;
         }
 
         $result = [false];
-        foreach ($routes as $route) {
-            $result[] = $this->checkAccessToRoute($route);
+        foreach ((array)$action as $item) {
+            $result[] = $this->accessControl->isAccess($item);
         }
-
-        return in_array(true, $result);
-    }
-
-    public function checkAccessToRoute(string $route): bool
-    {
-        if ($this->isDisableCheck()) {
-            return true;
-        }
-
-        try {
-            $routeInfo = $this->routeCollection->get($route);
-            if ($routeInfo === null) {
-                throw new InvalidArgumentException(sprintf('Не найден маршрут %s', $route));
-            }
-            $action = $routeInfo->getDefault('_controller');
-            if (is_array($action)) {
-                $action = implode('::', $routeInfo->getDefault('_controller'));
-            }
-            $comment = $routeInfo->getOption('aclComment');
-            return $this->checkAccess($action, $comment);
-        } catch (InvalidArgumentException | OptimisticLockException | ORMException $e) {
-            if ($this->logger === null) {
-                trigger_error($e->getMessage(), E_USER_WARNING);
-            } else {
-                $this->logger->warning($e->getMessage(), [$e->getTraceAsString()]);
-            }
-            return false;
-        }
+        return in_array(true, $result, true);
     }
 
     public function isDisableCheck(): bool
@@ -93,16 +50,9 @@ class AccessControlTwigExtension extends AbstractExtension
         return $this->disableCheck;
     }
 
-    /**
-     * @param bool $disableCheck
-     */
     public function setDisableCheck(bool $disableCheck): void
     {
         $this->disableCheck = $disableCheck;
     }
 
-    public function setLogger(LoggerInterface $logger): void
-    {
-        $this->logger = $logger;
-    }
 }

@@ -46,12 +46,13 @@ class ACLManage implements AccessControlManage
         $acl = null;
 
         foreach ($this->aclList as $item) {
+
             if ($item->getAction() === $action) {
                 $acl = $item;
                 break;
             }
         }
-
+//        dd($acl);
 //        dd($this->aclLists);
 //        if ($acl === null) {
 //            $acl = $this->register($route, $controller, $comment);
@@ -59,6 +60,10 @@ class ACLManage implements AccessControlManage
 
         if ($user->isAdmin()) {
             return true;
+        }
+
+        if ($acl === null){
+            return false;
         }
 
 //        dd($user->getGroups());
