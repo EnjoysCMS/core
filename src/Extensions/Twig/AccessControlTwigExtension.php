@@ -21,9 +21,7 @@ class AccessControlTwigExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('access', [$this, 'checkAccess'], ['is_safe' => ['html']]),
-            new TwigFunction('access2route', [$this, 'checkAccess'], ['is_safe' => ['html'], 'deprecated' => true]),
-            new TwigFunction('accessInRoutes', [$this, 'checkAccess'], ['is_safe' => ['html'], 'deprecated' => true]),
+            new TwigFunction('access', [$this, 'checkAccess'], ['is_safe' => ['html']])
         ];
     }
 
