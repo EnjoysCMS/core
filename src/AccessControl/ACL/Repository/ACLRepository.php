@@ -13,7 +13,7 @@ class ACLRepository extends EntityRepository
         return $this->findOneBy(['action' => $action]);
     }
 
-    public function findByGroup($group)
+    public function findByGroup($group): array
     {
         return $this->createQueryBuilder('acl')
             ->select('acl')

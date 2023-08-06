@@ -16,7 +16,7 @@ interface AccessControlManage
      */
     public function getAuthorizedGroups(string $action): array;
 
-    public function getAccessActionsForGroup($group);
+    public function getAccessActionsForGroup($group): array;
 
     public function getList();
 }

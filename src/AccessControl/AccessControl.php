@@ -30,10 +30,7 @@ class AccessControl
         return $this->manage;
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
+
     public function isAccess(string $task): bool
     {
         return $this->getManage()->isAccess($task);

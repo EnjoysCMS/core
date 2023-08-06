@@ -101,7 +101,7 @@ class ACLManage implements AccessControlManage
         return $this->getAccessAction($action)?->getGroups()->toArray() ?? [];
     }
 
-    public function getAccessActionsForGroup($group)
+    public function getAccessActionsForGroup($group): array
     {
         return $this->aclRepository->findByGroup($group);
     }

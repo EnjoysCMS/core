@@ -16,6 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Symfony\Component\Routing\Route;
 
 final class AuthorizeMiddleware implements MiddlewareInterface
 {
@@ -32,13 +33,18 @@ final class AuthorizeMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        /** @var null|Route $route */
         $route = $request->getAttribute('_route');
+        /** @var null|string $routeName */
+        $routeName = $request->getAttribute('_routeName');
         if ($route === null) {
             throw new InvalidArgumentException('Route not set');
         }
-        $controller = implode('::', (array)$route->getDefault('_controller'));
-        $routeName = $request->getAttribute('_routeName');
-        if ($route->getOption('acl') !== false
+        if ($routeName === null) {
+            throw new InvalidArgumentException('Route Name not set');
+        }
+
+        if (($route->getOption('acl') ?? true) !== false
             && !$this->accessControl->isAccess($routeName)
             && !$this->config->get('accessControl->disableChecking', false)
         ) {
