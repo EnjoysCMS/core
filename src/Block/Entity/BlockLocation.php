@@ -1,13 +1,12 @@
 <?php
 
-namespace EnjoysCMS\Core\Location\Entities;
+namespace EnjoysCMS\Core\Block\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Location\Repositories\Locations;
 
-#[ORM\Entity(repositoryClass: Locations::class)]
+#[ORM\Entity]
 #[ORM\Table(name: 'locations')]
-class Location
+class BlockLocation
 {
 
     #[ORM\Id]
@@ -15,11 +14,9 @@ class Location
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', unique: true)]
     private string $location;
 
-    #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
-    private ?string $name = null;
 
     public function getLocation(): string
     {
@@ -34,15 +31,5 @@ class Location
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
     }
 }

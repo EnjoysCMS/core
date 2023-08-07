@@ -13,9 +13,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\AccessControl;
 use EnjoysCMS\Core\Block\Entity\Block;
-use EnjoysCMS\Core\Location\Location;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 class BlockModel
@@ -30,6 +28,7 @@ class BlockModel
         private readonly BlockFactory $blockFactory,
         private readonly EntityManager $entityManager,
         private readonly AccessControl $accessControl,
+        private readonly ServerRequestInterface $request,
         private readonly LoggerInterface $logger
     ) {
         $this->repository = $this->entityManager->getRepository(Block::class);
@@ -64,8 +63,12 @@ class BlockModel
             return null;
         }
 
-        if (!in_array(Location::getCurrentLocation()->getId(), $block->getLocationsIds(), true)) {
-            $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsIds());
+        if (!in_array(
+            implode('::', (array)$this->request->getAttribute('_route')->getDefault('_controller')),
+            $block->getLocationsValues(),
+            true
+        )) {
+            $this->logger->debug(sprintf('Location not constrains: %s', $block->getId()), $block->getLocationsValues());
             return null;
         }
 

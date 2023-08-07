@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Options;
-use EnjoysCMS\Core\Location\Entities\Location;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
 #[ORM\Table(name: 'blocks')]
@@ -55,7 +54,7 @@ class Block
     #[ORM\JoinTable(name: 'blocks_locations')]
     #[ORM\JoinColumn(name: 'block_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'location_id', referencedColumnName: 'id')]
-    #[ORM\ManyToMany(targetEntity: Location::class)]
+    #[ORM\ManyToMany(targetEntity: BlockLocation::class)]
     private Collection $locations;
 
     public function __construct()
@@ -139,17 +138,9 @@ class Block
         return $this->locations;
     }
 
-    /**
-     * @return int[]
-     */
-    public function getLocationsIds(): array
+    public function getLocationsValues(): array
     {
-        $ids = [];
-        foreach ($this->getLocations() as $location) {
-            $ids[] = $location->getId();
-        }
-
-        return $ids;
+        return $this->getLocations()->map(fn($i) => $i->getLocation())->getValues();
     }
 
     public function getBody(): ?string
@@ -211,7 +202,7 @@ class Block
         $this->cacheTtl = $cacheTtl;
     }
 
-    public function setLocations(Location $location): void
+    public function setLocations(BlockLocation $location): void
     {
         $this->locations[] = $location;
     }
