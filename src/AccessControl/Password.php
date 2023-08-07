@@ -2,6 +2,9 @@
 
 namespace EnjoysCMS\Core\AccessControl;
 
+/**
+ * @deprecated
+ */
 class Password
 {
     final public static function getHash(string $password, string|int|null $algo = \PASSWORD_DEFAULT): string
