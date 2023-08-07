@@ -5,7 +5,6 @@ namespace EnjoysCMS\Core\Users\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use EnjoysCMS\Core\Entities\ACL;
 
 #[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Users\Repository\Group::class)]
 #[ORM\Table(name: '`groups`')]
@@ -34,9 +33,6 @@ class Group
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
     private Collection $users;
 
-//    #[ORM\ManyToMany(targetEntity: ACL::class, inversedBy: 'acl')]
-//    #[ORM\JoinTable(name: 'acl_groups')]
-//    private Collection $acl;
 
     public function __construct()
     {
@@ -78,35 +74,6 @@ class Group
     {
         $this->status = $status;
     }
-
-//    public function getAcl(): Collection
-//    {
-//        return $this->acl;
-//    }
-//
-//    public function setAcl(ACL $acl): void
-//    {
-//        if ($this->acl->contains($acl)) {
-//            return;
-//        }
-//        $this->acl->add($acl);
-//        $acl->setGroups($this);
-//    }
-//
-//    public function removeAcl(?ACL $acl = null): void
-//    {
-//        if ($acl === null) {
-//            $this->acl->clear();
-//            return;
-//        }
-//
-//        if (!$this->acl->contains($acl)) {
-//            return;
-//        }
-//
-//        $this->acl->removeElement($acl);
-//        $acl->removeGroups($this);
-//    }
 
     public function isSystem(): bool
     {
