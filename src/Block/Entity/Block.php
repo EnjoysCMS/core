@@ -35,7 +35,7 @@ class Block
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $body = null;
 
-    #[ORM\Column(type: 'json', options: ['default' => []])]
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
     private iterable $options = [];
 
 

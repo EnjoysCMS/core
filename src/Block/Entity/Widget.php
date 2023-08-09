@@ -23,7 +23,7 @@ class Widget
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $class = null;
 
-    #[ORM\Column(type: 'json', options: ['default' => []])]
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
     private iterable $options = [];
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
