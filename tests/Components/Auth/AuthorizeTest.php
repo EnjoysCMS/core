@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class AuthorizeTest extends TestCase
+class AuthorizeTest
 {
     use MockHelper;
 

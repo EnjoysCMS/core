@@ -14,7 +14,7 @@ use Tests\EnjoysCMS\TestHelper;
 use Tests\EnjoysCMS\Traits\MockHelper;
 use Twig\Test\IntegrationTestCase;
 
-class ACLTwigExtensionTest extends IntegrationTestCase
+class ACLTwigExtensionTest //extends IntegrationTestCase
 {
 
     use MockHelper;

@@ -13,7 +13,7 @@ use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class IdentityTest extends TestCase
+class IdentityTest
 {
 
     use MockHelper;

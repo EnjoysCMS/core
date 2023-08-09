@@ -6,7 +6,7 @@ use EnjoysCMS\Core\ContentEditor\EditorConfig;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
-class EditorConfigTest extends TestCase
+class EditorConfigTest
 {
 
     /**

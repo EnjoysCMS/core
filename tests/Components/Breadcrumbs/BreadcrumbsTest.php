@@ -5,7 +5,7 @@ namespace Tests\EnjoysCMS\Components\Breadcrumbs;
 use EnjoysCMS\Core\Breadcrumbs\BreadcrumbCollection;
 use PHPUnit\Framework\TestCase;
 
-class BreadcrumbsTest extends TestCase
+class BreadcrumbsTest
 {
 
     public function testBreadcrumbAddOnePosition()

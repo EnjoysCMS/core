@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Route;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class LocationsTest extends TestCase
+class LocationsTest
 {
     use MockHelper;
 

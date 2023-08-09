@@ -10,7 +10,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RedirectTest extends TestCase
+class RedirectTest
 {
 
     public function testRedirectResponse()

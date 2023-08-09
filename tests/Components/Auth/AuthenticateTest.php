@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class AuthenticateTest extends TestCase
+class AuthenticateTest
 {
     use MockHelper;
 

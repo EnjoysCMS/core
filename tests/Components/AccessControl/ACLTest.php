@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Tests\EnjoysCMS\TestHelper;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class ACLTest extends TestCase
+class ACLTest
 {
     use MockHelper;
 

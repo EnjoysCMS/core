@@ -10,7 +10,7 @@ use EnjoysCMS\Core\ContentEditor\ContentEditor;
 use EnjoysCMS\Core\ContentEditor\NullEditor;
 use PHPUnit\Framework\TestCase;
 
-class ContentEditorTest extends TestCase
+class ContentEditorTest
 {
 
     private Container $container;

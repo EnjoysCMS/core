@@ -20,7 +20,7 @@ use Psr\Log\NullLogger;
 use Tests\EnjoysCMS\Traits\MockHelper;
 use Tests\EnjoysCMS\Traits\ReflectionTrait;
 
-class BlocksTest extends TestCase
+class BlocksTest
 {
     use MockHelper;
     use ReflectionTrait;

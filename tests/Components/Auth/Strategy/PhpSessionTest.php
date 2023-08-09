@@ -17,7 +17,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
-class PhpSessionTest extends TestCase
+class PhpSessionTest
 {
 
     use MockHelper;
