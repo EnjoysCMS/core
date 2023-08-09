@@ -6,7 +6,7 @@ namespace EnjoysCMS\Core\Http\Response;
 
 
 use Closure;
-use HttpSoft\Emitter\EmitterInterface;
+use EnjoysCMS\Core\Http\Emitter\EmitterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
