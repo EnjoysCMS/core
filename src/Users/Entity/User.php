@@ -2,11 +2,13 @@
 
 namespace EnjoysCMS\Core\Users\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use EnjoysCMS\Core\AccessControl\Password;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Users\Repository\UserRepository;
+
+use const PASSWORD_DEFAULT;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -18,13 +20,13 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
-    protected $id;
+    private $id;
 
     #[ORM\Column(type: 'string')]
-    protected string $name;
+    private string $name;
 
     #[ORM\Column(type: 'string', unique: true)]
-    protected string $login;
+    private string $login;
 
     #[ORM\Column(name: 'password', type: 'string', options: ['default' => ''])]
     private string $passwordHash;
@@ -80,9 +82,16 @@ class User
         $this->passwordHash = $passwordHash;
     }
 
-    public function genAndSetPasswordHash(string $password): void
+    public function genAndSetPasswordHash(string $password, string|int|null $algo = PASSWORD_DEFAULT): void
     {
-        $this->setPasswordHash(Password::getHash($password));
+        $this->setPasswordHash(
+            $this->genPasswordHash($password, $algo)
+        );
+    }
+
+    public function genPasswordHash(string $password, int|string|null $algo = PASSWORD_DEFAULT): string
+    {
+        return password_hash($password, $algo);
     }
 
     public function getLogin(): string
@@ -142,7 +151,7 @@ class User
 
     public function isUser(): bool
     {
-        return  !$this->isGuest();
+        return !$this->isGuest();
     }
 
     public function isEditable(): bool
@@ -154,4 +163,6 @@ class User
     {
         $this->editable = $editable;
     }
+
+
 }
