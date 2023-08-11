@@ -48,12 +48,17 @@ final class Identity implements IdentityInterface
      */
     public function getUser(): User
     {
-        return $this->user
+        $user = $this->user
             ?? $this->userStorage->getUser($this->authenticationStorage->getUserId())
             ?? $this->userStorage->getGuestUser()
             ?? throw new Exception(
                 'Invalid user'
             );
+
+        if ($user->isGuest()) {
+            $this->authenticationStorage->logout();
+        }
+        return $user;
     }
 
     /**
