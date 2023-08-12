@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Modules;
 
-final class ModuleCollection
+use ArrayIterator;
+use InvalidArgumentException;
+use IteratorAggregate;
+
+final class ModuleCollection implements IteratorAggregate
 {
     /**
      * @var Module[]
@@ -21,7 +25,7 @@ final class ModuleCollection
     {
         foreach ($this->collection as $module) {
             if (!property_exists($module, $property)) {
-                throw new \InvalidArgumentException(sprintf('Property %s is invalid', $property));
+                throw new InvalidArgumentException(sprintf('Property %s is invalid', $property));
             }
 
             if ($module->{$property} === $value) {
@@ -56,5 +60,10 @@ final class ModuleCollection
             }
         }
         return false;
+    }
+
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->collection);
     }
 }
