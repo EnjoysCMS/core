@@ -7,7 +7,7 @@ use EnjoysCMS\Core\Users\Entity\User;
 
 class Widgets extends EntityRepository
 {
-    public function getSortWidgets(User $user): array
+    public function getByUser(User $user): array
     {
         return $this->findBy(['user' => $user]);
     }
