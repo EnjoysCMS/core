@@ -11,16 +11,18 @@ use Enjoys\Config\Config;
 abstract class AbstractModuleConfig
 {
 
-    abstract public function getConfig(): Config;
+    public function __construct(private readonly Config $config)
+    {
+    }
 
     abstract public function getModulePackageName(): string;
 
     final public function get(string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
-            return $this->getConfig()->get($this->getModulePackageName());
+            return $this->config->get($this->getModulePackageName());
         }
-        return $this->getConfig()->get(sprintf('%s->%s', $this->getModulePackageName(), $key), $default);
+        return $this->config->get(sprintf('%s->%s', $this->getModulePackageName(), $key), $default);
     }
 
 
