@@ -12,6 +12,7 @@ use DI\NotFoundException;
 use EnjoysCMS\Core\Breadcrumbs\BreadcrumbCollection;
 use EnjoysCMS\Core\Http\Response\RedirectInterface;
 use EnjoysCMS\Core\Setting\Setting;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Twig\Environment;
@@ -25,6 +26,7 @@ abstract class AbstractController
     protected Environment $twig;
     protected Setting $setting;
     protected BreadcrumbCollection $breadcrumbs;
+    protected EventDispatcherInterface $dispatcher;
 
     /**
      * @throws NotFoundException
@@ -38,6 +40,7 @@ abstract class AbstractController
         $this->twig = $this->container->get(Environment::class);
         $this->setting = $this->container->get(Setting::class);
         $this->breadcrumbs = $this->container->get(BreadcrumbCollection::class);
+        $this->dispatcher = $this->container->get(EventDispatcherInterface::class);
     }
 
     /**
