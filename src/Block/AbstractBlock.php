@@ -27,15 +27,15 @@ abstract class AbstractBlock implements BlockInterface
         return $this->entity;
     }
 
-    public function preRemove(): void
+    public function preRemove(Block $block): void
     {
     }
 
-    public function postEdit(): void
+    public function postEdit(Block $oldBlock, Block $newBlock): void
     {
     }
 
-    public function postClone(): void
+    public function postClone(Block $newBlock): void
     {
     }
 
