@@ -16,6 +16,16 @@ abstract class AbstractBlock implements BlockInterface
         return $this->entity?->getOptions() ?? new Options();
     }
 
+    final public function getOptions(): Options
+    {
+        return $this->getBlockOptions();
+    }
+
+    final public function getOption(string $key, mixed $default = null): mixed
+    {
+        return $this->getBlockOptions()->getValue($key) ?? $default;
+    }
+
     final public function setEntity(Block $entity): static
     {
         $this->entity = $entity;
