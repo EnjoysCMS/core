@@ -36,6 +36,10 @@
         "symfony/var-dumper": "^6.3"
     },
     "scripts": {
+        "register-commands": [
+            "EnjoysCMS\\Core\\Console\\Command\\RegisterCommands"
+        ],
+        "post-install-cmd": ["@register-commands"],
         "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",
         "tests": "XDEBUG_MODE=coverage ./vendor/bin/phpunit",
         "infection": [

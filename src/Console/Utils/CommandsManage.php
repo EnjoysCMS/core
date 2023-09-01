@@ -58,50 +58,58 @@ final class CommandsManage
 
     /**
      * @param array<string, array|null|false> $commands
-     * @return void
+     * @return string[]
      */
-    public function registerCommands(array $commands = []): void
+    public function registerCommands(array $commands = []): array
     {
+        $registeredCommands = [];
         foreach ($commands as $command => $params) {
-            $this->registerCommand($command, $params);
+            $registeredCommands[] = $this->registerCommand($command, $params);
         }
+        return array_filter($registeredCommands);
     }
 
     /**
      * @param string $command
      * @param false|array|null $params
-     * @return void
+     * @return ?string
      */
-    public function registerCommand(string $command, null|false|array $params = null): void
+    public function registerCommand(string $command, null|false|array $params = null): ?string
     {
         $classname = $this->resolveClassName($command);
         if (!$this->has($classname)) {
             $this->data[$classname] = $params;
+            return $classname;
         }
+        return null;
     }
 
     /**
      * @param string[] $commands
-     * @return void
+     * @return string[]
      */
-    public function unregisterCommands(array $commands = []): void
+    public function unregisterCommands(array $commands = []): array
     {
+        $unregisteredCommands = [];
         foreach ($commands as $command) {
-            $this->unregisterCommand($command);
+            $unregisteredCommands[] = $this->unregisterCommand($command);
         }
+        return array_filter($unregisteredCommands);
     }
 
-    public function unregisterCommand(string $command = null): void
+    public function unregisterCommand(string $command = null): ?string
     {
         if ($command === null) {
-            return;
+            return null;
         }
 
         $classname = $this->resolveClassName($command);
 
         if ($this->has($classname)) {
             unset($this->data[$classname]);
+            return $classname;
         }
+        return null;
     }
 
     public function has(string $command): bool
