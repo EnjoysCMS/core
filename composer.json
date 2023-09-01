@@ -37,7 +37,7 @@
     },
     "scripts": {
         "register-commands": [
-            "EnjoysCMS\\Core\\Console\\Command\\RegisterCommands"
+            "EnjoysCMS\\Core\\Composer\\Scripts\\RegisterCommandsToConsoleCommand"
         ],
         "post-install-cmd": ["@register-commands"],
         "post-update-cmd": ["@register-commands"],
@@ -50,7 +50,8 @@
     },
     "autoload": {
         "psr-4": {
-            "EnjoysCMS\\Core\\": "src/"
+            "EnjoysCMS\\Core\\": "src/",
+            "EnjoysCMS\\Core\\Composer\\Scripts\\": "scripts/"
         }
     },
     "autoload-dev": {
