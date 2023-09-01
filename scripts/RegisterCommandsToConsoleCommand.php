@@ -12,7 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RegisterCommandsToConsoleCommand extends Command
 {
 
-    private array $commands = [
+    protected string $moduleName = 'Core';
+
+    protected array $commands = [
         //
     ];
 
@@ -28,8 +30,7 @@ class RegisterCommandsToConsoleCommand extends Command
         $commandManage = new CommandsManage(config: $container->get(Config::class));
         $registeredCommands = $commandManage->registerCommands($this->commands);
         $changed = false;
-        $output->writeln('<info>Core</info>');
-        $output->writeln('Register console commands');
+        $output->writeln(sprintf("<info>Register console commands [%s]</info>", $this->moduleName));
         foreach ($registeredCommands as $command) {
             $output->writeln(sprintf(' <options=bold>- %s</></info>', $command));
             $changed = true;
