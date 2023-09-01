@@ -53,9 +53,9 @@
             "Tests\\EnjoysCMS\\": "tests/"
         }
     },
-    "bin": [
-        "bin/console"
-    ],
+    "bin": {
+        "bin/console": "bin/app-console"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
