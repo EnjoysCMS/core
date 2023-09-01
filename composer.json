@@ -54,7 +54,7 @@
         }
     },
     "bin": {
-        "bin/console": "bin/app-console"
+        "bin/console-app": "bin/console"
     },
     "config": {
         "sort-packages": true,
