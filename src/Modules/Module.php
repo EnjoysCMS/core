@@ -25,18 +25,4 @@ class Module
         $this->moduleName = $this->extra?->{'module-name'} ?? $this->packageName;
         $this->adminLinks = (array)($this->extra?->{'admin-links'} ?? null);
     }
-
-
-    private function getRoutePath(): ?string
-    {
-        $routePath = $this->installPath . '/routes.yml';
-        if (file_exists($routePath)) {
-            return $routePath;
-        }
-        if (file_exists($routePath . '.dist')) {
-            return $routePath . '.dist';
-        }
-
-        return null;
-    }
 }
