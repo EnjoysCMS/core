@@ -39,8 +39,14 @@
         "register-commands": [
             "EnjoysCMS\\Core\\Composer\\Scripts\\RegisterCommandsToConsoleCommand"
         ],
-        "post-install-cmd": ["@register-commands"],
-        "post-update-cmd": ["@register-commands"],
+        "post-install-cmd": [
+            "echo -e \"\\x1b[1mCore\\x1b[00m\"",
+            "@register-commands"
+        ],
+        "post-update-cmd": [
+            "echo -e \"\\x1b[1mCore\\x1b[00m\"",
+            "@register-commands"
+        ],
         "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",
         "tests": "XDEBUG_MODE=coverage ./vendor/bin/phpunit",
         "infection": [

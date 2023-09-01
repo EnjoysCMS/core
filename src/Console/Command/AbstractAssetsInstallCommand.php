@@ -25,7 +25,13 @@ abstract class AbstractAssetsInstallCommand extends Command
     {
         $process = new Process($this->command, cwd: realpath($this->cwd));
 
-        $output->writeln(sprintf("<info>Assets install [%s]</info>", $process->getWorkingDirectory()));
+        $output->writeln(
+            sprintf(
+                "Assets install: <fg=yellow>%s/%s</>",
+                $process->getWorkingDirectory(),
+                implode(' ', $this->command)
+            )
+        );
 
         $process->setTimeout(60);
 

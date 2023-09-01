@@ -21,21 +21,19 @@ abstract class AbstractCommandsRegister extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->commands === []){
-            return Command::SUCCESS;
-        }
+
         $container = include __DIR__ . '/../../../../../../bootstrap.php';
         $commandManage = new CommandsManage(config: $container->get(Config::class));
         $registeredCommands = $commandManage->registerCommands($this->commands);
-        $changed = false;
-        $output->writeln(sprintf("<info>Register console commands [%s]</info>", $this->moduleName));
+        $output->writeln('Register console commands:');
+        if ($registeredCommands === []) {
+            $output->writeln(' <fg=yellow>- skipped or nothing</></info>');
+            return Command::SUCCESS;
+        }
         foreach ($registeredCommands as $command) {
-            $output->writeln(sprintf(' <options=bold>- %s</></info>', $command));
-            $changed = true;
+            $output->writeln(sprintf(' <fg=yellow>- %s</></info>', $command));
         }
-        if ($changed) {
-            $commandManage->save();
-        }
+        $commandManage->save();
         return Command::SUCCESS;
     }
 }
