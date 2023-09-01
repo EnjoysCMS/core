@@ -40,11 +40,11 @@
             "EnjoysCMS\\Core\\Composer\\Scripts\\RegisterCommandsToConsoleCommand"
         ],
         "post-install-cmd": [
-            "echo -e \"\\x1b[1mCore\\x1b[00m\"",
+            "@print-module-name Core",
             "@register-commands"
         ],
         "post-update-cmd": [
-            "echo -e \"\\x1b[1mCore\\x1b[00m\"",
+            "@print-module-name Core",
             "@register-commands"
         ],
         "psalm": "./vendor/bin/psalm --show-info=true --config=psalm.xml",
