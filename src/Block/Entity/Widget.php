@@ -23,8 +23,8 @@ class Widget
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => null])]
     private ?string $class = null;
 
-    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
-    private iterable $options = [];
+    #[ORM\Column(type: 'json', options: ['default' => null])]
+    private ?iterable $options = [];
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $cacheTtl = 0;
@@ -87,7 +87,7 @@ class Widget
 
     public function getOptions(): Options
     {
-        return Options::createFromArray($this->options);
+        return Options::createFromArray($this->options ?? []);
     }
 
     public function getOptionsKeyValue(): array

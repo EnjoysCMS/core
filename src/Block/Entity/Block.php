@@ -35,8 +35,8 @@ class Block
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $body = null;
 
-    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
-    private iterable $options = [];
+    #[ORM\Column(type: 'json', options: ['default' => null])]
+    private ?iterable $options = [];
 
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
@@ -175,7 +175,7 @@ class Block
 
     public function getOptions(): Options
     {
-        return Options::createFromArray($this->options);
+        return Options::createFromArray($this->options ?? []);
     }
 
     public function getOptionsKeyValue(): array
