@@ -9,9 +9,9 @@ namespace EnjoysCMS\Core\Auth\Authenticate;
 use DateTimeImmutable;
 use Enjoys\Config\Config;
 use EnjoysCMS\Core\Auth\Authentication;
+use EnjoysCMS\Core\Auth\TokenManage;
 use EnjoysCMS\Core\Auth\TokenStorageInterface;
 use EnjoysCMS\Core\Auth\UserStorageInterface;
-use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Users\Entity\Token;
 use EnjoysCMS\Core\Users\Entity\User;
 use Psr\Http\Message\ServerRequestInterface;
@@ -92,7 +92,7 @@ final class TokenAuthentication implements Authentication
         }
 
         if ($this->config->get('security->check_browser_fingerprint', false)) {
-            if ($tokenEntity->getFingerprint() !== Browser::getFingerprint()) {
+            if ($tokenEntity->getFingerprint() !== TokenManage::getFingerprint()) {
                 return false;
             }
         }

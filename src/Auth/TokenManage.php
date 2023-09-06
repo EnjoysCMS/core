@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityRepository;
 use Enjoys\Config\Config;
 use Enjoys\Cookie\Cookie;
 use Enjoys\Cookie\Exception;
-use EnjoysCMS\Core\Detector\Browser;
 use EnjoysCMS\Core\Users\Entity\Token;
 use EnjoysCMS\Core\Users\Entity\User;
 use EnjoysCMS\Core\Users\Repository\TokenRepository;
@@ -29,6 +28,21 @@ class TokenManage
         $this->repository = $this->em->getRepository(Token::class);
     }
 
+    public static function getFingerprint(): string
+    {
+        return hash_hmac(
+            'sha256',
+            sprintf(
+                "%s%s%s%s",
+                $_SERVER['HTTP_USER_AGENT'] ?? '',
+                $_SERVER['HTTP_ACCEPT'] ?? '',
+                $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '',
+                $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? ''
+            ),
+            $_ENV['APP_SECRET'] ?? 'secret phrase'
+        );
+    }
+
     /**
      * @throws Exception
      * @throws \Exception
@@ -45,7 +59,7 @@ class TokenManage
         if ($tokenEntity === null) {
             $tokenEntity = new Token();
             $tokenEntity->setUser($user);
-            $tokenEntity->setFingerprint(Browser::getFingerprint());
+            $tokenEntity->setFingerprint(self::getFingerprint());
         }
         $tokenEntity->setToken(Uuid::uuid4()->toString());
         $tokenEntity->setExp($ttl);
