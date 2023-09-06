@@ -37,7 +37,6 @@ class Group
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->acl = new ArrayCollection();
     }
 
     public function getName(): string
