@@ -10,7 +10,7 @@ use League\Flysystem\AwsS3V3\PortableVisibilityConverter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Visibility;
 
-final class S3 implements StorageUploadInterface
+class S3 implements StorageUploadInterface
 {
     private Filesystem $filesystem;
     private S3Client $client;

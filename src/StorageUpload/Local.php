@@ -8,7 +8,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 
-final class Local implements StorageUploadInterface
+class Local implements StorageUploadInterface
 {
     private string $rootDirectory;
     private string $publicUrl;
