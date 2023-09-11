@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
-        "doctrine/annotations": "^1.11",
+        "doctrine/annotations": "^1.11 | ^2.0",
         "doctrine/migrations": "^3.6",
         "doctrine/orm": "^2.8",
         "enjoys/assets-collector": "^2.0",
