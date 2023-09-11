@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Extensions\Doctrine\MappingDriver;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\PsrCachedReader;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Mapping\Driver\CompatibilityAnnotationDriver;
@@ -23,10 +25,17 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 
     public function __construct(
         array $paths = [],
-        ?CacheItemPoolInterface $cache = null
+        ?CacheItemPoolInterface $cache = null,
+        bool $reportFieldsWhereDeclared = false
     ) {
-        $this->attributeDriver = new AttributeDriver($paths);
-        $this->annotationDriver = ORMSetup::createDefaultAnnotationDriver($paths, $cache);
+        $this->attributeDriver = new AttributeDriver($paths, $reportFieldsWhereDeclared);
+
+
+        $reader = new AnnotationReader();
+        if ($cache !== null) {
+            $reader = new PsrCachedReader($reader, $cache);
+        }
+        $this->annotationDriver = new AnnotationDriver($reader, $paths, $reportFieldsWhereDeclared);
     }
 
     /**
