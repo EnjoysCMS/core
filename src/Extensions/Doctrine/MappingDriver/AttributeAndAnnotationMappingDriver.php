@@ -16,7 +16,7 @@ use Psr\Cache\CacheItemPoolInterface;
 /**
  * [stackoverflow] Doctrine ORM 2.9 use both AnnotationDriver and AttributeDriver to parse entity metadata
  * @see https://stackoverflow.com/questions/68195822/doctrine-orm-2-9-use-both-annotationdriver-and-attributedriver-to-parse-entity-m
- * @deprecated In Doctrine ORM 3.0 will not work AnnotationDriver
+ * @deprecated Remove in 7.x., use AttributeDriver, because in Doctrine ORM 3.0 will not work AnnotationDriver
  */
 class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 {
@@ -28,7 +28,7 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
         ?CacheItemPoolInterface $cache = null,
         bool $reportFieldsWhereDeclared = true
     ) {
-        @trigger_error('In Doctrine ORM 3.0 will not work AnnotationDriver', E_USER_DEPRECATED);
+        @trigger_error('Because in Doctrine ORM 3.0 will not work AnnotationDriver', E_USER_DEPRECATED);
 
         $this->attributeDriver = new AttributeDriver($paths, $reportFieldsWhereDeclared);
 

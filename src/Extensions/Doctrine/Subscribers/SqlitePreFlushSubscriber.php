@@ -23,7 +23,7 @@ use Doctrine\ORM\Events;
  * $evm = new EventManager();
  * $evm->addEventSubscriber(new SqlitePreFlushSubscriber());
  *
- * @deprecated use middleware \Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys,
+ * @deprecated Remove in 7.x., use middleware \Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys,
  */
 final class SqlitePreFlushSubscriber implements EventSubscriber
 {
