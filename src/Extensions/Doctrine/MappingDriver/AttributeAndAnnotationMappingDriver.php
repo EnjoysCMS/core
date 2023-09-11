@@ -26,7 +26,7 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
     public function __construct(
         array $paths = [],
         ?CacheItemPoolInterface $cache = null,
-        bool $reportFieldsWhereDeclared = false
+        bool $reportFieldsWhereDeclared = true
     ) {
         $this->attributeDriver = new AttributeDriver($paths, $reportFieldsWhereDeclared);
 
