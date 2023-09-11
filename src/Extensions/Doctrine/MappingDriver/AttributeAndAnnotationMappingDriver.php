@@ -10,13 +10,13 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Mapping\Driver\CompatibilityAnnotationDriver;
 use Doctrine\ORM\Mapping\MappingException;
-use Doctrine\ORM\ORMSetup;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * [stackoverflow] Doctrine ORM 2.9 use both AnnotationDriver and AttributeDriver to parse entity metadata
  * @see https://stackoverflow.com/questions/68195822/doctrine-orm-2-9-use-both-annotationdriver-and-attributedriver-to-parse-entity-m
+ * @deprecated In Doctrine ORM 3.0 will not work AnnotationDriver
  */
 class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
 {
@@ -28,6 +28,8 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
         ?CacheItemPoolInterface $cache = null,
         bool $reportFieldsWhereDeclared = true
     ) {
+        @trigger_error('In Doctrine ORM 3.0 will not work AnnotationDriver', E_USER_DEPRECATED);
+
         $this->attributeDriver = new AttributeDriver($paths, $reportFieldsWhereDeclared);
 
 
@@ -63,7 +65,7 @@ class AttributeAndAnnotationMappingDriver extends CompatibilityAnnotationDriver
         if (in_array($className, $this->attributeDriver->getAllClassNames(), true)) {
             return $this->attributeDriver->isTransient($className);
         }
-        return  $this->annotationDriver->isTransient($className);
+        return $this->annotationDriver->isTransient($className);
     }
 
     /**
