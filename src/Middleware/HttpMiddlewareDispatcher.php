@@ -54,6 +54,10 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
 
         $this->queue->next();
 
+        if ($middleware === null){
+            return $this->handle($request);
+        }
+
         if ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }

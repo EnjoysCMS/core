@@ -22,6 +22,11 @@ class MiddlewareResolver implements MiddlewareResolverInterface
         if (is_string($entry)) {
             $entry = $this->container->get($entry);
         }
+
+        if ($entry === null){
+            return new NullMiddleware();
+        }
+
         return $entry;
     }
 }
