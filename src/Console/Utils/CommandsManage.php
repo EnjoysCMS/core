@@ -10,17 +10,36 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
+use function Enjoys\FileSystem\createFile;
+
 final class CommandsManage
 {
     private array $data = [];
     private string $filename;
     private bool $open = false;
 
-    public function __construct(string $filename = null, private readonly ?Config $config = null)
+    /**
+     * @throws Exception
+     */
+    public function __construct(string $filename = null)
     {
+        $config = new Config();
+        $params = [
+            [
+                'flags' => Yaml::PARSE_CONSTANT | Yaml::PARSE_DATETIME
+            ],
+            Config::YAML
+        ];
+        $config->addConfig(['console' => getenv('ROOT_PATH') . '/config/console.yml'], ...$params);
+        $config->addConfig(getenv('ROOT_PATH') . '/config.yml',...$params);
+
         $this->filename = $this->setFilename(
-            $filename ?? $this->config?->get('console->filename') ?? getenv('ROOT_PATH') . '/console.yml'
+            $filename ?? $config->get('console->filename') ?? getenv('ROOT_PATH') . '/console.yml'
         );
+
+        if (!file_exists($this->filename)) {
+            createFile($this->filename);
+        }
     }
 
     public function setFilename(string $filename): string

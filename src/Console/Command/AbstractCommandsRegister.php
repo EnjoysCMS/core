@@ -2,7 +2,6 @@
 
 namespace EnjoysCMS\Core\Console\Command;
 
-use Enjoys\Config\Config;
 use EnjoysCMS\Core\Console\Utils\CommandsManage;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -21,9 +20,8 @@ abstract class AbstractCommandsRegister extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-
-        $container = include __DIR__ . '/../../../../../../bootstrap.php';
-        $commandManage = new CommandsManage(config: $container->get(Config::class));
+        include __DIR__ . '/../../../../../../bootstrap.php';
+        $commandManage = new CommandsManage();
         $registeredCommands = $commandManage->registerCommands($this->commands);
         $output->writeln('Register console commands:');
         if ($registeredCommands === []) {
