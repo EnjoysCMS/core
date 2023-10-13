@@ -133,6 +133,9 @@ class Block
     }
 
 
+    /**
+     * @return Collection<BlockLocation>
+     */
     public function getLocations(): Collection
     {
         return $this->locations;
