@@ -202,7 +202,7 @@ class Block
         $this->cacheTtl = $cacheTtl;
     }
 
-    public function setLocations(BlockLocation $location): void
+    public function addLocation(BlockLocation $location): void
     {
         $this->locations[] = $location;
     }
