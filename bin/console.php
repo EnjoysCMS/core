@@ -2,6 +2,7 @@
 
 use Enjoys\Config\Config;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Yaml\Yaml;
 
@@ -13,16 +14,15 @@ $autoloadFiles = [
     __DIR__ . '/bootstrap.php',
 ];
 
+/** @var ContainerInterface $container */
 foreach ($autoloadFiles as $autoloadFile) {
     if (file_exists($autoloadFile)) {
-        require_once $autoloadFile;
+        $container = require_once $autoloadFile;
         break;
     }
 }
 
 $application = new Application();
-
-/** @var ContainerInterface $container */
 
 $config = new Config();
 
@@ -43,7 +43,7 @@ try {
         }
 
         if (!class_exists($class)) {
-            require $params['_include_path'] ?? throw new \InvalidArgumentException(
+            require $params['_include_path'] ?? throw new InvalidArgumentException(
                 sprintf(
                     'The class `%s` cannot be loaded, try specifying the path
                     to the file in the `_include_path` parameter',
@@ -54,6 +54,7 @@ try {
 
         $application->add($container->make($class, $params));
     }
+    $application->setDispatcher($container->get(EventDispatcherInterface::class));
     $application->run();
 } catch (Throwable $e) {
     die($e);
