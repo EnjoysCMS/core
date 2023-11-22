@@ -23,6 +23,7 @@ class Module
         $this->extra = $data->extra;
         $this->paths = $data->paths;
         $this->moduleName = $this->extra?->{'module-name'} ?? $this->packageName;
+        $this->namespaces = $data->namespaces;
         $this->adminLinks = (array)($this->extra?->{'admin-links'} ?? null);
     }
 }
