@@ -7,7 +7,7 @@ use Doctrine\ORM\Exception\NotSupported;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Setting
+class Setting implements \ArrayAccess
 {
 
     private static ?array $cache = null;
@@ -48,4 +48,52 @@ class Setting
         return $repository->findAllKeyVar();
     }
 
+    /**
+     * @throws NotSupported
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        if (static::$cache === null) {
+            static::$cache = $this->fetchSetting();
+        }
+
+        return isset(self::$cache[$offset]) || array_key_exists($offset, self::$cache);
+    }
+
+    /**
+     * @throws NotSupported
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * @throws NotSupported
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if (static::$cache === null) {
+            static::$cache = $this->fetchSetting();
+        }
+
+        if ($offset === null) {
+            self::$cache[] = $value;
+            return;
+        }
+
+        self::$cache[$offset] = $value;
+    }
+
+    /**
+     * @throws NotSupported
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        if (static::$cache === null) {
+            static::$cache = $this->fetchSetting();
+        }
+
+        unset(self::$cache[$offset]);
+    }
 }
