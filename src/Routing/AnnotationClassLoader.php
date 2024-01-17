@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Loader\AnnotationClassLoader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * @deprecated since Symfony 6.4, to be removed in 7.0, use {@link AttributeClassLoader} instead
+ */
 class AnnotationClassLoader extends BaseLoader
 {
     protected function configureRoute(Route $route, ReflectionClass $class, ReflectionMethod $method, $annot): void
