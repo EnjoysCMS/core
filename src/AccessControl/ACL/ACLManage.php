@@ -2,7 +2,7 @@
 
 namespace EnjoysCMS\Core\AccessControl\ACL;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -26,7 +26,7 @@ class ACLManage implements AccessControlManage
      * @throws Exception
      */
     public function __construct(
-        private readonly EntityManager $em,
+        private readonly EntityManagerInterface $em,
         private readonly Identity $identity
     ) {
         $this->aclRepository = $this->em->getRepository(ACLEntity::class);
@@ -59,7 +59,7 @@ class ACLManage implements AccessControlManage
             }
         }
 
-        if ($acl === null){
+        if ($acl === null) {
             return false;
         }
 

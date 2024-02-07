@@ -6,6 +6,7 @@ use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 use EnjoysCMS\Core\Block\Entity\Widget;
 use EnjoysCMS\Core\Block\Repository\Widgets;
@@ -21,11 +22,10 @@ class WidgetModel
     /**
      * @throws DependencyException
      * @throws NotFoundException
-     * @throws NotSupported
      */
     public function __construct(private readonly Container $container)
     {
-        $this->widgetsRepository = $container->get(EntityManager::class)->getRepository(Widget::class);
+        $this->widgetsRepository = $container->get(EntityManagerInterface::class)->getRepository(Widget::class);
         $this->logger = $container->get(LoggerInterface::class);
     }
 

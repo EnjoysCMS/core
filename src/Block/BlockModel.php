@@ -6,9 +6,8 @@ namespace EnjoysCMS\Core\Block;
 
 use DI\DependencyException;
 use DI\NotFoundException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\AccessControl;
@@ -21,12 +20,9 @@ class BlockModel
     private Repository\Block|EntityRepository $repository;
 
 
-    /**
-     * @throws NotSupported
-     */
     public function __construct(
         private readonly BlockFactory $blockFactory,
-        private readonly EntityManager $entityManager,
+        private readonly EntityManagerInterface $entityManager,
         private readonly AccessControl $accessControl,
         private readonly ServerRequestInterface $request,
         private readonly LoggerInterface $logger
