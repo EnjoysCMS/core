@@ -2,13 +2,11 @@
 
 namespace EnjoysCMS\Core\AccessControl;
 
-use DI\Container;
-use DI\DependencyException;
-use DI\NotFoundException;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use EnjoysCMS\Core\AccessControl\ACL\ACLManage;
 use EnjoysCMS\Core\Users\Entity\Group;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class AccessControl
 {
@@ -16,11 +14,12 @@ class AccessControl
 
     private AccessControlManage $manage;
 
+
     /**
-     * @throws DependencyException
-     * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function __construct(Container $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->manage = $container->get(ACLManage::class);
     }

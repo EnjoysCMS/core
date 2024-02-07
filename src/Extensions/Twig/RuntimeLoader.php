@@ -2,21 +2,22 @@
 
 namespace EnjoysCMS\Core\Extensions\Twig;
 
-use DI\Container;
-use DI\DependencyException;
-use DI\NotFoundException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Twig\RuntimeLoader\RuntimeLoaderInterface;
 
 class RuntimeLoader implements RuntimeLoaderInterface
 {
 
-    public function __construct(private readonly Container $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 
+
     /**
-     * @throws DependencyException
-     * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function load(string $class)
     {

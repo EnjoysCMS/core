@@ -2,8 +2,8 @@
 
 namespace EnjoysCMS\Core\ContentEditor;
 
-use DI\Container;
 use DI\DependencyException;
+use DI\FactoryInterface;
 use DI\NotFoundException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -18,7 +18,7 @@ class ContentEditor
      * @throws NotFoundException
      */
     public function __construct(
-        private readonly Container $container,
+        private readonly FactoryInterface $factory,
         array|string|null|EditorConfig $config = null,
         private readonly LoggerInterface $logger = new NullLogger(),
     ) {
@@ -32,7 +32,7 @@ class ContentEditor
      */
     public function withConfig(array|string|null|EditorConfig $config): ContentEditor
     {
-        return new ContentEditor($this->container, $config, $this->logger);
+        return new ContentEditor($this->factory, $config, $this->logger);
     }
 
     /**
@@ -42,7 +42,7 @@ class ContentEditor
     private function initEditor(): ContentEditorInterface
     {
         try {
-            return $this->container->make(
+            return $this->factory->make(
                 $this->config->getEditorClassNameOrAlias(),
                 $this->config->getParams()
             );
@@ -50,7 +50,7 @@ class ContentEditor
             $this->logger?->error($e->getMessage());
         }
 
-        return $this->container->make(NullEditor::class, []);
+        return $this->factory->make(NullEditor::class, []);
     }
 
     public function getEditor(): ContentEditorInterface

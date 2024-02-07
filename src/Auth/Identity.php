@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Auth;
 
-use DI\Container;
 use EnjoysCMS\Core\Auth\AuthenticationStorage\PhpSession;
 use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 final class Identity implements IdentityInterface
 {
@@ -16,8 +18,12 @@ final class Identity implements IdentityInterface
     private AuthenticationStorageInterface $authenticationStorage;
 
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(
-        private readonly Container $container,
+        private readonly ContainerInterface $container,
         private readonly UserStorageInterface $userStorage,
         AuthenticationStorageInterface $authenticationStorage = null
     ) {
@@ -25,6 +31,10 @@ final class Identity implements IdentityInterface
     }
 
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function setAuthenticationStorage(string|AuthenticationStorageInterface $authenticationStorage
     ): AuthenticationStorageInterface {
         if (is_string($authenticationStorage)) {

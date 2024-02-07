@@ -5,6 +5,7 @@ namespace EnjoysCMS\Core\Extensions\Twig;
 use DI\Container;
 use EnjoysCMS\Core\Block\BlockModel;
 use EnjoysCMS\Core\Setting\Setting;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -17,7 +18,7 @@ class CoreTwigExtension extends AbstractExtension
     private static array $styles = [];
     private bool $noCatch = false;
 
-    public function __construct(private readonly Container $container)
+    public function __construct(private readonly ContainerInterface $container)
     {
     }
 
