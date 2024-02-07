@@ -3,12 +3,18 @@
 namespace EnjoysCMS\Core\Users\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EnjoysCMS\Core\Users\Entity\Group;
 
-class Group extends EntityRepository
+/**
+ * @method Group|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Group|null findOneBy(array $criteria, array $orderBy = null)
+ * @method list<Group> findAll()
+ * @method list<Group> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class GroupRepository extends EntityRepository
 {
     public function getListGroupsForSelectForm(): array
     {
-        /** @var \EnjoysCMS\Core\Users\Entity\Group[] $groups */
         $groups = $this->findAll();
         $ret = [];
 

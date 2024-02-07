@@ -5,8 +5,9 @@ namespace EnjoysCMS\Core\Users\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Users\Repository\GroupRepository;
 
-#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Users\Repository\Group::class)]
+#[ORM\Entity(repositoryClass: GroupRepository::class)]
 #[ORM\Table(name: '`groups`')]
 class Group
 {

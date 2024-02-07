@@ -12,7 +12,7 @@ class Setting implements \ArrayAccess
     private static ?array $cache = null;
 
     public function __construct(
-        private readonly EntityManagerInterface $em,
+        private readonly Repository\Setting $repository,
         private readonly LoggerInterface $logger = new NullLogger()
     ) {
     }
@@ -38,9 +38,7 @@ class Setting implements \ArrayAccess
      */
     private function fetchSetting(): array
     {
-        /** @var Repository\Setting $repository */
-        $repository = $this->em->getRepository(Entity\Setting::class);
-        return $repository->findAllKeyVar();
+        return $this->repository->findAllKeyVar();
     }
 
     public function offsetExists(mixed $offset): bool
