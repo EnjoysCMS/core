@@ -3,8 +3,9 @@
 namespace EnjoysCMS\Core\Block\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EnjoysCMS\Core\Block\Repository\BlockLocationRepository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BlockLocationRepository::class)]
 #[ORM\Table(name: 'locations')]
 class BlockLocation
 {

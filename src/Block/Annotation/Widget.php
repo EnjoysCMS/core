@@ -27,7 +27,7 @@ class Widget implements Annotation
     private ?ReflectionClass $reflectionClass = null;
 
     public function __construct(
-        private ?string $name = null,
+        private readonly ?string $name = null,
         array $options = [],
     ) {
         $this->options = Options::createFromArray($options);

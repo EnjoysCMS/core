@@ -17,17 +17,13 @@ use Psr\Log\LoggerInterface;
 
 class BlockModel
 {
-    private Repository\Block|EntityRepository $repository;
-
-
     public function __construct(
         private readonly BlockFactory $blockFactory,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly Repository\Block $repository,
         private readonly AccessControl $accessControl,
         private readonly ServerRequestInterface $request,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
-        $this->repository = $this->entityManager->getRepository(Block::class);
     }
 
 
