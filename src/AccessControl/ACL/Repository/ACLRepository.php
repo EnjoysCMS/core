@@ -6,6 +6,12 @@ use Doctrine\ORM\EntityRepository;
 use EnjoysCMS\Core\AccessControl\ACL\Entity\ACLEntity;
 use EnjoysCMS\Core\Users\Entity\Group;
 
+/**
+ * @method ACLEntity|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ACLEntity|null findOneBy(array $criteria, array $orderBy = null)
+ * @method list<ACLEntity> findAll()
+ * @method list<ACLEntity> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class ACLRepository extends EntityRepository
 {
     public function findAcl(string $action): ?ACLEntity

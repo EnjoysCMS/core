@@ -15,7 +15,6 @@ use Exception;
 
 class ACLManage implements AccessControlManage
 {
-    private ACLRepository|EntityRepository $aclRepository;
 
     /**
      * @var ACLEntity[]
@@ -27,9 +26,9 @@ class ACLManage implements AccessControlManage
      */
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly Identity $identity
+        private readonly Identity $identity,
+        private readonly ACLRepository $aclRepository,
     ) {
-        $this->aclRepository = $this->em->getRepository(ACLEntity::class);
         $this->aclList = $this->getList();
     }
 
@@ -74,11 +73,7 @@ class ACLManage implements AccessControlManage
     }
 
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
-    public function register(
+     public function register(
         string $action,
         ?string $comment = null,
         bool $flush = true

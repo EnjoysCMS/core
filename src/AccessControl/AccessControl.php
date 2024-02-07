@@ -2,26 +2,13 @@
 
 namespace EnjoysCMS\Core\AccessControl;
 
-use EnjoysCMS\Core\AccessControl\ACL\ACLManage;
 use EnjoysCMS\Core\Users\Entity\Group;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class AccessControl
 {
 
-
-    private AccessControlManage $manage;
-
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct(private readonly AccessControlManage $manage)
     {
-        $this->manage = $container->get(ACLManage::class);
     }
 
     public function getManage(): AccessControlManage

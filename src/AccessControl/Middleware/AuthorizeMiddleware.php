@@ -28,8 +28,6 @@ final class AuthorizeMiddleware implements MiddlewareInterface
 
     /**
      * @throws ForbiddenException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

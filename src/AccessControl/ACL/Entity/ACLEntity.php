@@ -33,8 +33,6 @@ class ACLEntity
         $this->groups = new ArrayCollection();
     }
 
-
-
     public function getId(): int
     {
         return $this->id;
@@ -59,7 +57,6 @@ class ACLEntity
     {
         $this->comment = $comment;
     }
-
 
     public function removeGroup(Group $group): void
     {
@@ -88,7 +85,6 @@ class ACLEntity
     {
         $this->groups->clear();
     }
-
 
     public function getGroups(): Collection
     {

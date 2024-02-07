@@ -1,6 +1,8 @@
 <?php
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use EnjoysCMS\Core\AccessControl\AccessControlManage;
+use EnjoysCMS\Core\AccessControl\ACL\ACLManage;
 use EnjoysCMS\Core\Auth\Identity;
 use EnjoysCMS\Core\Auth\IdentityInterface;
 use EnjoysCMS\Core\Auth\TokenStorage\DatabaseTokenStorage;
@@ -18,12 +20,9 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Finder\Finder;
 use Symfony\Contracts\Cache\ItemInterface;
 
-use function DI\factory;
-use function DI\get;
-
 return [
 
-    'BlocksAndWidgetsFinder' => factory(
+    'BlocksAndWidgetsFinder' => DI\factory(
         function () {
             $finder = new Finder();
             $finder->files()
@@ -41,7 +40,7 @@ return [
     ),
 
     //Blocks
-    Block\BlockCollection::class => factory(
+    Block\BlockCollection::class => DI\factory(
         function (ContainerInterface $container) {
             $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/blocks');
             return $cache->get('blocks', function (ItemInterface $item) use ($container) {
@@ -58,7 +57,7 @@ return [
         }
     ),
 
-    Block\WidgetCollection::class => factory(
+    Block\WidgetCollection::class => DI\factory(
         function (ContainerInterface $container) {
             $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/blocks');
             return $cache->get('blocks', function (ItemInterface $item) use ($container) {
@@ -76,7 +75,7 @@ return [
     ),
 
     // Modules
-    ModuleCollection::class => factory(
+    ModuleCollection::class => DI\factory(
         function () {
             $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/modules');
             return $cache->get('modules', function (ItemInterface $item) {
@@ -97,20 +96,22 @@ return [
         }
     ),
 
-    UserStorageInterface::class => get(
+    UserStorageInterface::class => DI\get(
         DatabaseUserStorage::class
     ),
 
-    IdentityInterface::class => get(Identity::class),
+    IdentityInterface::class => DI\get(Identity::class),
 
-    TokenStorageInterface::class => get(
+    TokenStorageInterface::class => DI\get(
         DatabaseTokenStorage::class
     ),
 
-    InvokerInterface::class => factory(
+    InvokerInterface::class => DI\factory(
         function (ContainerInterface $container) {
             return new Invoker(container: $container);
         }
     ),
+
+    AccessControlManage::class => DI\get(ACLManage::class)
 ];
 
