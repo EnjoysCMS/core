@@ -13,13 +13,19 @@ use Exception;
 
 use function random_int;
 
+/**
+ * @method Token|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Token|null findOneBy(array $criteria, array $orderBy = null)
+ * @method list<Token> findAll()
+ * @method list<Token> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class TokenRepository extends EntityRepository
 {
 
     /**
      * @throws Exception
      */
-    public function clearUsersOldTokens(Token $currentToken, Config $config)
+    public function clearUsersOldTokens(Token $currentToken, Config $config): void
     {
         $this->gc();
         $this->clearInactiveTokensByUser($currentToken->getUser());
@@ -91,7 +97,7 @@ class TokenRepository extends EntityRepository
     /**
      * @throws Exception
      */
-    private function gc()
+    private function gc(): void
     {
         if (random_int(0, 1000000) < $this->gcProbability) {
             $this->clearAllInactiveTokens();

@@ -8,6 +8,8 @@ use EnjoysCMS\Core\Auth\Authenticate\HttpBasicAuthentication;
 use EnjoysCMS\Core\Auth\AuthenticationStorage\PhpSession;
 use EnjoysCMS\Core\Auth\Identity;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +21,10 @@ final class BasicAuthMiddleware implements MiddlewareInterface
 
     private string $realm = 'My realm';
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(
         private readonly HttpBasicAuthentication $authentication,
         private readonly ResponseFactoryInterface $responseFactory,

@@ -10,11 +10,9 @@ use EnjoysCMS\Core\Users\Repository\UserRepository;
 
 class DatabaseUserStorage implements UserStorageInterface
 {
-    private UserRepository|EntityRepository $repository;
 
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(private readonly UserRepository $repository)
     {
-        $this->repository = $this->em->getRepository(User::class);
     }
 
     public function getUser($userId): ?User
@@ -27,7 +25,10 @@ class DatabaseUserStorage implements UserStorageInterface
         return $this->repository->findOneBy(['login' => $login]);
     }
 
-    public function getGuestUser()
+    /**
+     * @throws \Exception
+     */
+    public function getGuestUser(): User
     {
         return $this->repository->getGuest();
     }

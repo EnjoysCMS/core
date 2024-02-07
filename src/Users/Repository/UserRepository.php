@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Users\Repository;
 
-use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
-use Enjoys\Config\Config;
-use EnjoysCMS\Core\Users\Entity\Token;
 use EnjoysCMS\Core\Users\Entity\User;
 use Exception;
 
-use function random_int;
-
+/**
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method list<User> findAll()
+ * @method list<User> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class UserRepository extends EntityRepository
 {
 
@@ -21,7 +22,7 @@ class UserRepository extends EntityRepository
      */
     public function getGuest(): User
     {
-        return $this->find(User::GUEST_ID);
+        return $this->find(User::GUEST_ID) ?? throw new \RuntimeException('User::GUEST_ID is incorrect');
     }
 
 

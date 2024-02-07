@@ -8,6 +8,8 @@ use EnjoysCMS\Core\Auth\Authenticate\TokenAuthentication;
 use EnjoysCMS\Core\Auth\AuthenticationStorage\Memory;
 use EnjoysCMS\Core\Auth\Identity;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,6 +19,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class BearerAuthMiddleware implements MiddlewareInterface
 {
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(
         private TokenAuthentication $authentication,
         private readonly ResponseFactoryInterface $responseFactory,

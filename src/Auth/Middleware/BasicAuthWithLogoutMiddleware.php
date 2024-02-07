@@ -10,6 +10,8 @@ use EnjoysCMS\Core\Auth\Authenticate\HttpBasicAuthentication;
 use EnjoysCMS\Core\Auth\AuthenticationStorage\PhpSession;
 use EnjoysCMS\Core\Auth\Identity;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,7 +22,12 @@ final class BasicAuthWithLogoutMiddleware implements MiddlewareInterface
 {
 
     private string $realm = 'My realm';
+    private ?string $logoutControllerClassName = null;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(
         private readonly HttpBasicAuthentication $authentication,
         private readonly ResponseFactoryInterface $responseFactory,
@@ -43,12 +50,15 @@ final class BasicAuthWithLogoutMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->getAttribute('_controller') === Logout::class) {
-            $this->session->set([
-                'www-authenticate-logged' => false
-            ]);
-            return $handler->handle($request);
+        if ($this->logoutControllerClassName !== null) {
+            if ($request->getAttribute('_controller') === $this->logoutControllerClassName) {
+                $this->session->set([
+                    'www-authenticate-logged' => false
+                ]);
+                return $handler->handle($request);
+            }
         }
+
 
         if ($this->identity->getUser()->isUser()) {
             return $handler->handle($request);
@@ -76,6 +86,11 @@ final class BasicAuthWithLogoutMiddleware implements MiddlewareInterface
                 'Location',
                 $request->getUri()->__toString()
             );
+    }
+
+    public function setLogoutControllerClassName(string $logoutControllerClassName): void
+    {
+        $this->logoutControllerClassName = $logoutControllerClassName;
     }
 
 }

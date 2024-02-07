@@ -17,15 +17,14 @@ class TokenManage
 {
 
     private string $tokenName;
-    private TokenRepository|EntityRepository $repository;
 
     public function __construct(
         private readonly Config $config,
         private readonly EntityManagerInterface $em,
+        private readonly TokenRepository $repository,
         private readonly Cookie $cookie
     ) {
         $this->tokenName = $this->config->get('security->token_name') ?? '_token_refresh';
-        $this->repository = $this->em->getRepository(Token::class);
     }
 
     public static function getFingerprint(): string

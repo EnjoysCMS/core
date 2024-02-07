@@ -11,14 +11,11 @@ use EnjoysCMS\Core\Users\Repository\TokenRepository;
 class DatabaseTokenStorage implements TokenStorageInterface
 {
 
-    private TokenRepository|EntityRepository $tokenRepository;
-
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(private readonly TokenRepository $tokenRepository)
     {
-        $this->tokenRepository = $this->em->getRepository(Token::class);
     }
 
-    public function find(string $token)
+    public function find(string $token): ?Token
     {
         return $this->tokenRepository->find($token);
     }
