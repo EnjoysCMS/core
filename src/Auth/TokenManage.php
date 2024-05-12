@@ -89,6 +89,10 @@ class TokenManage
         $token = $this->cookie->get($this->tokenName);
         $this->cookie->delete($this->tokenName);
 
+        if (!Uuid::isValid($token ?? '')){
+            return;
+        }
+
         $tokenEntity = $this->repository->find($token ?? '');
         if ($tokenEntity === null) {
             return;
