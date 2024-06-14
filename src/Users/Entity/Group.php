@@ -18,9 +18,6 @@ class Group
     private int $id;
 
 
-    #[ORM\Column(type: 'string')]
-    private string $name;
-
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
@@ -35,8 +32,10 @@ class Group
     private Collection $users;
 
 
-    public function __construct()
-    {
+    public function __construct(
+        #[ORM\Column(type: 'string')]
+        private string $name
+    ) {
         $this->users = new ArrayCollection();
     }
 
