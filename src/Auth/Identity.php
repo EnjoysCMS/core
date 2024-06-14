@@ -79,5 +79,10 @@ final class Identity implements IdentityInterface
         return $this->authenticationStorage;
     }
 
+    public function getUserStorage(): UserStorageInterface
+    {
+        return $this->userStorage;
+    }
+
 
 }
