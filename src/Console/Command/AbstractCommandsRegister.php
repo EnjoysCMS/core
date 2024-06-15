@@ -20,7 +20,7 @@ abstract class AbstractCommandsRegister extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        include __DIR__ . '/../../../../../../bootstrap.php';
+      //  include __DIR__ . '/../../../../../../bootstrap.php';
         $commandManage = new CommandsManage();
         $registeredCommands = $commandManage->registerCommands($this->commands);
         $output->writeln('Register console commands:');
