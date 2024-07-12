@@ -88,7 +88,12 @@ return [
                 $moduleCollection = new ModuleCollection();
 
                 foreach ($finder as $item) {
-                    $moduleCollection->addModule(new Module(Utils::parseComposerJson($item->getPathname())));
+                    $parsedComposerJson = Utils::parseComposerJson($item->getPathname());
+
+                    if ($parsedComposerJson->type !== 'enjoyscms-module') {
+                        continue;
+                    }
+                    $moduleCollection->addModule(new Module($parsedComposerJson));
                 }
 
                 return $moduleCollection;

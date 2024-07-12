@@ -14,7 +14,7 @@ class Module
     public string $moduleName;
     public array $adminLinks = [];
     public array $namespaces = [];
-    public null|stdClass|array $extra = null;
+    public null|stdClass $extra = null;
 
     public function __construct(object $data)
     {

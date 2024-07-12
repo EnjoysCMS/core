@@ -67,6 +67,7 @@ class Utils
         $object = new stdClass();
 
         $object->packageName = $json->name;
+        $object->type = $json->type;
         $object->installPath = Utils::getDirByPackage($object->packageName);
 
         $object->description = (isset($json->description)) ? $json->description : null;
