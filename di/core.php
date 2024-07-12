@@ -57,7 +57,7 @@ return [
 
     Block\WidgetCollection::class => DI\factory(
         function (ContainerInterface $container) {
-            $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/blocks');
+            $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/widgets');
             return $cache->get('blocks', function (ItemInterface $item) use ($container) {
                 $item->expiresAfter(10);
 
