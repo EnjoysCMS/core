@@ -3,11 +3,10 @@
     "description": "EnjoysCMS Core",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-json": "*",
-        "doctrine/annotations": "^1.11 | ^2.0",
         "doctrine/migrations": "^3.6",
-        "doctrine/orm": "^2.8 | ^3.0",
+        "doctrine/orm": "^3.0",
         "enjoys/assets-collector": "^2.0",
         "enjoys/config": "^1.0",
         "enjoys/cookie": "^2.0",
@@ -15,16 +14,15 @@
         "enjoys/session": "^2.0",
         "league/flysystem": "^3.0",
         "php-di/php-di": "^7.0",
-        "psr/http-message": "^1.0",
+        "psr/http-message": "^2.0",
         "psr/http-server-middleware": "^1.0",
         "psr/http-server-handler": "^1.0",
         "ramsey/uuid": "^4.1",
-        "ramsey/uuid-doctrine": "^1.6",
-        "symfony/finder": "^6.3 | ^7.0",
-        "symfony/http-foundation": "^6.3 | ^7.0",
-        "symfony/routing": "^6.3 | ^7.0",
-        "symfony/psr-http-message-bridge": "^2.1",
-        "twig/twig": "^3.0"
+        "ramsey/uuid-doctrine": "^2.0",
+        "symfony/finder": "^7.0",
+        "symfony/http-foundation": "^7.0",
+        "symfony/routing": "^7.0",
+        "symfony/psr-http-message-bridge": "^7.0"
     },
     "require-dev": {
         "infection/infection": "^0.26.16",
@@ -33,7 +31,8 @@
         "dg/bypass-finals": "^1.4",
         "fakerphp/faker": "^1.21",
         "guzzlehttp/guzzle": "^7.5.0",
-        "symfony/var-dumper": "^6.3 | ^7.0"
+        "symfony/var-dumper": "^7.0",
+        "twig/twig": "^3.0"
     },
     "scripts": {
         "register-commands": [
