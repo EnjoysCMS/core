@@ -16,14 +16,16 @@ class KeyPair extends AbstractHydrator
     protected function hydrateAllData(): array
     {
 
-        $columnCount = $this->_stmt->columnCount();
+        $stmt = $this->stmt ?? $this->_stmt ?? null;
+
+        $columnCount = $stmt?->columnCount() ?? 0;
 
         if ($columnCount < 2) {
             throw NoKeyValue::fromColumnCount($columnCount);
         }
 
         $data = [];
-        foreach ($this->_stmt->fetchAllNumeric() as [$key, $value]) {
+        foreach ($stmt?->fetchAllNumeric() ?? [] as [$key, $value]) {
             $data[$key] = $value;
         }
         return $data;

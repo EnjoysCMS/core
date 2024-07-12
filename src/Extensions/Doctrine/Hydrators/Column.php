@@ -12,6 +12,7 @@ class Column extends AbstractHydrator
      */
     protected function hydrateAllData(): array
     {
-        return $this->_stmt?->fetchFirstColumn() ?? [];
+        $stmt = $this->stmt ?? $this->_stmt ?? null;
+        return $stmt?->fetchFirstColumn() ?? [];
     }
 }
