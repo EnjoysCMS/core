@@ -17,9 +17,8 @@ class WidgetLoader extends AnnotationLoader
 
     public function __construct(
         private readonly Finder $finder,
-        protected ?Reader $reader = null
     ) {
-        parent::__construct(Widget::class, $this->finder, $this->reader);
+        parent::__construct(Widget::class, $this->finder);
     }
 
 
