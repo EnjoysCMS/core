@@ -11,7 +11,6 @@ $doctrineRepositoryDefinition = [];
 
 $paths = [
     $_ENV['APP_DIR'],
-    getenv('ROOT_PATH') . '/modules',
     getenv('ROOT_PATH') . '/vendor/enjoyscms',
 ];
 

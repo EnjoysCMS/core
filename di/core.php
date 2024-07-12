@@ -28,7 +28,7 @@ return [
             $finder->files()
                 ->in([
                     $_ENV['APP_DIR'],
-                    getenv('ROOT_PATH') . '/modules',
+                    getenv('ROOT_PATH') . '/vendor/enjoyscms',
                 ])
                 ->exclude([
                     'node_modules',
@@ -81,7 +81,7 @@ return [
             return $cache->get('modules', function (ItemInterface $item) {
                 $item->expiresAfter(1);
                 $finder = new Finder();
-                $finder->files()->in(getenv('ROOT_PATH') . '/modules');
+                $finder->files()->in(getenv('ROOT_PATH') . '/vendor/enjoyscms');
                 $finder->name('composer.json')->depth(1);
 
 
