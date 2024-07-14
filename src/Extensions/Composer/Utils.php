@@ -3,6 +3,7 @@
 namespace EnjoysCMS\Core\Extensions\Composer;
 
 use Composer\Autoload\ClassLoader;
+use Composer\Semver\Comparator;
 use stdClass;
 
 use function json_decode;
@@ -67,7 +68,8 @@ class Utils
         $object = new stdClass();
 
         $object->packageName = $json->name;
-        $object->type = $json->type;
+        $object->type = $json->type ?? null;
+        $object->scripts = $json->scripts ?? [];
         $object->installPath = Utils::getDirByPackage($object->packageName);
 
         $object->description = (isset($json->description)) ? $json->description : null;
