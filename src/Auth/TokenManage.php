@@ -87,13 +87,18 @@ class TokenManage
     public function delete(): void
     {
         $token = $this->cookie->get($this->tokenName);
-        $this->cookie->delete($this->tokenName);
 
-        if (!Uuid::isValid($token ?? '')){
+        if ($token === null) {
             return;
         }
 
-        $tokenEntity = $this->repository->find($token ?? '');
+        $this->cookie->delete($this->tokenName);
+
+        if (!Uuid::isValid($token)){
+            return;
+        }
+
+        $tokenEntity = $this->repository->find($token);
         if ($tokenEntity === null) {
             return;
         }
