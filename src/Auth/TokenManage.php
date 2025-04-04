@@ -46,7 +46,7 @@ class TokenManage
      * @throws Exception
      * @throws \Exception
      */
-    public function write(User $user, string $token = null): void
+    public function write(User $user, ?string $token = null): void
     {
 
         $now = new DateTimeImmutable();

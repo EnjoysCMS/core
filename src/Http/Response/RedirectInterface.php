@@ -15,7 +15,7 @@ interface RedirectInterface
      * @psalm-param TEmit $emit
      * @psalm-return (TEmit is true ? never-return : ResponseInterface)
      */
-    public function toUrl(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface;
+    public function toUrl(?string $uri = null, int $code = 302, bool $emit = false): ResponseInterface;
 
     /**
      * @template TEmit of bool

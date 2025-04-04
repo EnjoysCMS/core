@@ -17,7 +17,7 @@ abstract class AbstractModuleConfig
 
     abstract public function getModulePackageName(): string;
 
-    final public function get(string $key = null, mixed $default = null): mixed
+    final public function get(?string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return $this->config->get($this->getModulePackageName());

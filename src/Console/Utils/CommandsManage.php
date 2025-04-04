@@ -21,7 +21,7 @@ final class CommandsManage
     /**
      * @throws Exception
      */
-    public function __construct(string $filename = null)
+    public function __construct(?string $filename = null)
     {
         $config = new Config();
         $params = [
@@ -116,7 +116,7 @@ final class CommandsManage
         return array_filter($unregisteredCommands);
     }
 
-    public function unregisterCommand(string $command = null): ?string
+    public function unregisterCommand(?string $command = null): ?string
     {
         if ($command === null) {
             return null;

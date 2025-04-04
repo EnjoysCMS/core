@@ -25,7 +25,7 @@ final class Identity implements IdentityInterface
     public function __construct(
         private readonly ContainerInterface $container,
         private readonly UserStorageInterface $userStorage,
-        AuthenticationStorageInterface $authenticationStorage = null
+        ?AuthenticationStorageInterface $authenticationStorage = null
     ) {
         $this->authenticationStorage = $authenticationStorage ?? $this->setAuthenticationStorage(PhpSession::class);
     }

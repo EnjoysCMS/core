@@ -26,7 +26,7 @@ final class Redirect implements RedirectInterface
     /**
      * @inheritdoc
      */
-    public function toUrl(string $uri = null, int $code = 302, bool $emit = false): ResponseInterface
+    public function toUrl(?string $uri = null, int $code = 302, bool $emit = false): ResponseInterface
     {
         $response = $this->response
             ->withStatus($code)
