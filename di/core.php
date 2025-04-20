@@ -76,15 +76,13 @@ return [
 
     // Modules
     ModuleCollection::class => DI\factory(
-        function (\Enjoys\Config\Config $config) {
+        function () {
             $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/modules');
-            return $cache->get('modules', function (ItemInterface $item) use ($config) {
-                $modulesDirectory = $config->get('application->modules_directory', getenv('ROOT_PATH') . '/modules');
+            return $cache->get('modules', function (ItemInterface $item) {
                 $item->expiresAfter(1);
                 $finder = new Finder();
-                $finder->files()->in($modulesDirectory);
+                $finder->files()->in($_ENV['MODULES_DIR'] ?? getenv('ROOT_PATH') . '/modules');
                 $finder->name('composer.json')->depth(1);
-
 
                 $moduleCollection = new ModuleCollection();
 
