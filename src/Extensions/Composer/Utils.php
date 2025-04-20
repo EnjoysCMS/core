@@ -69,8 +69,9 @@ class Utils
         $object->packageName = $json->name;
         $object->installPath = Utils::getDirByPackage($object->packageName);
 
-        $object->description = (isset($json->description)) ? $json->description : null;
-        $object->extra = (isset($json->extra)) ? $json->extra : [];
+        $object->description = $json->description ?? null;
+        $object->extra = $json->extra ?? null;
+        $object->type = $json->type ?? null;
 
         foreach ($json->autoload->{'psr-4'} as $namespace => $path) {
             $object->namespaces[] = $namespace;
