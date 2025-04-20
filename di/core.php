@@ -76,19 +76,24 @@ return [
 
     // Modules
     ModuleCollection::class => DI\factory(
-        function () {
+        function (\Enjoys\Config\Config $config) {
             $cache = new FilesystemAdapter(directory: $_ENV['TEMP_DIR'] . '/cache/modules');
-            return $cache->get('modules', function (ItemInterface $item) {
+            return $cache->get('modules', function (ItemInterface $item) use ($config) {
+                $modulesDirectory = $config->get('application->modules_directory', getenv('ROOT_PATH') . '/modules');
                 $item->expiresAfter(1);
                 $finder = new Finder();
-                $finder->files()->in(getenv('ROOT_PATH') . '/modules');
+                $finder->files()->in($modulesDirectory);
                 $finder->name('composer.json')->depth(1);
 
 
                 $moduleCollection = new ModuleCollection();
 
                 foreach ($finder as $item) {
-                    $moduleCollection->addModule(new Module(Utils::parseComposerJson($item->getPathname())));
+                    $data = Utils::parseComposerJson($item->getPathname());
+                    if (!$data->extra instanceof stdClass) {
+                        continue;
+                    }
+                    $moduleCollection->addModule(new Module($data));
                 }
 
                 return $moduleCollection;
