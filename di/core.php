@@ -28,7 +28,7 @@ return [
             $finder->files()
                 ->in([
                     $_ENV['APP_DIR'],
-                    getenv('ROOT_PATH') . '/modules',
+                    $_ENV['MODULES_DIR'] ?? getenv('ROOT_PATH') . '/modules',
                 ])
                 ->exclude([
                     'node_modules',
