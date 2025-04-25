@@ -35,7 +35,7 @@ foreach ($finder as $file) {
     }
     try {
         $reflectionClass = new ReflectionClass($class);
-    } catch (ReflectionException) {
+    } catch (ReflectionException|Error) {
         continue;
     }
 
