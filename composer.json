@@ -37,7 +37,8 @@
         "symfony/var-dumper": "^7.2",
         "phpstan/extension-installer": ">=1.4.3",
         "phpstan/phpstan": "^2.1.11",
-        "phpstan/phpstan-doctrine": "^2.0.2"
+        "phpstan/phpstan-doctrine": "^2.0.2",
+        "league/flysystem-aws-s3-v3": "^3.29"
     },
     "scripts": {
         "tests": "XDEBUG_MODE=coverage ./vendor/bin/phpunit",
