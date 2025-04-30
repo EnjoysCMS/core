@@ -7,6 +7,7 @@ use EnjoysCMS\Core\Http\Response\Redirect;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
@@ -16,25 +17,32 @@ class RedirectTest extends TestCase
     use MockHelper;
 
     private ServerRequestInterface $request;
+    private UriInterface $urlInterface;
     private EmitterInterface $emitter;
     private UrlGeneratorInterface $urlGenerator;
 
     protected function setUp(): void
     {
         $this->request = $this->getMock(ServerRequestInterface::class);
+        $this->urlInterface = $this->getMock(UriInterface::class);
         $this->emitter = $this->getMock(EmitterInterface::class);
         $this->urlGenerator = $this->getMock(UrlGeneratorInterface::class);
+    }
+
+    private function returnUriInterface(array $data): UriInterface
+    {
+        foreach ($data as $method => $returnValue) {
+            $this->urlInterface->method($method)->willReturn($returnValue);
+        }
+        return $this->urlInterface;
     }
 
     public function testToRoute()
     {
         $this->request->method('getUri')->willReturn(
-            new class () {
-                public function __toString(): string
-                {
-                    return '/url';
-                }
-            }
+            $this->returnUriInterface([
+                '__toString' => '/url'
+            ])
         );
 
         $this->urlGenerator->method('generate')->willReturn('/redirect');
@@ -60,12 +68,9 @@ class RedirectTest extends TestCase
     public function testToUrl()
     {
         $this->request->method('getUri')->willReturn(
-            new class () {
-                public function __toString(): string
-                {
-                    return '/url';
-                }
-            }
+            $this->returnUriInterface([
+                '__toString' => '/url'
+            ])
         );
         $redirect = new Redirect($this->request, new Response(), $this->emitter, $this->urlGenerator, function () {
             echo 'emitted';
