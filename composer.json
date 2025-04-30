@@ -24,13 +24,11 @@
         "symfony/http-foundation": "^6.3 | ^7.0",
         "symfony/routing": "^6.3 | ^7.0",
         "symfony/psr-http-message-bridge": "^2.1 | ^6.4 | ^7.0",
-        "twig/twig": "^3.0",
-        "": ""
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "infection/infection": "^0.26.16",
         "phpunit/phpunit": "^9.5",
-        "dg/bypass-finals": "^1.4",
         "fakerphp/faker": "^1.21",
         "guzzlehttp/guzzle": "^7.5.0",
         "symfony/var-dumper": "^6.3 | ^7.0"
