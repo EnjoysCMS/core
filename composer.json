@@ -3,7 +3,7 @@
     "description": "EnjoysCMS Core",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-json": "*",
         "doctrine/annotations": "^1.11 | ^2.0",
         "doctrine/migrations": "^3.6",
