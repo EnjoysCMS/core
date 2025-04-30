@@ -5,19 +5,13 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Block\Annotation;
 
 use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Options;
 use ReflectionClass;
 use RuntimeException;
 
-/**
- * @Annotation
- * @NamedArgumentConstructor
- * @Target("CLASS")
- */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
-class Block implements Annotation
+class Block implements Attributes
 {
 
     private Options $options;

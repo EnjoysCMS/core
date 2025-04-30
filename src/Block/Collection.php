@@ -8,19 +8,19 @@ namespace EnjoysCMS\Core\Block;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use EnjoysCMS\Core\Block\Annotation\Annotation;
+use EnjoysCMS\Core\Block\Annotation\Attributes;
 use IteratorAggregate;
 use ReflectionClass;
 
 /**
- * @implements  ArrayAccess<array-key, Annotation>
- * @implements  IteratorAggregate<array-key, Annotation>
+ * @implements  ArrayAccess<array-key, Attributes>
+ * @implements  IteratorAggregate<array-key, Attributes>
  */
 class Collection implements Countable, ArrayAccess, IteratorAggregate
 {
 
     /**
-     * @var Annotation[]
+     * @var Attributes[]
      */
     private array $collection = [];
 
@@ -30,7 +30,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @return Annotation[]
+     * @return Attributes[]
      */
     public function toArray(): array
     {
@@ -39,18 +39,18 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     public function addCollection(Collection $collection): void
     {
-        /** @var Annotation $annotation */
+        /** @var Attributes $annotation */
         foreach ($collection as $annotation) {
             $this->addAnnotation($annotation);
         }
     }
 
-    public function addAnnotation(Annotation $annotation): void
+    public function addAnnotation(Attributes $annotation): void
     {
         $this->collection[] = $annotation;
     }
 
-    public function getAnnotation(ReflectionClass $class): ?Annotation
+    public function getAnnotation(ReflectionClass $class): ?Attributes
     {
         foreach ($this->collection as $annotation) {
             if ($annotation->getClassName() === $class->getName()) {
@@ -77,16 +77,16 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     /**
      * @param array-key $offset
-     * @return Annotation|null
+     * @return Attributes|null
      */
-    public function offsetGet($offset): ?Annotation
+    public function offsetGet($offset): ?Attributes
     {
         return $this->collection[$offset] ?? null;
     }
 
     /**
      * @param array-key|null $offset
-     * @param Annotation $value
+     * @param Attributes $value
      * @return void
      */
     public function offsetSet($offset, $value): void

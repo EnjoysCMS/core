@@ -11,7 +11,7 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
-class BlockLoader extends AnnotationLoader
+class BlockLoader extends AttributesLoader
 {
 
     public function __construct(

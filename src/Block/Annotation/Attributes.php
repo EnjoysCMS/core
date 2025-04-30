@@ -5,7 +5,7 @@ namespace EnjoysCMS\Core\Block\Annotation;
 use EnjoysCMS\Core\Block\Options;
 use ReflectionClass;
 
-interface Annotation
+interface Attributes
 {
     public function getOptions(): Options;
 

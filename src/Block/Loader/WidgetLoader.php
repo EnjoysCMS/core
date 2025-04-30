@@ -12,7 +12,7 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
-class WidgetLoader extends AnnotationLoader
+class WidgetLoader extends AttributesLoader
 {
 
     public function __construct(

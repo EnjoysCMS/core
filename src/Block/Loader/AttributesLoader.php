@@ -3,19 +3,19 @@
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
-use EnjoysCMS\Core\Block\Annotation\Annotation;
+use EnjoysCMS\Core\Block\Annotation\Attributes;
 use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
-abstract class AnnotationLoader
+abstract class AttributesLoader
 {
 
 
     /**
-     * @param class-string<Annotation> $annotationClass
+     * @param class-string<Attributes> $annotationClass
      * @param Finder $finder
      */
     public function __construct(
@@ -30,7 +30,7 @@ abstract class AnnotationLoader
 
     /**
      * @param ReflectionClass $reflection
-     * @return iterable<int, Annotation>
+     * @return iterable<int, Attributes>
      */
     final protected function getAnnotations(ReflectionClass $reflection): iterable
     {

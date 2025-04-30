@@ -8,13 +8,13 @@ use EnjoysCMS\Core\Block\Repository\Widgets;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class WidgetModel
+readonly class WidgetModel
 {
 
     public function __construct(
-        private readonly Widgets $widgetsRepository,
-        private readonly FactoryInterface $factory,
-        private readonly LoggerInterface $logger,
+        private Widgets $widgetsRepository,
+        private FactoryInterface $factory,
+        private LoggerInterface $logger,
     ) {
     }
 

@@ -15,14 +15,14 @@ use EnjoysCMS\Core\Block\Entity\Block;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-class BlockModel
+readonly class BlockModel
 {
     public function __construct(
-        private readonly BlockFactory $blockFactory,
-        private readonly Repository\Block $repository,
-        private readonly AccessControl $accessControl,
-        private readonly ServerRequestInterface $request,
-        private readonly LoggerInterface $logger,
+        private BlockFactory $blockFactory,
+        private Repository\Block $repository,
+        private AccessControl $accessControl,
+        private ServerRequestInterface $request,
+        private LoggerInterface $logger,
     ) {
     }
 
