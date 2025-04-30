@@ -17,7 +17,7 @@ class ContentEditorTest
 
     protected function setUp(): void
     {
-        $this->container = ContainerBuilder::buildDevContainer();
+        $this->container = (new ContainerBuilder())->build();
     }
 
     /**
