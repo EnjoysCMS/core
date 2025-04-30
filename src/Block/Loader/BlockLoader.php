@@ -7,6 +7,7 @@ namespace EnjoysCMS\Core\Block\Loader;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Annotation\Block;
 use EnjoysCMS\Core\Block\Collection;
+use Error;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
@@ -21,35 +22,32 @@ class BlockLoader extends AttributesLoader
     }
 
 
-    /**
-     * @throws ReflectionException
-     */
     public function getCollection(): Collection
     {
         $collection = new Collection();
 
         foreach ($this->finder as $file) {
-            try {
-                /** @var class-string $class */
-                if ($class = $this->findClass($file->getPathname())) {
+            /** @var class-string $class */
+            if ($class = $this->findClass($file->getPathname())) {
+                try {
                     $reflectionClass = new ReflectionClass($class);
-
-                    if ($reflectionClass->isAbstract()) {
-                        continue;
-                    }
-
-                    if (!$reflectionClass->isSubclassOf(AbstractBlock::class)
-                    ) {
-                        continue;
-                    }
-
-                    foreach ($this->getAnnotations($reflectionClass) as $annotation) {
-                        $annotation->setReflectionClass($reflectionClass);
-                        $collection->addAnnotation($annotation);
-                    }
+                } catch (ReflectionException|Error) {
+                    continue;
                 }
-            } catch (ReflectionException) {
-                //...
+
+                if ($reflectionClass->isAbstract()) {
+                    continue;
+                }
+
+                if (!$reflectionClass->isSubclassOf(AbstractBlock::class)
+                ) {
+                    continue;
+                }
+
+                foreach ($this->getAnnotations($reflectionClass) as $annotation) {
+                    $annotation->setReflectionClass($reflectionClass);
+                    $collection->addAnnotation($annotation);
+                }
             }
         }
 
