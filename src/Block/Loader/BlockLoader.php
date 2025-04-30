@@ -19,7 +19,7 @@ class BlockLoader extends AnnotationLoader
         private readonly Finder $finder,
         protected ?Reader $reader = null
     ) {
-        parent::__construct(Block::class, $this->finder, $this->reader);
+        parent::__construct(Block::class, $this->finder);
     }
 
 
