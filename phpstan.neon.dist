@@ -1,0 +1,10 @@
+parameters:
+	level: 3
+	paths:
+		- src
+	ignoreErrors:
+		-
+			identifier: doctrine.columnType
+		-
+			identifier: doctrine.associationType
+
