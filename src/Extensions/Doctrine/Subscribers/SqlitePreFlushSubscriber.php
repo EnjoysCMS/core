@@ -4,7 +4,7 @@ namespace EnjoysCMS\Core\Extensions\Doctrine\Subscribers;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Events;
 
@@ -39,7 +39,7 @@ final class SqlitePreFlushSubscriber implements EventSubscriber
     {
         $connection = $args->getObjectManager()->getConnection();
 
-        if ($connection->getDatabasePlatform() instanceof SqlitePlatform) {
+        if ($connection->getDatabasePlatform() instanceof SQLitePlatform) {
             $connection->executeStatement('PRAGMA foreign_keys = ON;');
         }
     }

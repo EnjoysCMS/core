@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Annotation\Block;
 use EnjoysCMS\Core\Block\Collection;
@@ -16,8 +15,7 @@ class BlockLoader extends AnnotationLoader
 {
 
     public function __construct(
-        private readonly Finder $finder,
-        protected ?Reader $reader = null
+        private readonly Finder $finder
     ) {
         parent::__construct(Block::class, $this->finder);
     }
