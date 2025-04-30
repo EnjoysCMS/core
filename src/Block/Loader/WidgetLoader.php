@@ -30,23 +30,27 @@ class WidgetLoader extends AnnotationLoader
         $collection = new Collection();
 
         foreach ($this->finder as $file) {
-            /** @var class-string $class */
-            if ($class = $this->findClass($file->getPathname())) {
-                $reflectionClass = new ReflectionClass($class);
+            try {
+                /** @var class-string $class */
+                if ($class = $this->findClass($file->getPathname())) {
+                    $reflectionClass = new ReflectionClass($class);
 
-                if ($reflectionClass->isAbstract()) {
-                    continue;
-                }
+                    if ($reflectionClass->isAbstract()) {
+                        continue;
+                    }
 
-                if (!$reflectionClass->isSubclassOf(AbstractWidget::class)
-                ) {
-                    continue;
-                }
+                    if (!$reflectionClass->isSubclassOf(AbstractWidget::class)
+                    ) {
+                        continue;
+                    }
 
-                foreach ($this->getAnnotations($reflectionClass) as $annotation) {
-                    $annotation->setReflectionClass($reflectionClass);
-                    $collection->addAnnotation($annotation);
+                    foreach ($this->getAnnotations($reflectionClass) as $annotation) {
+                        $annotation->setReflectionClass($reflectionClass);
+                        $collection->addAnnotation($annotation);
+                    }
                 }
+            } catch (ReflectionException) {
+                //...
             }
         }
 

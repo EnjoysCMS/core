@@ -27,7 +27,7 @@ return [
             $finder->files()
                 ->in([
                     $_ENV['APP_DIR'],
-                    getenv('ROOT_PATH') . '/vendor/enjoyscms',
+                    $_ENV['MODULES_DIR'] ?? getenv('ROOT_PATH') . '/modules',
                 ])
                 ->exclude([
                     'node_modules',
@@ -78,19 +78,18 @@ return [
             return $cache->get('modules', function (ItemInterface $item) {
                 $item->expiresAfter(1);
                 $finder = new Finder();
-                $finder->files()->in(getenv('ROOT_PATH') . '/vendor/enjoyscms');
+                $finder->files()->in($_ENV['MODULES_DIR'] ?? getenv('ROOT_PATH') . '/modules');
                 $finder->name('composer.json')->depth(1);
 
 
                 $moduleCollection = new ModuleCollection();
 
                 foreach ($finder as $item) {
-                    $parsedComposerJson = Utils::parseComposerJson($item->getPathname());
-
-                    if ($parsedComposerJson->type !== 'enjoyscms-module') {
+                    $data = Utils::parseComposerJson($item->getPathname());
+                    if (!$data->extra instanceof stdClass) {
                         continue;
                     }
-                    $moduleCollection->addModule(new Module($parsedComposerJson));
+                    $moduleCollection->addModule(new Module($data));
                 }
 
                 return $moduleCollection;
