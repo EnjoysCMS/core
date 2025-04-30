@@ -2,28 +2,14 @@
 
 namespace EnjoysCMS\Core\Routing;
 
-use Exception;
-use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
-use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Routing\RouteCollection;
 
 class OverridingRoutesParams
 {
-    private RouteCollection $rewriteRoutes;
-
-    /**
-     * @throws Exception
-     */
     public function __construct(
-        string $resource,
-        FileLoader $loader,
-        private readonly RouteCollection $routeCollection,
+        private readonly RouteCollection $rewriteRoutes,
+        private readonly RouteCollection $routeCollection
     ) {
-        try {
-            $this->rewriteRoutes = $loader->load($resource);
-        } catch (FileLocatorFileNotFoundException) {
-            $this->rewriteRoutes = new RouteCollection();
-        }
     }
 
     public function getOverridingRouteCollection(): RouteCollection
