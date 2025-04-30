@@ -25,7 +25,8 @@
         "symfony/routing": "^6.3 | ^7.0",
         "symfony/psr-http-message-bridge": "^2.1 | ^6.4 | ^7.0",
         "twig/twig": "^3.0",
-        "psr/event-dispatcher": "^1.0"
+        "psr/event-dispatcher": "^1.0",
+        "symfony/event-dispatcher-contracts": "^3.5"
     },
     "require-dev": {
         "infection/infection": "^0.26.16",
