@@ -2,9 +2,7 @@
 
 namespace EnjoysCMS\Core\Breadcrumbs;
 
-use Stringable;
-
-class Breadcrumb implements BreadcrumbInterface, Stringable
+class Breadcrumb implements BreadcrumbInterface
 {
     private ?string $title = null;
     private ?string $url = null;
