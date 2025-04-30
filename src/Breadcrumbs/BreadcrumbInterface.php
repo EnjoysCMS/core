@@ -2,7 +2,7 @@
 
 namespace EnjoysCMS\Core\Breadcrumbs;
 
-interface BreadcrumbInterface implements \Stringable
+interface BreadcrumbInterface extends \Stringable
 {
     public function getUrl(): ?string;
 
