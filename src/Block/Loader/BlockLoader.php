@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EnjoysCMS\Core\Block\Loader;
 
 use EnjoysCMS\Core\Block\AbstractBlock;
-use EnjoysCMS\Core\Block\BlockAttributes;
-use EnjoysCMS\Core\Block\AttributesCollection;
+use EnjoysCMS\Core\Block\Annotation\Block;
+use EnjoysCMS\Core\Block\Collection;
 use Error;
 use ReflectionClass;
 use ReflectionException;
@@ -18,13 +18,13 @@ class BlockLoader extends AttributesLoader
     public function __construct(
         private readonly Finder $finder
     ) {
-        parent::__construct(BlockAttributes::class, $this->finder);
+        parent::__construct(Block::class, $this->finder);
     }
 
 
-    public function getCollection(): AttributesCollection
+    public function getCollection(): Collection
     {
-        $collection = new AttributesCollection();
+        $collection = new Collection();
 
         foreach ($this->finder as $file) {
             /** @var class-string $class */
@@ -46,7 +46,7 @@ class BlockLoader extends AttributesLoader
 
                 foreach ($this->getAnnotations($reflectionClass) as $annotation) {
                     $annotation->setReflectionClass($reflectionClass);
-                    $collection->addAttributes($annotation);
+                    $collection->addAnnotation($annotation);
                 }
             }
         }

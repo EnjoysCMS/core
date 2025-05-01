@@ -8,6 +8,7 @@ namespace EnjoysCMS\Core\Block;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use EnjoysCMS\Core\Block\Annotation\Attributes;
 use IteratorAggregate;
 use ReflectionClass;
 
@@ -15,7 +16,7 @@ use ReflectionClass;
  * @implements  ArrayAccess<array-key, Attributes>
  * @implements  IteratorAggregate<array-key, Attributes>
  */
-class AttributesCollection implements Countable, ArrayAccess, IteratorAggregate
+class Collection implements Countable, ArrayAccess, IteratorAggregate
 {
 
     /**
@@ -36,17 +37,17 @@ class AttributesCollection implements Countable, ArrayAccess, IteratorAggregate
         return $this->collection;
     }
 
-    public function addCollection(AttributesCollection $collection): void
+    public function addCollection(Collection $collection): void
     {
-        /** @var Attributes $attributes */
-        foreach ($collection as $attributes) {
-            $this->addAttributes($attributes);
+        /** @var Attributes $annotation */
+        foreach ($collection as $annotation) {
+            $this->addAnnotation($annotation);
         }
     }
 
-    public function addAttributes(Attributes $attributes): void
+    public function addAnnotation(Attributes $annotation): void
     {
-        $this->collection[] = $attributes;
+        $this->collection[] = $annotation;
     }
 
     public function getAnnotation(ReflectionClass $class): ?Attributes

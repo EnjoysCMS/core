@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\AbstractBlock;
 use EnjoysCMS\Core\Block\Options;
 
-#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\BlockRepository::class)]
+#[ORM\Entity(repositoryClass: \EnjoysCMS\Core\Block\Repository\Block::class)]
 #[ORM\Table(name: 'blocks')]
 class Block
 {

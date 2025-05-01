@@ -2,6 +2,6 @@
 
 namespace EnjoysCMS\Core\Block;
 
-class WidgetCollection extends AttributesCollection
+class WidgetCollection extends Collection
 {
 }

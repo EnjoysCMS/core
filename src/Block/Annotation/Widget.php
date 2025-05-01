@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace EnjoysCMS\Core\Block;
+namespace EnjoysCMS\Core\Block\Annotation;
 
 use Attribute;
+use EnjoysCMS\Core\Block\AbstractBlock;
+use EnjoysCMS\Core\Block\Options;
 use ReflectionClass;
 use RuntimeException;
 
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
-class WidgetAttributes implements Attributes
+class Widget implements Attributes
 {
 
     private Options $options;

@@ -4,10 +4,10 @@ namespace EnjoysCMS\Core\Block\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EnjoysCMS\Core\Block\Options;
-use EnjoysCMS\Core\Block\Repository\WidgetRepository;
+use EnjoysCMS\Core\Block\Repository\Widgets;
 use EnjoysCMS\Core\Users\Entity\User;
 
-#[ORM\Entity(repositoryClass: WidgetRepository::class)]
+#[ORM\Entity(repositoryClass: Widgets::class)]
 #[ORM\Table(name: 'widgets')]
 class Widget
 {

@@ -1,7 +1,8 @@
 <?php
 
-namespace EnjoysCMS\Core\Block;
+namespace EnjoysCMS\Core\Block\Annotation;
 
+use EnjoysCMS\Core\Block\Options;
 use ReflectionClass;
 
 interface Attributes

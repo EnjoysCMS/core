@@ -4,7 +4,7 @@ namespace EnjoysCMS\Core\Block;
 
 use DI\FactoryInterface;
 use EnjoysCMS\Core\Block\Entity\Widget;
-use EnjoysCMS\Core\Block\Repository\WidgetRepository;
+use EnjoysCMS\Core\Block\Repository\Widgets;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -12,7 +12,7 @@ readonly class WidgetModel
 {
 
     public function __construct(
-        private WidgetRepository $widgetsRepository,
+        private Widgets $widgetsRepository,
         private FactoryInterface $factory,
         private LoggerInterface $logger,
     ) {
