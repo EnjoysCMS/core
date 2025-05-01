@@ -3,8 +3,8 @@
 namespace EnjoysCMS\Core\Block\Loader;
 
 use Doctrine\Common\Annotations\Reader;
-use EnjoysCMS\Core\Block\Annotation\Attributes;
-use EnjoysCMS\Core\Block\Collection;
+use EnjoysCMS\Core\Block\Attributes;
+use EnjoysCMS\Core\Block\AttributesCollection;
 use InvalidArgumentException;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -26,7 +26,7 @@ abstract class AttributesLoader
         $this->finder->files()->name('/\.php$/');
     }
 
-    abstract public function getCollection(): Collection;
+    abstract public function getCollection(): AttributesCollection;
 
     /**
      * @param ReflectionClass $reflection

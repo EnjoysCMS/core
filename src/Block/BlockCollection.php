@@ -2,6 +2,6 @@
 
 namespace EnjoysCMS\Core\Block;
 
-class BlockCollection extends Collection
+class BlockCollection extends AttributesCollection
 {
 }

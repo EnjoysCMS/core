@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractWidget;
-use EnjoysCMS\Core\Block\Annotation\Widget;
-use EnjoysCMS\Core\Block\Collection;
+use EnjoysCMS\Core\Block\AttributesCollection;
+use EnjoysCMS\Core\Block\WidgetAttributes;
 use Error;
 use ReflectionClass;
 use ReflectionException;
@@ -19,13 +18,13 @@ class WidgetLoader extends AttributesLoader
     public function __construct(
         private readonly Finder $finder,
     ) {
-        parent::__construct(Widget::class, $this->finder);
+        parent::__construct(WidgetAttributes::class, $this->finder);
     }
 
 
-    public function getCollection(): Collection
+    public function getCollection(): AttributesCollection
     {
-        $collection = new Collection();
+        $collection = new AttributesCollection();
 
         foreach ($this->finder as $file) {
             /** @var class-string $class */
@@ -47,7 +46,7 @@ class WidgetLoader extends AttributesLoader
 
                 foreach ($this->getAnnotations($reflectionClass) as $annotation) {
                     $annotation->setReflectionClass($reflectionClass);
-                    $collection->addAnnotation($annotation);
+                    $collection->addAttributes($annotation);
                 }
             }
         }

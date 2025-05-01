@@ -12,7 +12,7 @@ use EnjoysCMS\Core\Users\Entity\User;
  * @method list<Widget> findAll()
  * @method list<Widget> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class Widgets extends EntityRepository
+class WidgetRepository extends EntityRepository
 {
     /**
      * @return list<Widget>

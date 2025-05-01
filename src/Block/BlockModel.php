@@ -19,7 +19,7 @@ readonly class BlockModel
 {
     public function __construct(
         private BlockFactory $blockFactory,
-        private Repository\Block $repository,
+        private Repository\BlockRepository $repository,
         private AccessControl $accessControl,
         private ServerRequestInterface $request,
         private LoggerInterface $logger,
