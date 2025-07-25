@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractWidget;
 use EnjoysCMS\Core\Block\Annotation\Widget;
 use EnjoysCMS\Core\Block\Collection;
@@ -16,11 +15,9 @@ use Symfony\Component\Finder\Finder;
 class WidgetLoader extends AnnotationLoader
 {
 
-    public function __construct(
-        private readonly Finder $finder,
-        protected ?Reader $reader = null
-    ) {
-        parent::__construct(Widget::class, $this->finder, $this->reader);
+    public function __construct(private readonly Finder $finder)
+    {
+        parent::__construct(Widget::class, $this->finder);
     }
 
 

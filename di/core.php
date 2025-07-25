@@ -1,6 +1,5 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use EnjoysCMS\Core\AccessControl\AccessControlManage;
 use EnjoysCMS\Core\AccessControl\ACL\ACLManage;
 use EnjoysCMS\Core\Auth\Identity;
@@ -46,10 +45,7 @@ return [
             return $cache->get('blocks', function (ItemInterface $item) use ($container) {
                 $item->expiresAfter(10);
 
-                $loader = new Block\Loader\BlockLoader(
-                    $container->get('BlocksAndWidgetsFinder'),
-                    new AnnotationReader()
-                );
+                $loader = new Block\Loader\BlockLoader($container->get('BlocksAndWidgetsFinder'));
                 $collection = new Block\BlockCollection();
                 $collection->addCollection($loader->getCollection());
                 return $collection;
@@ -63,10 +59,7 @@ return [
             return $cache->get('blocks', function (ItemInterface $item) use ($container) {
                 $item->expiresAfter(10);
 
-                $loader = new Block\Loader\WidgetLoader(
-                    $container->get('BlocksAndWidgetsFinder'),
-                    new AnnotationReader()
-                );
+                $loader = new Block\Loader\WidgetLoader($container->get('BlocksAndWidgetsFinder'));
                 $collection = new Block\WidgetCollection();
                 $collection->addCollection($loader->getCollection());
                 return $collection;

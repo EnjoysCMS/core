@@ -2,7 +2,6 @@
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\Annotation\Annotation;
 use EnjoysCMS\Core\Block\Collection;
 use InvalidArgumentException;
@@ -13,16 +12,13 @@ use Symfony\Component\Finder\Finder;
 abstract class AnnotationLoader
 {
 
-
     /**
      * @param class-string<Annotation> $annotationClass
      * @param Finder $finder
-     * @param Reader|null $reader
      */
     public function __construct(
         private readonly string $annotationClass,
         private readonly Finder $finder,
-        protected ?Reader $reader = null,
     )
     {
         $this->finder->files()->name('/\.php$/');
@@ -45,17 +41,6 @@ abstract class AnnotationLoader
             yield $attribute->newInstance();
         }
 
-        if (!$this->reader) {
-            return;
-        }
-
-        $annotations = $this->reader->getClassAnnotations($reflection);
-
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof $this->annotationClass) {
-                yield $annotation;
-            }
-        }
     }
 
 
