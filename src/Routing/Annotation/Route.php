@@ -2,18 +2,11 @@
 
 namespace EnjoysCMS\Core\Routing\Annotation;
 
-
 use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 use Symfony\Component\Routing\Attribute\DeprecatedAlias;
 
 /**
- * Annotation class for @Route().
- *
- * @Annotation
- * @NamedArgumentConstructor()
- * @Target({"CLASS", "METHOD"})
- *
+ * @psalm-suppress UndefinedMethod
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 class Route extends \Symfony\Component\Routing\Attribute\Route
@@ -80,7 +73,6 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
     }
 
 
-    #[\Override]
     public function setHost(string $pattern): void
     {
         if ($this->isPublicProperty('host')) {
@@ -90,7 +82,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setHost($pattern);
     }
 
-    #[\Override]
+
     public function getHost(): ?string
     {
         if ($this->isPublicProperty('host')) {
@@ -99,7 +91,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getHost();
     }
 
-    #[\Override]
+
     public function setName(string $name): void
     {
         if ($this->isPublicProperty('name')) {
@@ -109,7 +101,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setName($name);
     }
 
-    #[\Override]
+
     public function getName(): ?string
     {
         if ($this->isPublicProperty('name')) {
@@ -118,7 +110,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getName();
     }
 
-    #[\Override]
+
     public function setRequirements(array $requirements): void
     {
         if ($this->isPublicProperty('requirements')) {
@@ -128,7 +120,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setRequirements($requirements);
     }
 
-    #[\Override]
+
     public function getRequirements(): array
     {
         if ($this->isPublicProperty('requirements')) {
@@ -137,7 +129,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getRequirements();
     }
 
-    #[\Override]
+
     public function setOptions(array $options): void
     {
         if ($this->isPublicProperty('options')) {
@@ -147,7 +139,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setOptions($options);
     }
 
-    #[\Override]
+
     public function getOptions(): array
     {
         if ($this->isPublicProperty('options')) {
@@ -156,7 +148,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getOptions();
     }
 
-    #[\Override]
+
     public function setDefaults(array $defaults): void
     {
         if ($this->isPublicProperty('defaults')) {
@@ -166,7 +158,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setDefaults($defaults);
     }
 
-    #[\Override]
+
     public function getDefaults(): array
     {
         if ($this->isPublicProperty('defaults')) {
@@ -175,7 +167,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getDefaults();
     }
 
-    #[\Override]
+
     public function setSchemes(array|string $schemes): void
     {
         if ($this->isPublicProperty('schemes')) {
@@ -185,7 +177,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setSchemes($schemes);
     }
 
-    #[\Override]
+
     public function getSchemes(): array
     {
         if ($this->isPublicProperty('schemes')) {
@@ -194,7 +186,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getSchemes();
     }
 
-    #[\Override]
+
     public function setMethods(array|string $methods): void
     {
         if ($this->isPublicProperty('methods')) {
@@ -204,7 +196,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setMethods($methods);
     }
 
-    #[\Override]
+
     public function getMethods(): array
     {
         if ($this->isPublicProperty('methods')) {
@@ -213,7 +205,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getMethods();
     }
 
-    #[\Override]
+
     public function setCondition(?string $condition): void
     {
         if ($this->isPublicProperty('condition')) {
@@ -223,7 +215,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setCondition($condition);
     }
 
-    #[\Override]
+
     public function getCondition(): ?string
     {
         if ($this->isPublicProperty('condition')) {
@@ -232,7 +224,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getCondition();
     }
 
-    #[\Override]
+
     public function setPriority(int $priority): void
     {
         if ($this->isPublicProperty('priority')) {
@@ -242,7 +234,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setPriority($priority);
     }
 
-    #[\Override]
+
     public function getPriority(): ?int
     {
         if ($this->isPublicProperty('priority')) {
@@ -251,7 +243,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return parent::getPriority();
     }
 
-    #[\Override]
+
     public function setEnv(?string $env): void
     {
         if ($this->isPublicProperty('envs')) {
@@ -261,7 +253,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         parent::setEnv($env);
     }
 
-    #[\Override]
+
     public function getEnv(): ?string
     {
         if ($this->isPublicProperty('envs')) {
@@ -290,7 +282,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
         return $envs ? [$envs] : null;
     }
 
-    #[\Override]
+
     public function getAliases(): array
     {
         if ($this->isPublicProperty('aliases')) {
@@ -302,7 +294,7 @@ class Route extends \Symfony\Component\Routing\Attribute\Route
     /**
      * @param string|DeprecatedAlias|(string|DeprecatedAlias)[] $aliases
      */
-    #[\Override]
+
     public function setAliases(string|DeprecatedAlias|array $aliases): void
     {
         if ($this->isPublicProperty('aliases')) {
