@@ -42,6 +42,7 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
         $this->queue->seek(0);
     }
 
+    #[\Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if (!$this->queue->valid()) {
@@ -80,12 +81,14 @@ final class HttpMiddlewareDispatcher implements RequestHandlerInterface
     public function addQueue(array $routeMiddlewares): void
     {
         $key = $this->queue->key();
+        /** @var array<array-key, mixed> $queue */
         $queue = iterator_to_array($this->queue);
         // array_reverse нужен для того, чтобы вставить массив как есть, так как
         // $key всё время одинаковый, иначе он вставится перевернутым
         foreach (array_reverse($routeMiddlewares) as $routeMiddleware) {
             $queue = array_insert_before($queue, $key, $routeMiddleware);
         }
+
         $this->queue = new ArrayIterator($queue);
         $this->queue->seek($key);
     }

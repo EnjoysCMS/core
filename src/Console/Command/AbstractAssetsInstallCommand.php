@@ -21,6 +21,7 @@ abstract class AbstractAssetsInstallCommand extends Command
     /**
      * @throws Exception
      */
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $process = new Process($this->command, cwd: realpath($this->cwd));

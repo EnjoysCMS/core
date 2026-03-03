@@ -13,6 +13,7 @@ class HttpBasicAuthentication implements Authentication
     {
     }
 
+    #[\Override]
     public function authenticate(ServerRequestInterface $request): ?User
     {
         $token = $this->getTokenFromHeaders($request);

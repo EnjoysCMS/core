@@ -33,11 +33,13 @@ class Widget implements Annotation
         $this->options = Options::createFromArray($options);
     }
 
+    #[\Override]
     public function getOptions(): Options
     {
         return $this->options;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name ?? $this->reflectionClass?->getShortName() ?? throw new RuntimeException(
@@ -49,6 +51,7 @@ class Widget implements Annotation
     /**
      * @return class-string<AbstractBlock>
      */
+    #[\Override]
     public function getClassName(): string
     {
         return $this->reflectionClass?->getName() ?? throw new RuntimeException(
@@ -60,6 +63,7 @@ class Widget implements Annotation
      * @param ReflectionClass<AbstractBlock> $reflectionClass
      * @return void
      */
+    #[\Override]
     public function setReflectionClass(ReflectionClass $reflectionClass): void
     {
         $this->reflectionClass = $reflectionClass;

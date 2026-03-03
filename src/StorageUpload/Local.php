@@ -23,6 +23,7 @@ class Local implements StorageUploadInterface
         $this->publicUrl = rtrim($publicUrl, '/') . '/';
     }
 
+    #[\Override]
     public function getFileSystem(): Filesystem
     {
         return new Filesystem(
@@ -36,6 +37,7 @@ class Local implements StorageUploadInterface
         );
     }
 
+    #[\Override]
     public function getUrl(string $path): string
     {
         return $this->publicUrl . $path;

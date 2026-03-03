@@ -11,12 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PrintSectionCommand extends Command
 {
 
+    #[\Override]
     protected function configure(): void
     {
         $this
             ->addArgument('name', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Module name');
     }
 
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln([

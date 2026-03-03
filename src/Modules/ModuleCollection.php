@@ -62,6 +62,7 @@ final class ModuleCollection implements IteratorAggregate
         return false;
     }
 
+    #[\Override]
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->collection);

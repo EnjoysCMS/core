@@ -15,11 +15,13 @@ class DatabaseUserStorage implements UserStorageInterface
     {
     }
 
+    #[\Override]
     public function getUser($userId): ?User
     {
         return $this->repository->find($userId ?? 0);
     }
 
+    #[\Override]
     public function getUserByLogin($login)
     {
         return $this->repository->findOneBy(['login' => $login]);
@@ -28,6 +30,7 @@ class DatabaseUserStorage implements UserStorageInterface
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function getGuestUser(): User
     {
         return $this->repository->getGuest();

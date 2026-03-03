@@ -42,6 +42,7 @@ class ACLManage implements AccessControlManage
      * @throws ORMException
      * @throws Exception
      */
+    #[\Override]
     public function isAccess(string $action): bool
     {
         $user = $this->identity->getUser();
@@ -67,12 +68,14 @@ class ACLManage implements AccessControlManage
         )->isEmpty();
     }
 
+    #[\Override]
     public function getAccessAction(string $action): ?ACLEntity
     {
         return $this->aclRepository->findAcl($action);
     }
 
 
+     #[\Override]
      public function register(
         string $action,
         ?string $comment = null,
@@ -91,16 +94,19 @@ class ACLManage implements AccessControlManage
     /**
      * @return Group[]
      */
+    #[\Override]
     public function getAuthorizedGroups(string $action): array
     {
         return $this->getAccessAction($action)?->getGroups()->toArray() ?? [];
     }
 
+    #[\Override]
     public function getAccessActionsForGroup($group): array
     {
         return $this->aclRepository->findByGroup($group);
     }
 
+    #[\Override]
     public function getList(): array
     {
         return $this->aclRepository->findAll();

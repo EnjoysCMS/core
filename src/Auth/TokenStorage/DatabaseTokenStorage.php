@@ -15,6 +15,7 @@ class DatabaseTokenStorage implements TokenStorageInterface
     {
     }
 
+    #[\Override]
     public function find(string $token): ?Token
     {
         return $this->tokenRepository->find($token);

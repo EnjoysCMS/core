@@ -10,10 +10,13 @@ use ReflectionMethod;
 use Symfony\Component\Routing\Loader\AttributeClassLoader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-
-
+/**
+ * @psalm-suppress ParamNameMismatch
+ */
 class AttributeClassLoader extends BaseLoader
 {
+
+    #[\Override]
     protected function configureRoute(Route $route, ReflectionClass $class, ReflectionMethod $method, $annot): void
     {
         if ('__invoke' === $method->getName()) {
@@ -23,6 +26,7 @@ class AttributeClassLoader extends BaseLoader
         }
     }
 
+    #[\Override]
     protected function addRoute(
         RouteCollection $collection,
         object $annot,

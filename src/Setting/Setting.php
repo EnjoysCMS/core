@@ -41,6 +41,7 @@ class Setting implements \ArrayAccess
         return $this->repository->findAllKeyVar();
     }
 
+    #[\Override]
     public function offsetExists(mixed $offset): bool
     {
         if (static::$cache === null) {
@@ -50,11 +51,13 @@ class Setting implements \ArrayAccess
         return isset(self::$cache[$offset]) || array_key_exists($offset, self::$cache);
     }
 
+    #[\Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
 
+    #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if (static::$cache === null) {
@@ -69,6 +72,7 @@ class Setting implements \ArrayAccess
         self::$cache[$offset] = $value;
     }
 
+    #[\Override]
     public function offsetUnset(mixed $offset): void
     {
         if (static::$cache === null) {

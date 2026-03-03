@@ -48,6 +48,7 @@ final class BasicAuthWithLogoutMiddleware implements MiddlewareInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($this->logoutControllerClassName !== null) {

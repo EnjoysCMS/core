@@ -21,6 +21,7 @@ class WidgetLoader extends AnnotationLoader
     }
 
 
+    #[\Override]
     public function getCollection(): Collection
     {
         $collection = new Collection();

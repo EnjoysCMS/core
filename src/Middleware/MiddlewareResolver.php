@@ -17,6 +17,7 @@ class MiddlewareResolver implements MiddlewareResolverInterface
      * @throws NotFoundExceptionInterface
      * @psalm-suppress MissingReturnType
      */
+    #[\Override]
     public function resolve(mixed $entry): mixed
     {
         if (is_string($entry)) {

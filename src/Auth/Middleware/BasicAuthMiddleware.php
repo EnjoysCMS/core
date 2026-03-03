@@ -44,6 +44,7 @@ final class BasicAuthMiddleware implements MiddlewareInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($this->identity->getUser()->isUser()) {

@@ -22,6 +22,7 @@ final class RouteMatchMiddleware implements MiddlewareInterface
     }
 
 
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $bridge = new HttpFoundationFactory();

@@ -61,6 +61,7 @@ final class TokenAuthentication implements Authentication
     }
 
 
+    #[\Override]
     public function authenticate(ServerRequestInterface $request): ?User
     {
         if ($this->checkToken($this->getToken($request))) {

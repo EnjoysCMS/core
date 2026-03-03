@@ -18,8 +18,10 @@ abstract class AbstractCommandsRegister extends Command
     /**
      * @throws Exception
      */
+    #[\Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @psalm-suppress MissingFile */
         include __DIR__ . '/../../../../../../bootstrap.php';
         $commandManage = new CommandsManage();
         $registeredCommands = $commandManage->registerCommands($this->commands);

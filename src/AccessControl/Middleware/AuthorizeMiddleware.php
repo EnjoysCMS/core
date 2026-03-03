@@ -29,6 +29,7 @@ final class AuthorizeMiddleware implements MiddlewareInterface
     /**
      * @throws ForbiddenException
      */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var null|Route $route */

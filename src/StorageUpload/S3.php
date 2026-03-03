@@ -10,6 +10,9 @@ use League\Flysystem\AwsS3V3\PortableVisibilityConverter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Visibility;
 
+/**
+ * @psalm-suppress UndefinedClass
+ */
 class S3 implements StorageUploadInterface
 {
     private Filesystem $filesystem;
@@ -42,11 +45,13 @@ class S3 implements StorageUploadInterface
         $this->filesystem = new Filesystem($this->adapter, config: $this->config);
     }
 
+    #[\Override]
     public function getFileSystem(): Filesystem
     {
         return $this->filesystem;
     }
 
+    #[\Override]
     public function getUrl(string $path): string
     {
         return $this->client->getObjectUrl($this->bucket, $this->prefix . $path);

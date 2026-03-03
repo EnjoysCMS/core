@@ -56,6 +56,7 @@ final class Identity implements IdentityInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function getUser(): User
     {
         $user = $this->user
@@ -74,11 +75,13 @@ final class Identity implements IdentityInterface
     /**
      * @return AuthenticationStorageInterface
      */
+    #[\Override]
     public function getAuthenticationStorage(): AuthenticationStorageInterface
     {
         return $this->authenticationStorage;
     }
 
+    #[\Override]
     public function getUserStorage(): UserStorageInterface
     {
         return $this->userStorage;
