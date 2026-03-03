@@ -7,6 +7,7 @@ use EnjoysCMS\Core\Http\Response\Redirect;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Tests\EnjoysCMS\Traits\MockHelper;
 
@@ -28,14 +29,9 @@ class RedirectTest extends TestCase
 
     public function testToRoute()
     {
-        $this->request->method('getUri')->willReturn(
-            new class () {
-                public function __toString(): string
-                {
-                    return '/url';
-                }
-            }
-        );
+        $uriInterface = $this->createStub(UriInterface::class);
+        $uriInterface->method('__toString')->willReturn('/url');
+        $this->request->method('getUri')->willReturn($uriInterface);
 
         $this->urlGenerator->method('generate')->willReturn('/redirect');
 
@@ -59,14 +55,9 @@ class RedirectTest extends TestCase
 
     public function testToUrl()
     {
-        $this->request->method('getUri')->willReturn(
-            new class () {
-                public function __toString(): string
-                {
-                    return '/url';
-                }
-            }
-        );
+        $uriInterface = $this->createStub(UriInterface::class);
+        $uriInterface->method('__toString')->willReturn('/url');
+        $this->request->method('getUri')->willReturn($uriInterface);
         $redirect = new Redirect($this->request, new Response(), $this->emitter, $this->urlGenerator, function () {
             echo 'emitted';
         });
