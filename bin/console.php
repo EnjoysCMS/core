@@ -33,6 +33,7 @@ try {
         Config::YAML
     );
 
+    $commands = [];
     foreach ($config->getConfig() as $class => $params) {
         if ($params === false) {
             continue;
@@ -51,9 +52,9 @@ try {
                 )
             );
         }
-
-        $application->add($container->make($class, $params));
+        $commands[] = $container->make($class, $params);
     }
+    $application->addCommands($commands);
     $application->setDispatcher($container->get(EventDispatcherInterface::class));
     $application->run();
 } catch (Throwable $e) {
