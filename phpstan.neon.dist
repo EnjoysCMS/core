@@ -7,4 +7,7 @@ parameters:
 			identifier: doctrine.columnType
 		-
 			identifier: doctrine.associationType
+		-
+			identifier: staticMethod.notFound
+			path: src/Routing/Annotation/Route.php
 

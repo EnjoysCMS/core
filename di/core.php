@@ -1,6 +1,5 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use EnjoysCMS\Core\AccessControl\AccessControlManage;
 use EnjoysCMS\Core\AccessControl\ACL\ACLManage;
 use EnjoysCMS\Core\Auth\Identity;

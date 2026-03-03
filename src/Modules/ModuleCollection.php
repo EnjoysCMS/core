@@ -11,7 +11,7 @@ use IteratorAggregate;
 final class ModuleCollection implements IteratorAggregate
 {
     /**
-     * @var Module[]
+     * @var array<int, Module>
      */
     private array $collection = [];
 
@@ -63,8 +63,9 @@ final class ModuleCollection implements IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator<Module>
+     * @return ArrayIterator<int, Module>
      */
+    #[\Override]
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->collection);

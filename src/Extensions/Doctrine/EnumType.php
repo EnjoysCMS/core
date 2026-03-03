@@ -10,7 +10,8 @@ abstract class EnumType extends Type
     protected $name;
     protected $values = array();
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    #[\Override]
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $values = array_map(
             function ($val) {
@@ -22,11 +23,13 @@ abstract class EnumType extends Type
         return "ENUM(" . implode(", ", $values) . ")";
     }
 
+    #[\Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return $value;
     }
 
+    #[\Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if (!in_array($value, $this->values)) {

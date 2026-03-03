@@ -22,6 +22,7 @@ class BlockLoader extends AttributesLoader
     }
 
 
+    #[\Override]
     public function getCollection(): Collection
     {
         $collection = new Collection();

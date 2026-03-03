@@ -24,6 +24,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
      */
     private array $collection = [];
 
+    #[\Override]
     public function count(): int
     {
         return count($this->collection);
@@ -61,6 +62,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
         return null;
     }
 
+    #[\Override]
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->collection);
@@ -70,6 +72,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
      * @param array-key $offset
      * @return bool
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return isset($this->collection[$offset]);
@@ -79,6 +82,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
      * @param array-key $offset
      * @return Attributes|null
      */
+    #[\Override]
     public function offsetGet($offset): ?Attributes
     {
         return $this->collection[$offset] ?? null;
@@ -89,6 +93,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
      * @param Attributes $value
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -102,6 +107,7 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
      * @param array-key $offset
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->collection[$offset]);

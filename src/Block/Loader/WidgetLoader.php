@@ -22,6 +22,7 @@ class WidgetLoader extends AttributesLoader
     }
 
 
+    #[\Override]
     public function getCollection(): Collection
     {
         $collection = new Collection();
