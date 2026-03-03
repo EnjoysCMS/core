@@ -157,6 +157,7 @@ final class BreadcrumbCollection implements IteratorAggregate
         return $this->appendLastBreadcrumb;
     }
 
+    #[\Override]
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->getBreadcrumbs());

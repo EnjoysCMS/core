@@ -10,6 +10,7 @@ class TwigLoader extends FilesystemLoader
     /**
      * @throws LoaderError
      */
+    #[\Override]
     protected function findTemplate(string $name, bool $throw = true)
     {
         if (isset($this->cache[$name])) {

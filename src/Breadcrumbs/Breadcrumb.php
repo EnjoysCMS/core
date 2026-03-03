@@ -12,11 +12,13 @@ class Breadcrumb implements BreadcrumbInterface
     ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getTitle() ?? '';
     }
 
+    #[\Override]
     public function getTitle(): ?string
     {
         return $this->title;
@@ -29,6 +31,7 @@ class Breadcrumb implements BreadcrumbInterface
     }
 
 
+    #[\Override]
     public function getUrl(): ?string
     {
         return $this->url;

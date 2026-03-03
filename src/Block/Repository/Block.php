@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
  */
 class Block extends EntityRepository
 {
+    #[\Override]
     public function find($id, $lockMode = null, $lockVersion = null): ?\EnjoysCMS\Core\Block\Entity\Block
     {
         if (!Uuid::isValid($id)) {

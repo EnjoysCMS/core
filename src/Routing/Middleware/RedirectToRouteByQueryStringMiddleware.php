@@ -24,6 +24,7 @@ final class RedirectToRouteByQueryStringMiddleware implements MiddlewareInterfac
     }
 
 
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($request->getAttribute('_routeName') === $this->indexRouteName && isset(

@@ -113,6 +113,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
      * @param string $offset
      * @return bool
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return isset($this->options[$offset]);
@@ -122,6 +123,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
      * @param string $offset
      * @return array{value: mixed}|null
      */
+    #[\Override]
     public function offsetGet($offset): ?array
     {
         return $this->options[$offset] ?? null;
@@ -132,6 +134,7 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
      * @param array{value: mixed} $value
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         $this->options[$offset] = $value;
@@ -141,17 +144,20 @@ class Options implements ArrayAccess, IteratorAggregate, JsonSerializable
      * @param string $offset
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->options[$offset]);
     }
 
+    #[\Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->options);
     }
 
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->options;

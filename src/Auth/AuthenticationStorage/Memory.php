@@ -14,15 +14,18 @@ final class Memory implements AuthenticationStorageInterface
 
     private static ?User $user = null;
 
+    #[\Override]
     public function setVerified(User $user, array $payload = []): void
     {
         self::$user = $user;
     }
+    #[\Override]
     public function getUserId()
     {
         return self::$user?->getId();
     }
 
+    #[\Override]
     public function logout(): void
     {
         self::$user = null;

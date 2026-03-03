@@ -8,7 +8,6 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Enjoys\Config\Config;
 use Enjoys\Cookie\Cookie;
-use Enjoys\Cookie\Exception;
 use Enjoys\Session\Session;
 use EnjoysCMS\Core\Auth\Authenticate;
 use EnjoysCMS\Core\Auth\Authentication;
@@ -33,9 +32,7 @@ final class PhpSession implements AuthenticationStorageInterface
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
+    #[\Override]
     public function logout(): void
     {
         $this->session->delete('auth');
@@ -46,7 +43,6 @@ final class PhpSession implements AuthenticationStorageInterface
 
     /**
      * @throws ContainerExceptionInterface
-     * @throws Exception
      * @throws NotFoundExceptionInterface
      * @throws ORMException
      * @throws OptimisticLockException
@@ -84,8 +80,8 @@ final class PhpSession implements AuthenticationStorageInterface
      * @throws NotFoundExceptionInterface
      * @throws ORMException
      * @throws ContainerExceptionInterface
-     * @throws Exception
      */
+    #[\Override]
     public function getUserId()
     {
         if ($this->isVerified()){
@@ -94,6 +90,7 @@ final class PhpSession implements AuthenticationStorageInterface
         return null;
     }
 
+    #[\Override]
     public function setVerified(User $user, array $payload = []): void
     {
         $this->session->set([

@@ -6,6 +6,9 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\NoKeyValue;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 
+/**
+ * @psalm-suppress UndefinedThisPropertyFetch
+ */
 class KeyPair extends AbstractHydrator
 {
     /**
@@ -13,6 +16,7 @@ class KeyPair extends AbstractHydrator
      * @throws NoKeyValue
      * @throws Exception
      */
+    #[\Override]
     protected function hydrateAllData(): array
     {
 

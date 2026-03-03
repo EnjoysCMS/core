@@ -20,6 +20,7 @@ class BreadcrumbUrlResolver implements BreadcrumbUrlResolverInterface
      * @param array{string, ?array} $dataUrl
      * @return string
      */
+    #[\Override]
     public function resolve(array $dataUrl): string
     {
         [$routeName, $routeParams] = $this->resolveRouteParams($dataUrl);

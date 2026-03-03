@@ -16,6 +16,7 @@ class RouteDispatchMiddleware implements MiddlewareInterface
     {
     }
 
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var Route $route */

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Core\Block\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use EnjoysCMS\Core\Block\AbstractWidget;
 use EnjoysCMS\Core\Block\Annotation\Widget;
 use EnjoysCMS\Core\Block\Collection;

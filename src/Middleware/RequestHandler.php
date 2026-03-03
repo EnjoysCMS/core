@@ -40,6 +40,7 @@ class RequestHandler implements RequestHandlerInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $requestHandler =$request->getAttribute($this->handlerAttribute);

@@ -23,6 +23,7 @@ class UserBlock extends AbstractBlock
         ]
     ];
 
+    #[\Override]
     public function view(): string
     {
         $body = $this->getEntity()?->getBody();

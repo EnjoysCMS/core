@@ -51,6 +51,9 @@ class Block
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $cloned = false;
 
+    /**
+     * @var Collection<int, BlockLocation>
+     */
     #[ORM\JoinTable(name: 'blocks_locations')]
     #[ORM\JoinColumn(name: 'block_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'location_id', referencedColumnName: 'id')]
@@ -134,7 +137,7 @@ class Block
 
 
     /**
-     * @return Collection<BlockLocation>
+     * @return Collection<int, BlockLocation>
      */
     public function getLocations(): Collection
     {

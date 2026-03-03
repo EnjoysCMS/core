@@ -38,6 +38,7 @@ final class BearerAuthMiddleware implements MiddlewareInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $user = $this->authentication->authenticate($request);

@@ -19,6 +19,7 @@ class RuntimeLoader implements RuntimeLoaderInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function load(string $class)
     {
         return $this->container->get($class);

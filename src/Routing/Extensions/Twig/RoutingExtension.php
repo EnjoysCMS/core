@@ -26,6 +26,7 @@ final class RoutingExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFunctions(): array
     {
         return [

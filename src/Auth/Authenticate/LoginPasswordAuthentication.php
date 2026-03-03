@@ -23,6 +23,7 @@ final class LoginPasswordAuthentication implements Authentication
     ) {
     }
 
+    #[\Override]
     public function authenticate(ServerRequestInterface $request): ?User
     {
         /** @var string $login */

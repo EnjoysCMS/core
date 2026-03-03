@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Enjoys\Config\Config;
 use Enjoys\Cookie\Cookie;
 use Enjoys\Cookie\Exception;
+use Enjoys\Cookie\NotCorrectTtlString;
 use EnjoysCMS\Core\Users\Entity\Token;
 use EnjoysCMS\Core\Users\Entity\User;
 use EnjoysCMS\Core\Users\Repository\TokenRepository;
@@ -43,7 +44,7 @@ class TokenManage
     }
 
     /**
-     * @throws Exception
+     * @throws NotCorrectTtlString
      * @throws \Exception
      */
     public function write(User $user, ?string $token = null): void
@@ -82,7 +83,7 @@ class TokenManage
     }
 
     /**
-     * @throws Exception
+     * @throws NotCorrectTtlString
      */
     public function delete(): void
     {

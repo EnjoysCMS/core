@@ -22,11 +22,13 @@ use Doctrine\ORM\Events;
  *
  * $evm = new EventManager();
  * $evm->addEventSubscriber(new SqlitePreFlushSubscriber());
+ * @psalm-suppress UndefinedClass, InvalidClass
  *
  * @deprecated Remove in 7.x., use middleware \Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys,
  */
 final class SqlitePreFlushSubscriber implements EventSubscriber
 {
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [Events::preFlush];
