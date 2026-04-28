@@ -24,7 +24,7 @@ class ACLRepository extends EntityRepository
         return $this->createQueryBuilder('acl')
             ->select('acl')
             ->innerJoin('acl.groups', 'g')
-            ->where('g.id = :group')
+            ->where('g.id IN (:group)')
             ->setParameter('group', $group)
             ->getQuery()
             ->getResult();
