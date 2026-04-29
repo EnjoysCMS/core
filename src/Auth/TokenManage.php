@@ -47,7 +47,7 @@ class TokenManage
      * @throws NotCorrectTtlString
      * @throws \Exception
      */
-    public function write(User $user, ?string $token = null): void
+    public function write(User $user, ?string $token = null): Token
     {
 
         $now = new DateTimeImmutable();
@@ -80,6 +80,8 @@ class TokenManage
         $this->repository->clearUsersOldTokens($tokenEntity, $this->config);
 
         $this->em->flush();
+
+        return $tokenEntity;
     }
 
     /**
